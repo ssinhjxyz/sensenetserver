@@ -1,0 +1,24 @@
+.paddingBottom{
+	padding-bottom:10px;
+}
+
+.blackText{
+	color:black !important;
+};
+
+.offsetBottom{
+	position:relative !important;
+	bottom:4px;
+};
+
+.lightBorder{
+	border:1px solid lightgray;
+}
+
+.paddingAll{
+	padding:10px;
+}
+
+.form-group{
+	margin-bottom: 25px;
+}

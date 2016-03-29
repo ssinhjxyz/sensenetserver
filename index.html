@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <meta name="google-site-verification" content="2A_Cf2fEEalPeQiFz_0V1g_G9JIZgfRl5PDyX4Bb6gg" />
+    <meta name="google-signin-client_id" content="478711668783-4varq6b274m62t27efkaiu6aco7u0kkp.apps.googleusercontent.com">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" media="screen">
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/signin.js"></script>
+    <script src="js/signout.js"></script>
+    <script src="js/scheduler.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Sense Net</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a class="blackText" id="user"></a></li>
+        <li>
+        <div class="btn btn-lg" id="signin"></div></li>
+        <li><a href="#" id="signout" onclick="signOut();" style="display:none;position:relative !important;
+  bottom:4px;"><div class="btn btn-default offsetBottom">Sign out</div></a><li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+  <div class-"row">
+    <div class="col-md-12">
+    <p id="signedout">Please sign in</p>
+  </div>
+  </div>
+
+
+
+<div class = "sensenetInterface" style="display:none;">
+  <div class ="container">
+  <div class="row paddingBottom">
+  <div class="col-md-6  paddingAll" style="border:1px solid lightgray;">
+    <div class="row paddingBottom">
+      <div class="col-md-6">
+        <div class = "btn  btn-primary" onclick="refreshCalendars()">
+          Refresh
+        </div>
+      </div>
+    </div>
+    <div  id = "calendars" class="row">
+      <div class="col-md-12">
+        <iframe id="BBB1Calendar" src="https://calendar.google.com/calendar/embed?title=BBB%20Calendar&amp;showPrint=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=ncsu.edu_3dviothfpmkijqoli8bpn4s1q4%40group.calendar.google.com&amp;color=%23B1365F&amp;src=ncsu.edu_kabpq58p37u5lmr82eiooeohp0%40group.calendar.google.com&amp;color=%23875509&amp;ctz=America%2FNew_York" style="border-width:0" width="100%" height="100%" frameborder="1" scrolling="yes"></iframe>
+      </div>
+  </div>
+  </div>
+    <div class="col-md-6" >
+     <form class="paddingAll" style="border:1px solid lightgray;">
+  <div class="form-group">
+    <label class="control-label">Email ID</label>
+      <p class="form-control-static" id="emailId"></p>
+  </div>
+  <div class="form-group">
+    <label for="bbbId">BBB ID</label>
+    <input class="form-control" id="bbbId">
+  </div>
+  <div class="form-group">
+    <label for="startDateTime">Start Time </label>
+       <div class="input-group date" id="startDateTime">
+  <input type="text" class="form-control" />
+  <span class="input-group-addon">
+    <span class="glyphicon glyphicon-calendar"></span> 
+  </span>
+</div>
+    </div>
+    <div class="form-group">
+      <label for="startDateTime">End Time </label>
+       <div class="input-group date" id="endDateTime">
+      <input type="text" class="form-control" />
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span> 
+      </span>
+</div>
+
+    </div>
+    <script type="text/javascript">
+      $('#endDateTime').datetimepicker();
+    </script>
+    <script type="text/javascript">
+      $('#startDateTime').datetimepicker();
+    </script>
+  </body>
+  <button  class="btn btn-success" onclick="handleScheduleClick(event)">Reserve</button>
+</form>
+</div>
+</div>
+  </body>
+</html>
