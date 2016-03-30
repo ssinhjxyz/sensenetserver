@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+
 // Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -8,7 +9,9 @@ var fs = require('fs');
 var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
+var schedule = require('node-schedule');
 var globalAuth;
+
 var SCOPES = ['https://www.googleapis.com/auth/calendar'];
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
@@ -20,6 +23,14 @@ app.use(express.static('public'));
 var https = require("https");
 var fs = require("fs");
 
+var util = require('util');
+var exec = require('child_process').exec;
+
+var util = require('util');
+var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
+var CALENDAR = require('./calendars');
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -30,18 +41,25 @@ app.listen(app.get('port'), function() {
 });
 
 
-app.get('/reservations', function (req, res) {
+app.get('/', function (req, res) {
     res.sendFile( __dirname + "/" + "index.html" );
 })
 
 app.post('/schedule', urlencodedParser, function (req, res) {
 
-   // Prepare output in JSON format
-   console.log("called")
-   response = req.body;
+   // Fetch parameters from request
    var emailId = req.body.emailId;
    var bbbId = req.body.bbbId;
-   createEvent( bbbId, emailId);
+   var startDateTime = req.body.startDateTime;
+   var endDateTime = req.body.endDateTime;
+   var password = makeRandomString(6);
+   var login = emailId.match(/^([^@]*)@/)[1];
+   createEvent( bbbId, emailId, startDateTime, endDateTime, password, login);
+   var response = {
+    login  : login,
+    password : password 
+    };
+   res.end(JSON.stringify(response));
 })
 
 
@@ -54,7 +72,7 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   }
   // Authorize a client with the loaded credentials, then call the
   // Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
+  authorize(JSON.parse(content), function(){});
 });
 
 /**
@@ -126,46 +144,86 @@ function storeToken(token) {
   console.log('Token stored to ' + TOKEN_PATH);
 }
 
-/**
- * Lists the next 10 events on the user's primary calendar.
- *
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
- function listEvents(auth) {
-//   var calendar = google.calendar('v3');
-//   calendar.events.list({
-//     auth: auth,
-//     calendarId: 'primary',
-//     timeMin: (new Date()).toISOString(),
-//     maxResults: 10,
-//     singleEvents: true,
-//     orderBy: 'startTime'
-//   }, function(err, response) {
-//     if (err) {
-//       console.log('The API returned an error: ' + err);
-//       return;
-//     }
-//     var events = response.items;
-//     if (events.length == 0) {
-//       console.log('No upcoming events found.');
-//     } else {
+function scheduleAccess(startDateTime, endDateTime, password, login)
+{
+  
+  var start = new Date(startDateTime);
+ 
+  var python = spawn('python', ["createuser.py", password]);
+  python.stdout.on('data', 
+	function(encpasswd)
+	{ 
+	var command = 'ssh root@192.168.7.2 "useradd -m -p ' + encpasswd.toString().slice(0,-1) + ' ' + login + ' "';
+	var createUser = schedule.scheduleJob(startDateTime, function(){
+	  exec(command,
+	  function (error, stdout, stderr) {
+	    console.log("user " + login + " created");
+	    //console.log('stdout: ' + stdout);
+	    //console.log('stderr: ' + stderr);
+	    if (error !== null) {
+	      console.log('exec error: ' + error);
+	    }
+	});});
+
+	var end = new Date(endDateTime);
+	  var killUser = schedule.scheduleJob(endDateTime, function(){
+	exec('ssh root@192.168.7.2 "killall --user ' + login + ' ; userdel -f ' + login + '"',
+	  function (error, stdout, stderr) {
+	    console.log("user " + login + " killed");
+	    //console.log('stdout: ' + stdout);
+	    //console.log('stderr: ' + stderr);
+	    if (error !== null) {
+	      console.log('exec error: ' + error);
+	    }
+	});});
+					  
+	});
+
+   return password;
+  
+}
+
+function makeRandomString(len)
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < len; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
+function getBBBIds(userinput)
+{
+    var splitIds = userinput.split(",");
+    var ids = [];
+    var numIds = splitIds.length;
+    for (var i = Things.length - 1; i >= 0; i--) 
+    {
       
-//       console.log('Upcoming 10 events:');
-//       for (var i = 0; i < events.length; i++) {
-//         var event = events[i];
-//         var start = event.start.dateTime || event.start.date;
-//         console.log('%s - %s', start, event.summary);
-//       }
-//     }
-//   });
+    };
+}
+
+function getRange(rangeStr)
+{
+  var start = -1;
+  var end = -1;
+  var splitIds = rangeStr.split("-");
+  if( 2 === splitIds.length)
+  {
+    start = splitIds[0];
+    end = splitIds[1];
+  }
+  return [start,end];
 }
 
 
-
-function createEvent( bbbId, emailId){
+function createEvent( bbbId, emailId, startDateTime, endDateTime, password, login){
 
   var calendar = google.calendar('v3');
   var attendees = [{'email':emailId}];
+  var calendarId = CALENDAR.IDS[1];
 
   // stored credentials.
   var event = {
@@ -173,12 +231,12 @@ function createEvent( bbbId, emailId){
     'location': "BBB " + bbbId,
     'description': 'Reservation for a BBB',
     'start': {
-      'dateTime': '2016-02-18T09:00:00-07:00',
-      'timeZone': 'America/Los_Angeles',
+      'dateTime': startDateTime,
+      'timeZone': 'Etc/UTC',
     },
     'end': {
-      'dateTime': '2016-02-18T11:00:00-07:00',
-      'timeZone': 'America/Los_Angeles',
+      'dateTime': endDateTime,
+      'timeZone': 'Etc/UTC',
     },
     'attendees': attendees,
     'reminders': {
@@ -192,7 +250,7 @@ function createEvent( bbbId, emailId){
 
 calendar.events.insert({
   auth: globalAuth,
-  calendarId: 'ncsu.edu_3dviothfpmkijqoli8bpn4s1q4@group.calendar.google.com',
+  calendarId: calendarId,
   sendNotifications:true,
   resource: event,
 }, function(err, event) {
@@ -200,7 +258,9 @@ calendar.events.insert({
     console.log('There was an error contacting the Calendar service: ' + err);
     return;
   }
-  console.log('Event created with ' + attendees[0]);
+  console.log('Event created with ' + attendees[0].email);
+  console.log('Start : ' + startDateTime + ' | End : ' + endDateTime);
+  //scheduleAccess(startDateTime, endDateTime, password, login);
 });
 
 }

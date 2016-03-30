@@ -11,6 +11,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
     <script src="js/bootstrap-datetimepicker.js"></script>
     <script src="js/init.js"></script>
+    <script src="js/rendersignin.js"></script>
     <script src="js/signin.js"></script>
     <script src="js/signout.js"></script>
     <script src="js/scheduler.js"></script>
@@ -64,7 +65,8 @@
     </div>
     <div  id = "calendars" class="row">
       <div class="col-md-12">
-        <iframe id="BBB1Calendar" src="https://calendar.google.com/calendar/embed?title=BBB%20Calendar&amp;showPrint=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=ncsu.edu_3dviothfpmkijqoli8bpn4s1q4%40group.calendar.google.com&amp;color=%23B1365F&amp;src=ncsu.edu_kabpq58p37u5lmr82eiooeohp0%40group.calendar.google.com&amp;color=%23875509&amp;ctz=America%2FNew_York" style="border-width:0" width="100%" height="100%" frameborder="1" scrolling="yes"></iframe>
+        <iframe id="BBB1Calendar" src="https://calendar.google.com/calendar/embed?src=ncsu.edu_3dviothfpmkijqoli8bpn4s1q4%40group.calendar.google.com&ctz=America/New_York" style="border: 0" width="100%" height="100%" frameborder="1" scrolling="yes">
+        </iframe>
       </div>
   </div>
   </div>
@@ -95,7 +97,6 @@
         <span class="glyphicon glyphicon-calendar"></span> 
       </span>
 </div>
-
     </div>
     <script type="text/javascript">
       $('#endDateTime').datetimepicker();
@@ -104,8 +105,13 @@
       $('#startDateTime').datetimepicker();
     </script>
   </body>
-  <button  class="btn btn-success" onclick="handleScheduleClick(event)">Reserve</button>
+  <button class="btn btn-success" onclick="handleScheduleClick(event)">Reserve</button>
 </form>
+<div class="alert alert-success" style="display:none" id = "reservationDetails" role="alert">
+  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+  <span class="sr-only">Reservation Created:</span>
+   <span>Reservation Created: Your login name is </span><span id="reservationLogin"></span><span> and your password is </span> <span id="reservationPassword"></span>
+</div>
 </div>
 </div>
   </body>
