@@ -3,23 +3,28 @@ function handleScheduleClick(event) {
     $("#reservationDetails").hide();
     var emailId = $("#emailId").text();
     var bbbIds = $("#bbbId").val();
-    parseBBBIds(bbbIds);
+    var ids = parseBBBIds(bbbIds);
     var end = $('#endDateTime').data("DateTimePicker").date().utc().format();
     var start = $('#startDateTime').data("DateTimePicker").date().utc().format();
-    // $.post('/schedule', {
-    //     emailId: emailId,
-    //     bbbId: bbbId,
-    //     startDateTime: start,
-    //     endDateTime: end
-    // }).done(
-    //     function(response) {
-    //         var response = JSON.parse(response);
-    //         console.log(response);
-    //         $("#reservationLogin").html(response.login);
-    //         $("#reservationPassword").html(response.password);
-    //         $("#reservationDetails").show();
-    //     }
-    // );
+
+    $.ajax({
+    type: "POST",
+    url: "/schedule",
+    traditional: true,
+    data: {
+        emailId: emailId,
+        ids: ids,
+        startDateTime: start,
+        endDateTime: end }
+    }).done(
+        function(response) {
+            var response = JSON.parse(response);
+            console.log(response);
+            $("#reservationLogin").html(response.login);
+            $("#reservationPassword").html(response.password);
+            $("#reservationDetails").show();
+        }
+    );
     return false;
 }
 
@@ -58,6 +63,7 @@ function parseBBBIds(userinput) {
          $.merge(ids,range);       
       }
     };
+    return ids;
 }
 
 function getRange(rangeStr) {
@@ -66,8 +72,8 @@ function getRange(rangeStr) {
     var splitIds = rangeStr.split("-");
     if (2 === splitIds.length) 
     {
-        start = splitIds[0];
-        end = splitIds[1];
+        start = parseInt(splitIds[0]);
+        end = parseInt(splitIds[1]);
         for(var i = start; i <= end; i++)
         {
           range.push(i);

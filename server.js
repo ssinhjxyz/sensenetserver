@@ -41,20 +41,22 @@ app.listen(app.get('port'), function() {
 });
 
 
-app.get('/', function (req, res) {
-    res.sendFile( __dirname + "/" + "index.html" );
+app.get('/reservations', function (req, res) {
+    res.sendFile( __dirname + "/" + "reservations.html" );
 })
 
 app.post('/schedule', urlencodedParser, function (req, res) {
 
    // Fetch parameters from request
    var emailId = req.body.emailId;
-   var bbbId = req.body.bbbId;
    var startDateTime = req.body.startDateTime;
    var endDateTime = req.body.endDateTime;
+   var ids = req.body.ids;
+   console.log(ids);
+   console.log(CALENDAR.IDS[ids[0]]);
    var password = makeRandomString(6);
    var login = emailId.match(/^([^@]*)@/)[1];
-   createEvent( bbbId, emailId, startDateTime, endDateTime, password, login);
+   createEvents( ids, emailId, startDateTime, endDateTime, password, login);
    var response = {
     login  : login,
     password : password 
@@ -194,36 +196,26 @@ function makeRandomString(len)
     return text;
 }
 
-function getBBBIds(userinput)
-{
-    var splitIds = userinput.split(",");
-    var ids = [];
-    var numIds = splitIds.length;
-    for (var i = Things.length - 1; i >= 0; i--) 
+function createEvents(ids, emailId, startDateTime, endDateTime, password, login){
+  var numIds = ids.length;
+  for(var i = 0; i < numIds; i++)
+  { 
+    var calendarId = CALENDAR.IDS[ids[i]];
+    if(calendarId)
     {
-      
-    };
-}
+      console.log("creating event for bbb " + ids[i]);
+      createEvent( ids[i], calendarId, emailId, startDateTime, endDateTime, password, login);
+    }
 
-function getRange(rangeStr)
-{
-  var start = -1;
-  var end = -1;
-  var splitIds = rangeStr.split("-");
-  if( 2 === splitIds.length)
-  {
-    start = splitIds[0];
-    end = splitIds[1];
   }
-  return [start,end];
+
 }
 
 
-function createEvent( bbbId, emailId, startDateTime, endDateTime, password, login){
+function createEvent( bbbId, calendarId, emailId, startDateTime, endDateTime, password, login){
 
   var calendar = google.calendar('v3');
   var attendees = [{'email':emailId}];
-  var calendarId = CALENDAR.IDS[1];
 
   // stored credentials.
   var event = {
