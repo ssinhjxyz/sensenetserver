@@ -31,7 +31,7 @@ var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var CALENDAR = require('./calendars');
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 80));
 
 app.use(express.static(__dirname + '/public'));
 
@@ -41,12 +41,16 @@ app.listen(app.get('port'), function() {
 
   // // Reference: http://syskall.com/dont-run-node-dot-js-as-root/
   // // Find out which user used sudo through the environment variable
-  // var uid = parseInt(process.env.SUDO_UID);
+   var uid = parseInt(process.env.SUDO_UID);
   // // Set our server's uid to that user
-  // if (uid) 
-  //   process.setuid(uid);
+   if (uid) 
+     process.setuid(uid);
 
 });
+
+app.get('/', function (req, res) {
+    res.sendFile( __dirname + "/" + "home.html" );
+})
 
 
 app.get('/reservations', function (req, res) {
