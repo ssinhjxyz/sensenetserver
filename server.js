@@ -1,44 +1,29 @@
 var express = require('express');
 var app = express();
+app.use(express.static('public'));
 var bodyParser = require('body-parser');
-
-// Create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
-var fs = require('fs');
 var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var schedule = require('node-schedule');
-var globalAuth;
-
 var SCOPES = ['https://www.googleapis.com/auth/calendar'];
-var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + '/.credentials/';
+var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_PATH = 'calendar-nodejs-quickstart.json';
-
-
-app.use(express.static('public'));
-
 var https = require("https");
-var fs = require("fs");
-
-var util = require('util');
-var exec = require('child_process').exec;
-
+var formidable = require('formidable');
+var path = require('path');
+var fs = require('fs');
 var util = require('util');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var CALENDAR = require('./calendars');
+var globalAuth;
 
 app.set('port', (process.env.PORT || 80));
-
 app.use(express.static(__dirname + '/public'));
-
 app.listen(app.get('port'), function() {
-
   console.log('Node app is running on port', app.get('port'));
-
   // // Reference: http://syskall.com/dont-run-node-dot-js-as-root/
   // // Find out which user used sudo through the environment variable
    var uid = parseInt(process.env.SUDO_UID);
@@ -76,7 +61,37 @@ app.post('/schedule', urlencodedParser, function (req, res) {
    res.end(JSON.stringify(response));
 })
 
+app.post('/upload', function(req, res){
 
+  // create an incoming form object
+  var form = new formidable.IncomingForm();
+
+  // specify that we want to allow the user to upload multiple files in a single request
+  form.multiples = true;
+
+  // store all uploads in the /uploads directory
+  form.uploadDir = path.join(__dirname, '/uploads');
+
+  // every time a file has been uploaded successfully,
+  // rename it to it's orignal name
+  form.on('file', function(field, file) {
+    fs.rename(file.path, path.join(form.uploadDir, file.name));
+  });
+
+  // log any errors that occur
+  form.on('error', function(err) {
+    console.log('An error has occured: \n' + err);
+  });
+
+  // once all the files have been uploaded, send a response to the client
+  form.on('end', function() {
+    res.end('success');
+  });
+
+  // parse the incoming request containing the form data
+  form.parse(req);
+
+});
 
 // Load client secrets from a local file.
 fs.readFile('client_secret.json', function processClientSecrets(err, content) {
@@ -207,6 +222,9 @@ function makeRandomString(len)
 
     return text;
 }
+
+
+//http://www.howtogeek.com/168147/add-public-ssh-key-to-remote-server-in-a-single-command/
 
 function createEvents(ids, emailId, startDateTime, endDateTime, password, login){
   var numIds = ids.length;

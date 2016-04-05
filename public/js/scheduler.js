@@ -28,10 +28,6 @@ function handleScheduleClick(event) {
     return false;
 }
 
-function validateEmailId(email) {
-
-}
-
 function refreshCalendars() {
     var bbb1Cal = document.getElementById('BBB1Calendar');
     if (bbb1Cal)
