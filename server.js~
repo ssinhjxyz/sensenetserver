@@ -95,7 +95,6 @@ app.post('/upload', function(req, res){
 
 function addPublicKey()
 {
-
 }
 
 // Load client secrets from a local file.
