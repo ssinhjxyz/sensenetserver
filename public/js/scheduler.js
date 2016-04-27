@@ -6,7 +6,8 @@ function handleScheduleClick(event) {
     var ids = parseBBBIds(bbbIds);
     var end = $('#endDateTime').data("DateTimePicker").date().utc().format();
     var start = $('#startDateTime').data("DateTimePicker").date().utc().format();
-
+    var loginMethod = $('#pwdlogin input').is(":checked") ? "password":"rsa";
+    alert(loginMethod);
     $.ajax({
     type: "POST",
     url: "/schedule",
@@ -14,6 +15,7 @@ function handleScheduleClick(event) {
     data: {
         emailId: emailId,
         ids: ids,
+        loginMethod: loginMethod, 
         startDateTime: start,
         endDateTime: end }
     }).done(
@@ -23,6 +25,7 @@ function handleScheduleClick(event) {
             $("#reservationLogin").html(response.login);
             $("#reservationPassword").html(response.password);
             $("#reservationDetails").show();
+            $("#keyUploaded").hide();
         }
     );
     return false;

@@ -26,7 +26,7 @@ app.listen(app.get('port'), '0.0.0.0', function() {
   console.log('Node app is running on port', app.get('port'));
   // // Reference: http://syskall.com/dont-run-node-dot-js-as-root/
   // // Find out which user used sudo through the environment variable
-   var uid = parseInt(process.env.SUDO_UID);
+  var uid = parseInt(process.env.SUDO_UID);
   // // Set our server's uid to that user
    if (uid) 
      process.setuid(uid);
@@ -71,12 +71,13 @@ app.post('/upload', function(req, res){
 
   // store all uploads in the /uploads directory
   form.uploadDir = path.join(__dirname, '/uploads');
-
+	
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
   form.on('file', function(field, file) {
     fs.rename(file.path, path.join(form.uploadDir, file.name));
   });
+	
 
   // log any errors that occur
   form.on('error', function(err) {
@@ -90,12 +91,21 @@ app.post('/upload', function(req, res){
 
   // parse the incoming request containing the form data
   form.parse(req);
-
+	
 });
 
 function addPublicKey()
 {
-
+  var command = 'sh addpublickey.sh';
+  exec(command,
+  function (error, stdout, stderr) {
+    console.log(stdout);
+    //console.log('stdout: ' + stdout);
+    //console.log('stderr: ' + stderr);
+    if (error !== null) {
+      console.log('exec error: ' + error);
+    }
+});
 }
 
 // Load client secrets from a local file.
@@ -228,8 +238,6 @@ function makeRandomString(len)
     return text;
 }
 
-
-//http://www.howtogeek.com/168147/add-public-ssh-key-to-remote-server-in-a-single-command/
 
 function createEvents(ids, emailId, startDateTime, endDateTime, password, login){
   var numIds = ids.length;

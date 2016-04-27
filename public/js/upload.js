@@ -30,6 +30,8 @@ $(function(){
 			  contentType: false,
 			  success: function(data){
 			      console.log('upload successful!');
+			      $("#reserve").prop("disabled",false);
+			      $("#keyUploaded").show();
 			  }
 			});
 	  	}
