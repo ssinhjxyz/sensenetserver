@@ -1,34 +1,56 @@
-function handleScheduleClick(event) {
+function handleScheduleClick(event) 
+{
     event.preventDefault();
     $("#reservationDetails").hide();
+    
+    // Get the user's inputs
     var emailId = $("#emailId").text();
     var bbbIds = $("#bbbId").val();
     var ids = parseBBBIds(bbbIds);
     var end = $('#endDateTime').data("DateTimePicker").date().utc().format();
     var start = $('#startDateTime').data("DateTimePicker").date().utc().format();
     var loginMethod = $('#pwdlogin input').is(":checked") ? "password":"rsa";
-    alert(loginMethod);
-    $.ajax({
-    type: "POST",
-    url: "/schedule",
-    traditional: true,
-    data: {
-        emailId: emailId,
-        ids: ids,
-        loginMethod: loginMethod, 
-        startDateTime: start,
-        endDateTime: end }
-    }).done(
-        function(response) {
-            var response = JSON.parse(response);
-            console.log(response);
-            $("#reservationLogin").html(response.login);
-            $("#reservationPassword").html(response.password);
-            $("#reservationDetails").show();
-            $("#keyUploaded").hide();
-        }
-    );
+    
+    // validate user's inputs
+    var isValid = validateInputs(ids);
+
+    // If the inputs are valid, call the schedule API and pass the user's inputs
+    if(isValid)
+    {
+        $.ajax({
+        type: "POST",
+        url: "/schedule",
+        traditional: true,
+        data: {
+            emailId: emailId,
+            ids: ids,
+            loginMethod: loginMethod, 
+            startDateTime: start,
+            endDateTime: end }
+        }).done(
+            function(response) {
+                var response = JSON.parse(response);
+                console.log(response);
+                $("#reservationLogin").html(response.login);
+                $("#reservationPassword").html(response.password);
+                $("#reservationDetails").show();
+                $("#keyUploaded").hide();
+            });
+    }
+
     return false;
+}
+
+
+function validateInputs(ids){
+
+    var isValid = true;
+    if( ids.length === 0)
+    {
+        isValid = false;
+        alert("Please enter valid BBB Ids");
+    }
+    return isValid;
 }
 
 function refreshCalendars() {
@@ -48,7 +70,7 @@ function parseBBBIds(userinput) {
     {
       var id = splitIds[i];
       
-      if( id.indexOf(".") !== -1)
+      if( id === "")
         continue;
 
       if(id.indexOf('-') === -1)
