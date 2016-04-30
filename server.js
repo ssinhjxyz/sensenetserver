@@ -52,10 +52,6 @@ app.post('/schedule', urlencodedParser, function (req, res) {
    var ids = req.body.ids;
    var loginMethod = req.body.loginMethod
 
-   console.log(loginMethod);	
-   console.log(ids);
-   console.log(CALENDAR.IDS[ids[0]]);
-
    var login = emailId.match(/^([^@]*)@/)[1];
 
    createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod);
@@ -291,46 +287,42 @@ function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
 
 function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
 {
-   // add public rsa key
-  var start = new Date(startDateTime);
-  var command = "sh addpublickey.sh";
-  exec(command,
+ 
+  var addUserCommand = "sh adduser.sh " + bbbIP + " papAq5PwY/QQM " + login;
+  var addPublicKeyCommand = "sh addpublickey.sh " + bbbIP + " " + login;
+  var createReservation = schedule.scheduleJob(startDateTime, function(){
+    exec(addUserCommand,
     function (error, stdout, stderr) {
-      console.log(stdout);
-      //console.log('stdout: ' + stdout);
-      //console.log('stderr: ' + stderr);
+      console.log("user " + login + " created");
+      
+	exec(addPublicKeyCommand,    	
+	function (error, stdout, stderr) 
+	{
+	      	//console.log("public key " + login + " added");
+	      	console.log('stdout: ' + stdout);
+	      	//console.log('stderr: ' + stderr);
+	      	if (error !== null) {
+			console.log('exec error: ' + error);
+	      	 }
+  	});
+
       if (error !== null) {
         console.log('exec error: ' + error);
       }
   });
-
-  /*python.stdout.on('data', 
-  function(encpasswd)
-  { 
-  var command = 'ssh root@192.168.7.2 "useradd -m -p ' + encpasswd.toString().slice(0,-1) + ' ' + login + ' "';
-  var createUser = schedule.scheduleJob(startDateTime, function(){
-    exec(command,
+});
+	
+ var deleteUserCommand = "sh deleteuser.sh " + bbbIP + " " + login;
+ var endReservation = schedule.scheduleJob(endDateTime, function(){
+    exec(deleteUserCommand,
     function (error, stdout, stderr) {
-      console.log("user " + login + " created");
-      //console.log('stdout: ' + stdout);
-      //console.log('stderr: ' + stderr);
+      console.log("user " + login + " deleted");
       if (error !== null) {
         console.log('exec error: ' + error);
       }
-  });});
+  });
+});
 
-  var end = new Date(endDateTime);
-    var killUser = schedule.scheduleJob(endDateTime, function(){
-    exec('ssh root@192.168.7.2 "killall --user ' + login + ' ; userdel -f ' + login + '"',
-    function (error, stdout, stderr) {
-      console.log("user " + login + " killed");
-      //console.log('stdout: ' + stdout);
-      //console.log('stderr: ' + stderr);
-      if (error !== null) {
-        console.log('exec error: ' + error);
-      }
-  });});
-  });*/   
 }
 
 
