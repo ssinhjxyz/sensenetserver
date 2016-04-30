@@ -223,7 +223,6 @@ function createGCalEvent( bbbId, calendarId, emailId, startDateTime, endDateTime
   var calendar = google.calendar('v3');
   var attendees = [{'email':emailId}];
 
-  // stored credentials.
   var event = {
     'summary': "Sensenet Reservation",
     'location': "BBB " + bbbId,
