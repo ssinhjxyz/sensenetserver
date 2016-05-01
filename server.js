@@ -332,8 +332,8 @@ function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbb
   var python = spawn('python', ["createuser.py", password]);
   python.stdout.on('data', 
   function(encpasswd)
-  {
-  var addUserCommand = "sh adduser.sh " + bbbIP + " " + encpasswd.toString().slice(0,-1) + " " + login; 
+  { 
+  var command = "ssh adduser.sh " + bbbIP + " " + encpasswd.toString().slice(0,-1) + " " + login;
   var createUser = schedule.scheduleJob(startDateTime, function(){
     exec(command,
     function (error, stdout, stderr) {
@@ -345,9 +345,8 @@ function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbb
       }
   });});
 	
-  var deleteUserCommand = "sh deleteuser.sh " + bbbIP + " " + login;
-  var endReservation = schedule.scheduleJob(endDateTime, function(){
-    exec(deleteUserCommand,
+    var killUser = schedule.scheduleJob(endDateTime, function(){
+    exec("sh deleteuser.sh " + bbbIP + " " + login,
     function (error, stdout, stderr) {
       console.log("user " + login + " deleted");
       if (error !== null) {
