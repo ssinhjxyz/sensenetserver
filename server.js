@@ -329,12 +329,11 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
 function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbbIP)
 {
   
-  var start = new Date(startDateTime);
   var python = spawn('python', ["createuser.py", password]);
   python.stdout.on('data', 
   function(encpasswd)
-  { 
-  var command = 'ssh root@192.168.7.2 "useradd -m -p ' + encpasswd.toString().slice(0,-1) + ' ' + login + ' "';
+  {
+  var addUserCommand = "sh adduser.sh " + bbbIP + " " + encpasswd.toString().slice(0,-1) + " " + login; 
   var createUser = schedule.scheduleJob(startDateTime, function(){
     exec(command,
     function (error, stdout, stderr) {
@@ -345,19 +344,17 @@ function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbb
         console.log('exec error: ' + error);
       }
   });});
-
-  var end = new Date(endDateTime);
-    var killUser = schedule.scheduleJob(endDateTime, function(){
-    exec('ssh root@192.168.7.2 "killall --user ' + login + ' ; userdel -f ' + login + '"',
+	
+  var deleteUserCommand = "sh deleteuser.sh " + bbbIP + " " + login;
+  var endReservation = schedule.scheduleJob(endDateTime, function(){
+    exec(deleteUserCommand,
     function (error, stdout, stderr) {
-      console.log("user " + login + " killed");
-      //console.log('stdout: ' + stdout);
-      //console.log('stderr: ' + stderr);
+      console.log("user " + login + " deleted");
       if (error !== null) {
         console.log('exec error: ' + error);
       }
-  });});
-  });
-   return password;
+   });
+ });
+ return password;
 }
 
