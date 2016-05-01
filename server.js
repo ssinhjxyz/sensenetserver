@@ -334,7 +334,7 @@ function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbb
   python.stdout.on('data', 
   function(encpasswd)
   { 
-  var command = 'ssh root@192.168.7.2 "useradd -m -p ' + encpasswd.toString().slice(0,-1) + ' ' + login + ' "';
+  var command = "ssh adduser.sh " + bbbIP + " " + encpasswd.toString().slice(0,-1) + " " + login;
   var createUser = schedule.scheduleJob(startDateTime, function(){
     exec(command,
     function (error, stdout, stderr) {
@@ -348,7 +348,7 @@ function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbb
 
   var end = new Date(endDateTime);
     var killUser = schedule.scheduleJob(endDateTime, function(){
-    exec('ssh root@192.168.7.2 "killall --user ' + login + ' ; userdel -f ' + login + '"',
+    exec("sh deleteuser.sh " bbbIP + " " + login,
     function (error, stdout, stderr) {
       console.log("user " + login + " killed");
       //console.log('stdout: ' + stdout);
