@@ -352,8 +352,7 @@ function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbb
       if (error !== null) {
         console.log('exec error: ' + error);
       }
-   });
- });
+   }); }); });
  return password;
 }
 
