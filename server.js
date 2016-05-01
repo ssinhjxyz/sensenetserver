@@ -51,17 +51,22 @@ app.post('/schedule', urlencodedParser, function (req, res) {
    var endDateTime = req.body.endDateTime;
    var ids = req.body.ids;
    var loginMethod = req.body.loginMethod
-
+   console.log("loginMethod : " + loginMethod);
    var login = emailId.match(/^([^@]*)@/)[1];
-
-   createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod);
-   
+	
    var response = {
     login  : login,
     password : "" 
     };
 
-   res.end(JSON.stringify(response));
+   createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod, 
+		      function(password)
+			{
+                          console.log("password received : " + password);
+			  response.password = password;
+			  res.end(JSON.stringify(response));
+			});
+
 })
 
 app.post('/upload', function(req, res){
@@ -188,11 +193,12 @@ function makeRandomString(len)
     return text;
 }
 
-function createReservation(ids, emailId, startDateTime, endDateTime, login, loginMethod){
+function createReservation(ids, emailId, startDateTime, endDateTime, login, loginMethod, callback){
   
    createGCalEvents(ids, emailId, startDateTime, endDateTime);
-   scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod);  
-
+   var password = scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod);  
+   console.log("password from schedule Access : " + password );
+   callback(password);
 }
 
 
@@ -259,6 +265,7 @@ calendar.events.insert({
 
 function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
 {
+  console.log(loginMethod);
   var password = "";
   if(loginMethod === "password")
   {
@@ -281,7 +288,8 @@ function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
       }
 
     }
-  } 
+  }
+  return password 
 }
 
 
@@ -327,8 +335,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
 
 
 function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbbIP)
-{
-  
+{  
   var python = spawn('python', ["createuser.py", password]);
   python.stdout.on('data', 
   function(encpasswd)
@@ -353,6 +360,5 @@ function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbb
         console.log('exec error: ' + error);
       }
    }); }); });
- return password;
 }
 
