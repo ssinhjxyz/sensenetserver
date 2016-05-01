@@ -2,5 +2,5 @@
 # first input is the IP address of the BBB
 # second input is the username to be deleted
 
-ssh sensenetserver@$1 "sudo killall --user $2 ; sudo userdel -f $2" 
+ssh access_server@$1 "sudo killall --user $2 ; sudo userdel -f $2" 
 
