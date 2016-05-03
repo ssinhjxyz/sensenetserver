@@ -361,7 +361,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
 
 function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login)
 {  
-  var python = spawn('python', ["encodepassword.py", password]);
+  var python = spawn('python', ["./server/encodepassword.py", password]);
   python.stdout.on('data', 
   function(encpasswd)
   { 
