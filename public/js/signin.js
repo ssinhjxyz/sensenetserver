@@ -12,7 +12,7 @@ function signIn(googleUser) {
   }
   else
   {
-  	alert("Please sign using your ncsu email id.")
+  	alert("Please sign in using your ncsu email id.")
   	signOut();
   }
 }

@@ -360,7 +360,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
 }
 
 
-function schedulePasswordAccess(startDateTime, endDateTime, password, login, bbbIP)
+function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login)
 {  
   var python = spawn('python', ["createuser.py", password]);
   python.stdout.on('data', 
