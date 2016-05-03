@@ -36,14 +36,14 @@ function handleScheduleClick(event)
                 $("#keyUploaded").hide();
                 showResults(response);
             });
-    }
+      }
 
     return false;
 }
 
-
 function showResults(response)
 {
+    $("#showReservationDetails").show();
     $('#reservationResults').modal('show');
     $('#reservationsCreatedDetails').empty();
     $('#reservationsFailedDetails').empty();

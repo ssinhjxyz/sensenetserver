@@ -18,7 +18,7 @@ var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var CALENDAR = require('./server/calendars');
 var BBB = require('./server/bbbs');
-var uploader = require('./server/upload');
+var upload = require('./server/upload');
 var globalAuth;
 
 app.set('port', (process.env.PORT || 80));
@@ -74,8 +74,9 @@ app.post('/schedule', urlencodedParser, function (req, res) {
 
 app.post('/upload', function(req, res)
 {
-  	uploader.upload(req, res);
+  	upload.do(req, res);
 });
+
 
 // Load client secrets from a local file.
 fs.readFile('client_secret.json', function processClientSecrets(err, content) {
