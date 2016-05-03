@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-app.use(express.static('public'));
+app.use(express.static('client'));
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var readline = require('readline');
@@ -17,8 +17,8 @@ var fs = require('fs');
 var util = require('util');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
-var CALENDAR = require('./calendars');
-var BBB = require('./bbbs');
+var CALENDAR = require('./server/calendars');
+var BBB = require('./server/bbbs');
 var globalAuth;
 
 app.set('port', (process.env.PORT || 80));
@@ -35,12 +35,12 @@ app.listen(app.get('port'), '0.0.0.0', function() {
 });
 
 app.get('/', function (req, res) {
-    res.sendFile( __dirname + "/" + "home.html" );
+    res.sendFile(__dirname + "/client/html/" + "home.html" );
 })
 
 
 app.get('/reservations', function (req, res) {
-    res.sendFile( __dirname + "/" + "reservations.html" );
+    res.sendFile( __dirname + "/client/html/" + "reservations.html" );
 })
 
 app.post('/schedule', urlencodedParser, function (req, res) {
@@ -321,8 +321,8 @@ function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
 function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
 {
  
-  var addUserCommand = "sh adduser.sh " + bbbIP + " papAq5PwY/QQM " + login;
-  var addPublicKeyCommand = "sh addpublickey.sh " + bbbIP + " " + login;
+  var addUserCommand = "sh ./server/adduser.sh " + bbbIP + " papAq5PwY/QQM " + login;
+  var addPublicKeyCommand = "sh ./server/addpublickey.sh " + bbbIP + " " + login;
   var createReservation = schedule.scheduleJob(startDateTime, function(){
     exec(addUserCommand,
     function (error, stdout, stderr) {
@@ -345,7 +345,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
   });
 });
 	
- var deleteUserCommand = "sh deleteuser.sh " + bbbIP + " " + login;
+ var deleteUserCommand = "sh ./server/deleteuser.sh " + bbbIP + " " + login;
  var endReservation = schedule.scheduleJob(endDateTime, function(){
     exec(deleteUserCommand,
     function (error, stdout, stderr) {
@@ -361,11 +361,11 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
 
 function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login)
 {  
-  var python = spawn('python', ["createuser.py", password]);
+  var python = spawn('python', ["encodepassword.py", password]);
   python.stdout.on('data', 
   function(encpasswd)
   { 
-  var command = "sh adduser.sh " + bbbIP + " " + encpasswd.toString().slice(0,-1) + " " + login;
+  var command = "sh ./server/adduser.sh " + bbbIP + " " + encpasswd.toString().slice(0,-1) + " " + login;
   var createUser = schedule.scheduleJob(startDateTime, function(){
     exec(command,
     function (error, stdout, stderr) {
@@ -378,7 +378,7 @@ function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, log
   });});
 	
     var killUser = schedule.scheduleJob(endDateTime, function(){
-    exec("sh deleteuser.sh " + bbbIP + " " + login,
+    exec("sh ./server/deleteuser.sh " + bbbIP + " " + login,
     function (error, stdout, stderr) {
       console.log("user " + login + " deleted");
       if (error !== null) {
