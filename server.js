@@ -44,6 +44,12 @@ app.get('/reservations', function (req, res) {
     res.sendFile( __dirname + "/client/html/" + "reservations.html" );
 })
 
+
+app.get('/admin', function (req, res) {
+    res.sendFile( __dirname + "/client/html/" + "admin.html" );
+})
+
+
 app.post('/schedule', urlencodedParser, function (req, res) {
 
    // Fetch parameters from request
