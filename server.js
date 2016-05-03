@@ -226,7 +226,6 @@ function createReservation(ids, emailId, startDateTime, endDateTime, login, logi
    var results = validateBBBIDs(ids);
    createGCalEvents(ids, emailId, startDateTime, endDateTime);
    var password = scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod);  
-   console.log("password from schedule Access : " + password );
    callback(password, results[0], results[1],results[2]);
 }
 

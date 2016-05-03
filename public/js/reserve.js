@@ -45,8 +45,8 @@ function handleScheduleClick(event)
 function showResults(response)
 {
     $('#reservationResults').modal('show');
-    $('#reservationsCreated').empty();
-    $('#reservationsFailed').empty();
+    $('#reservationsCreatedDetails').empty();
+    $('#reservationsFailedDetails').empty();
     var numReserved = response.reservedBBBIDs.length;
     var numFailed = response.failedBBBIDs.length;
     if(numReserved > 0)
