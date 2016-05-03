@@ -60,10 +60,12 @@ app.post('/schedule', urlencodedParser, function (req, res) {
     };
 
    createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod, 
-		      function(password)
+		      function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs)
 			{
-                          console.log("password received : " + password);
 			  response.password = password;
+			  response.reservedBBBIDs = reservedBBBIDs;
+			  response.reservedBBBIPs = reservedBBBIPs;
+			  response.failedBBBIDs = failedBBBIDs;
 			  res.end(JSON.stringify(response));
 			});
 
@@ -193,12 +195,39 @@ function makeRandomString(len)
     return text;
 }
 
+function validateBBBIDs(ids)
+{
+  var reservedIDs = [];
+  var reservedIPs = [];
+  var failedIDs = [];
+  var numIds = ids.length;
+  for(var i = 0; i < numIds; i++)
+  { 
+    var id = ids[i];
+    var bbbIP = BBB.IPS[ids[i]];
+    if(bbbIP)
+    {
+      reservedIDs.push(id);
+      reservedIPs.push(bbbIP);
+    }
+    else
+    {
+      failedIDs.push();
+    }
+  }
+
+  return [reservedIDs, reservedIPs, failedIDs];
+ 
+}
+
+
 function createReservation(ids, emailId, startDateTime, endDateTime, login, loginMethod, callback){
   
+   var results = validateBBBIDs(ids);
    createGCalEvents(ids, emailId, startDateTime, endDateTime);
    var password = scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod);  
    console.log("password from schedule Access : " + password );
-   callback(password);
+   callback(password, results[0], results[1],results[2]);
 }
 
 
@@ -214,9 +243,7 @@ function createGCalEvents(ids, emailId, startDateTime, endDateTime){
       console.log("creating event for bbb " + ids[i]);
       createGCalEvent( ids[i], calendarId, emailId, startDateTime, endDateTime);
     }
-
   }
-
 }
 
 
@@ -286,7 +313,6 @@ function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
       {
         scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP);
       }
-
     }
   }
   return password 
