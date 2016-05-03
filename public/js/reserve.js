@@ -35,6 +35,7 @@ function handleScheduleClick(event)
                 $("#reservationPassword").html(response.password);
                 $("#reservationDetails").show();
                 $("#keyUploaded").hide();
+                $('#reservationResults').modal('show');
             });
     }
 

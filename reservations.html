@@ -35,7 +35,7 @@
       <a class="navbar-brand" href="/">Sense Net</a>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
+    <!-- Top Navbar -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
        <li><a href="/reservations">Resevations</a></li>
@@ -57,6 +57,29 @@
   </div>
   </div>
   </div>
+
+<div class="modal fade" id="reservationResults" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Reservation Results:</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" style="display:none" id = "reservationDetails" role="alert">
+  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+  <span class="sr-only">Reservation Created:</span>
+   <span>Reservation Created: Your login name is </span><span id="reservationLogin"></span><span> 
+   and your password is </span> <span id="reservationPassword"></span>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <div class = "sensenetInterface" style="display:none;">
   <div class ="container">
@@ -130,11 +153,6 @@
     </script>  
   <button id="reserve" disabled="false" class="btn btn-success" onclick="handleScheduleClick(event)">Reserve</button>
 </form>
-<div class="alert alert-success" style="display:none" id = "reservationDetails" role="alert">
-  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-  <span class="sr-only">Reservation Created:</span>
-   <span>Reservation Created: Your login name is </span><span id="reservationLogin"></span><span> and your password is </span> <span id="reservationPassword"></span>
-</div>
 </div>
 </div>
   </body>
