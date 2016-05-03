@@ -9,7 +9,7 @@ function handleScheduleClick(event)
     var ids = parseBBBIds(bbbIds);
     var end = $('#endDateTime').data("DateTimePicker").date().utc().format();
     var start = $('#startDateTime').data("DateTimePicker").date().utc().format();
-    var loginMethod = $('#pwdlogin input').is(":checked") ? "password":"rsa";
+    var loginMethod = $('#pwdlogin').hasClass("active") ? "password":"rsa";
     
     // validate user's inputs
     var isValid = validateInputs(ids);
@@ -34,29 +34,47 @@ function handleScheduleClick(event)
                 $("#reservationLogin").html(response.login);
                 $("#reservationPassword").html(response.password);
                 $("#keyUploaded").hide();
-                $('#reservationResults').modal('show');
-                if(response.reservedBBBIDs.length > 0)
-                {
-                   $('#reservationsCreated').show();
-                }
-                else
-                {
-                   $('#reservationsCreated').hide();   
-                }
-                if(response.failedBBBIDs.length > 0)
-                { 
-                   $('#reservationsFailed').show();  
-                }
-                else
-                {
-                   $('#reservationsFailed').hide();   
-                }
+                showResults(response);
             });
     }
 
     return false;
 }
 
+
+function showResults(response)
+{
+    $('#reservationResults').modal('show');
+    var numReserved = response.reservedBBBIDs.length;
+    var numFailed = response.failedBBBIDs.length;
+    if(numReserved > 0)
+    {
+       $('#reservationsCreated').show();
+       for(var i = 0; i < numReserved; i++)
+       {
+           $('#reservationsCreatedDetails').append("<div>BBB " + response.reservedBBBIDs[i] +
+                                                    " : " + response.reservedBBBIPs[i] + "</div>");
+       }
+    }
+    else
+    {
+       $('#reservationsCreated').hide();   
+    }
+    if(numFailed > 0)
+    { 
+       $('#reservationsFailed').show();
+       for(var i = 0; i < numFailed; i++)
+       {
+           $('#reservationsFailedDetails').append("<div> BBB " + response.failedBBBIDs[i] +
+                                                    " : Device does not exist. </div>");
+       }  
+    }
+    else
+    {
+       $('#reservationsFailed').hide();   
+    }
+ 
+}
 
 function validateInputs(ids){
 

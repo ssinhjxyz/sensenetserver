@@ -58,6 +58,7 @@
   </div>
   </div>
 
+<!-- Reservation Results Modal Window -->
 <div class="modal fade" id="reservationResults" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -69,13 +70,16 @@
         <div id = "reservationsCreated" class="alert alert-success" style="display:none" role="alert">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
             <span class="sr-only">Reservations Created:</span>
-            <span>Reservation Created: Your login name is </span><span id="reservationLogin"></span><span> 
+            <span><strong>Succeeded </strong></span>
+            <section id="reservationsCreatedDetails"></section>
+            <span>Your login name is </span><span id="reservationLogin"></span><span> 
             and your password is </span> <span id="reservationPassword"></span>
         </div>
         <div id = "reservationsFailed" class="alert alert-danger" style="display:none" role="alert">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             <span class="sr-only">Reservations Failed:</span>
-            <span>Reservation Failed: Your login name is </span>        
+            <span><strong>Failed </strong></span>
+            <section id="reservationsFailedDetails"></section>        
         </div>
       </div>
       <div class="modal-footer">
@@ -138,7 +142,7 @@
         <label id= "rsalogin" class="btn btn-default">
             <input type="radio"  name="loginMethod" value="rsa">RSA
         </label>
-        <label class="btn btn-default active" id= "pwdlogin">
+        <label id= "pwdlogin" class="btn btn-default active">
             <input type="radio" name="loginMethod" value="password">Password
         </label>
     </div>
