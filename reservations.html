@@ -63,15 +63,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Reservation Results:</h4>
+        <h4 class="modal-title">Reservation Results</h4>
       </div>
       <div class="modal-body">
-        <div class="alert alert-success" style="display:none" id = "reservationDetails" role="alert">
-  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-  <span class="sr-only">Reservation Created:</span>
-   <span>Reservation Created: Your login name is </span><span id="reservationLogin"></span><span> 
-   and your password is </span> <span id="reservationPassword"></span>
-      </div>
+        <div id = "reservationsCreated" class="alert alert-success" style="display:none" role="alert">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            <span class="sr-only">Reservations Created:</span>
+            <span>Reservation Created: Your login name is </span><span id="reservationLogin"></span><span> 
+            and your password is </span> <span id="reservationPassword"></span>
+        </div>
+        <div id = "reservationsFailed" class="alert alert-danger" style="display:none" role="alert">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            <span class="sr-only">Reservations Failed:</span>
+            <span>Reservation Failed: Your login name is </span>        
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

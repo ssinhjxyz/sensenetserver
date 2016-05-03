@@ -33,9 +33,24 @@ function handleScheduleClick(event)
                 console.log(response);
                 $("#reservationLogin").html(response.login);
                 $("#reservationPassword").html(response.password);
-                $("#reservationDetails").show();
                 $("#keyUploaded").hide();
                 $('#reservationResults').modal('show');
+                if(response.reservedBBBIDs.length > 0)
+                {
+                   $('#reservationsCreated').show();
+                }
+                else
+                {
+                   $('#reservationsCreated').hide();   
+                }
+                if(response.failedBBBIDs.length > 0)
+                { 
+                   $('#reservationsFailed').show();  
+                }
+                else
+                {
+                   $('#reservationsFailed').hide();   
+                }
             });
     }
 

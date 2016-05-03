@@ -212,7 +212,7 @@ function validateBBBIDs(ids)
     }
     else
     {
-      failedIDs.push();
+      failedIDs.push(id);
     }
   }
 
