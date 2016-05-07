@@ -67,6 +67,12 @@
         <h4 class="modal-title">Reservation Results</h4>
       </div>
       <div class="modal-body">
+        <div id = "invalidEvent" class="alert alert-danger" style="display:none" role="alert">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            <span> <strong>Failed</strong></span>
+            <br><span>The attempted reservation conflicts with an existing reservation. </span> <br>
+            <span>Please change the timings and attempt again.</span>
+        </div>
         <div id = "reservationsCreated" class="alert alert-success" style="display:none" role="alert">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
             <span class="sr-only">Reservations Created:</span>
@@ -160,9 +166,10 @@
     <script type="text/javascript">
       $('#startDateTime').datetimepicker();
     </script>  
-  <button id="reserve" disabled="false" class="btn btn-success" onclick="handleScheduleClick(event)">Reserve</button>
+
   <button class="btn btn-default" id="showReservationDetails" onclick="$('#reservationResults').modal('show');" type="button">Show Reservation</button>
 </form>
+  <button id="reserve" disabled="false" class="btn btn-success" onclick="reserve(event)">Reserve</button>
 </div>
 </div>
   </body>

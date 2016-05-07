@@ -67,12 +67,13 @@ app.post('/schedule', urlencodedParser, function (req, res) {
     };
 
    createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod, 
-		      function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs)
+		      function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
 			{
 			  response.password = password;
 			  response.reservedBBBIDs = reservedBBBIDs;
 			  response.reservedBBBIPs = reservedBBBIPs;
 			  response.failedBBBIDs = failedBBBIDs;
+        response.isValidEvent = isValidEvent;
 			  res.end(JSON.stringify(response));
 			});
 
@@ -117,6 +118,36 @@ function authorize(credentials, callback) {
       oauth2Client.credentials = JSON.parse(token);
       globalAuth = oauth2Client;
       callback(oauth2Client);
+    }
+  });
+}
+
+/**
+ * Validate the event : requested event should not overlap with an existing event
+ *
+ */
+function validateEvent(startTime, endTime, callback) {
+  var calendar = google.calendar('v3');
+  calendar.events.list({
+    auth: globalAuth,
+    calendarId: 'primary',
+    timeMin: startTime,
+    timeMax: endTime,
+    maxResults: 1,
+    singleEvents: true,
+    orderBy: 'startTime'
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    if (response.items.length > 0) 
+    {
+      callback(false);
+    } 
+    else
+    {
+      callback(true);
     }
   });
 }
@@ -204,9 +235,15 @@ function validateBBBIDs(ids)
 function createReservation(ids, emailId, startDateTime, endDateTime, login, loginMethod, callback){
   
    var results = validateBBBIDs(ids);
-   createGCalEvents(ids, emailId, startDateTime, endDateTime);
-   var password = scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod);  
-   callback(password, results[0], results[1],results[2]);
+   validateEvent(startDateTime, endDateTime, 
+   function(isValidEvent){
+      if(isValidEvent)
+      {
+        createGCalEvents(ids, emailId, startDateTime, endDateTime);
+        var password = scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod); 
+      } 
+      callback(password, results[0], results[1], results[2], isValidEvent);
+   });
 }
 
 

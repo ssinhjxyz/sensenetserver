@@ -1,4 +1,4 @@
-function handleScheduleClick(event) 
+function reserve(event) 
 {
     event.preventDefault();
     $("#reservationDetails").hide();
@@ -43,10 +43,18 @@ function handleScheduleClick(event)
 
 function showResults(response)
 {
-    $("#showReservationDetails").show();
-    $('#reservationResults').modal('show');
+    $('#reservationsCreated').hide();
+    $('#reservationsFailed').hide();
+    $('#invalidEvent').hide();
     $('#reservationsCreatedDetails').empty();
     $('#reservationsFailedDetails').empty();
+    $("#showReservationDetails").show();
+    $('#reservationResults').modal('show');
+    if(!response.isValidEvent)
+    {
+      $('#invalidEvent').show();
+      return; 
+    }
     var numReserved = response.reservedBBBIDs.length;
     var numFailed = response.failedBBBIDs.length;
     if(numReserved > 0)
@@ -78,13 +86,18 @@ function showResults(response)
  
 }
 
-function validateInputs(ids){
+function validateInputs(ids, start, end){
 
     var isValid = true;
     if( ids.length === 0)
     {
         isValid = false;
         alert("Please enter valid BBB Ids");
+    }
+    else if(start === end)
+    {
+      isValid = false;
+      alert("Please enter different start and end dates.");
     }
     return isValid;
 }
