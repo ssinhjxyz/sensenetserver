@@ -18,7 +18,7 @@ fi"
 
 
 #if the same public key is also present in "authorized_keys", do not add again.
-publickey=$(cat "uploads/publickey") 
+publickey=$(cat "uploads/$3") 
 ssh access_server@$1 "if sudo grep -q '$publickey' </home/$2/.ssh/authorized_keys;
 then echo 'public key already exists'
 else echo '$publickey' | sudo tee -a /home/$2/.ssh/authorized_keys  

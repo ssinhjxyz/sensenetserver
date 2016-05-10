@@ -30,7 +30,9 @@ app.listen(app.get('port'), '0.0.0.0', function() {
   var uid = parseInt(process.env.SUDO_UID);
   // Set our server's uid to that user
    if (uid) 
+   {
      process.setuid(uid);
+   }
 
 });
 
@@ -50,23 +52,32 @@ app.get('/admin', function (req, res) {
 })
 
 
-app.post('/schedule', urlencodedParser, function (req, res) {
+app.post('/reserve', urlencodedParser, function (req, res) {
 
    // Fetch parameters from request
    var emailId = req.body.emailId;
    var startDateTime = req.body.startDateTime;
    var endDateTime = req.body.endDateTime;
    var ids = req.body.ids;
+   var uid = req.body.uid;
+
+   // case when single id is sent. 
+   // TODO: this should ideally be handled using JSON
+   if(typeof ids == "string")
+   {
+      ids = [parseInt(ids)];
+   }
+
    var loginMethod = req.body.loginMethod
    console.log("loginMethod : " + loginMethod);
    var login = emailId.match(/^([^@]*)@/)[1];
-	
-   var response = {
-    login  : login,
-    password : "" 
-    };
+   var response = 
+   {
+      login  : login,
+      password : "" 
+   };
 
-   createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod, 
+   createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, 
 		      function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
 			{
 			  response.password = password;
@@ -79,7 +90,7 @@ app.post('/schedule', urlencodedParser, function (req, res) {
 
 })
 
-app.post('/upload', function(req, res)
+app.post('/upload', urlencodedParser, function(req, res)
 {
   	upload.do(req, res);
 });
@@ -111,10 +122,14 @@ function authorize(credentials, callback) {
   var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
   // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, function(err, token) {
-    if (err) {
+  fs.readFile(TOKEN_PATH, function(err, token) 
+  {
+    if (err) 
+    {
       getNewToken(oauth2Client, callback);
-    } else {
+    } 
+    else 
+    {
       oauth2Client.credentials = JSON.parse(token);
       globalAuth = oauth2Client;
       callback(oauth2Client);
@@ -136,8 +151,11 @@ function validateEvent(startTime, endTime, callback) {
     maxResults: 1,
     singleEvents: true,
     orderBy: 'startTime'
-  }, function(err, response) {
-    if (err) {
+  }, 
+  function(err, response) 
+  {
+    if (err)
+    {
       console.log('The API returned an error: ' + err);
       return;
     }
@@ -232,7 +250,7 @@ function validateBBBIDs(ids)
 }
 
 
-function createReservation(ids, emailId, startDateTime, endDateTime, login, loginMethod, callback){
+function createReservation(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, callback){
   
    var results = validateBBBIDs(ids);
    validateEvent(startDateTime, endDateTime, 
@@ -240,7 +258,7 @@ function createReservation(ids, emailId, startDateTime, endDateTime, login, logi
       if(isValidEvent)
       {
         createGCalEvents(ids, emailId, startDateTime, endDateTime);
-        var password = scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod); 
+        var password = scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod, uid); 
       } 
       callback(password, results[0], results[1], results[2], isValidEvent);
    });
@@ -306,7 +324,7 @@ calendar.events.insert({
 });}
 
 
-function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
+function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod, uid)
 {
   console.log(loginMethod);
   var password = "";
@@ -327,7 +345,7 @@ function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
       }
       else if (loginMethod === "rsa")
       {
-        scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP);
+        scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid);
       }
     }
   }
@@ -335,44 +353,46 @@ function scheduleAccess(ids, startDateTime, endDateTime, login, loginMethod)
 }
 
 
-function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP)
+function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
 {
  
   var addUserCommand = "sh ./server/adduser.sh " + bbbIP + " papAq5PwY/QQM " + login;
-  var addPublicKeyCommand = "sh ./server/addpublickey.sh " + bbbIP + " " + login;
-  var createReservation = schedule.scheduleJob(startDateTime, function(){
+  var addPublicKeyCommand = "sh ./server/addpublickey.sh " + bbbIP + " " + login + " " + uid;
+  // first create the user, then add the public key
+  var createReservation = schedule.scheduleJob(startDateTime, function()
+  {
     exec(addUserCommand,
-    function (error, stdout, stderr) {
+    function (error, stdout, stderr) 
+    {
       console.log("user " + login + " created");
-      
-	exec(addPublicKeyCommand,    	
-	function (error, stdout, stderr) 
-	{
-	      	//console.log("public key " + login + " added");
-	      	console.log('stdout: ' + stdout);
-	      	//console.log('stderr: ' + stderr);
-	      	if (error !== null) {
-			console.log('exec error: ' + error);
-	      	 }
-  	});
-
-      if (error !== null) {
-        console.log('exec error: ' + error);
-      }
+    	exec(addPublicKeyCommand,    	
+    	function (error, stdout, stderr) 
+    	{
+    	      	//console.log("public key " + login + " added");
+    	      	console.log('stdout: ' + stdout);
+    	      	//console.log('stderr: ' + stderr);
+    	      	if (error !== null) 
+              {
+    			       console.log('exec error: ' + error);
+    	      	}
+      	});
+        if (error !== null) 
+        {
+          console.log('exec error: ' + error);
+        }
+      });
+    });
+  	
+   var deleteUserCommand = "sh ./server/deleteuser.sh " + bbbIP + " " + login;
+   var endReservation = schedule.scheduleJob(endDateTime, function(){
+      exec(deleteUserCommand,
+      function (error, stdout, stderr) {
+        console.log("user " + login + " deleted");
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        }
+    });
   });
-});
-	
- var deleteUserCommand = "sh ./server/deleteuser.sh " + bbbIP + " " + login;
- var endReservation = schedule.scheduleJob(endDateTime, function(){
-    exec(deleteUserCommand,
-    function (error, stdout, stderr) {
-      console.log("user " + login + " deleted");
-      if (error !== null) {
-        console.log('exec error: ' + error);
-      }
-  });
-});
-
 }
 
 

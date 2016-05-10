@@ -1,3 +1,4 @@
+// Event handlers
 $(function(){
 	$('#upload-btn').on('click', function (){
 	    $('#upload-input').click();
@@ -5,22 +6,23 @@ $(function(){
 
 	$('#upload-input').on('change', function()
 	{
+	    $("#keyUploaded").show();
+		$("#reserve").prop("disabled",false);
+	});
+});
 
-	  var files = $(this).get(0).files;
-	  if (files.length === 1){
-	    // One file selected, process the file upload
-	    // create a FormData object which will be sent as the data payload in the
-	    // AJAX request
+
+function upload(filename)
+{
+	  // sends the public key to the server
+	  var files = $('#upload-input').get(0).files;
+	  if (files.length === 1)
+	  {
 	    var formData = new FormData();
 	    var file = files[0];
-	    var extension = getExtension(file.name);
-	    if(extension !== "pub")
+	    if(validateExtension())
 	    {
-	    	alert('Please upload a file with "pub" extension');
-	    }
-	    else
-	    {
-		    formData.append('uploads[]', file, file.name);
+		    formData.append('uploads[]', file, filename);
 		    $.ajax(
 		    {
 			  url: '/upload',
@@ -28,13 +30,31 @@ $(function(){
 			  data: formData,
 			  processData: false,
 			  contentType: false,
-			  success: function(data){
+			  success: function(data)
+			  {
 			      console.log('upload successful!');
-			      $("#reserve").prop("disabled",false);
-			      $("#keyUploaded").show();
 			  }
 			});
 	  	}
+	  	else
+	  	{
+	  		alert('Please upload a file with "pub" extension');
+	  	}
 	}
-	});
-});
+}
+
+function validateExtension()
+{
+	  var isValid = false;
+	  var files = $('#upload-input').get(0).files;
+	  if (files.length === 1)
+	  {
+	    var file = files[0];
+	    var extension = getExtension(file.name);
+	    if(extension === "pub")
+	    {
+	    	isValid = true;
+	    }
+	   }
+	   return isValid;
+}

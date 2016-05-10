@@ -5,12 +5,11 @@ var uploadDir = '/uploads';
 
 
 
-exports.upload = function(req, res) {
+exports.do = function(req, res) {
       
       // body...
       // create an incoming form object
       var form = new formidable.IncomingForm();
-
 
       // store all uploads in the /uploads directory
       form.uploadDir = path.join(__dirname, '/uploads');

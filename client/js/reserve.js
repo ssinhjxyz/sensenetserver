@@ -12,30 +12,45 @@ function reserve(event)
     var loginMethod = $('#pwdlogin').hasClass("active") ? "password":"rsa";
     
     // validate user's inputs
-    var isValid = validateInputs(ids);
-
+    var isValid = validateInputs(ids, start, end);
+    
     // If the inputs are valid, call the schedule API and pass the user's inputs
     if(isValid)
     {
-        $.ajax({
-        type: "POST",
-        url: "/schedule",
-        traditional: true,
-        data: {
-            emailId: emailId,
-            ids: ids,
-            loginMethod: loginMethod, 
-            startDateTime: start,
-            endDateTime: end }
-        }).done(
-            function(response) {
-                var response = JSON.parse(response);
-                console.log(response);
-                $("#reservationLogin").html(response.login);
-                $("#reservationPassword").html(response.password);
-                $("#keyUploaded").hide();
-                showResults(response);
-            });
+
+      // Create a unique id to identify the reservation.
+      // This is used to uniquely name the public key, so that it is not overwritten at the server.
+      var uid = (new Date()).getTime() + getEmailUserName(emailId);
+      console.log(uid);
+
+      // upload the public key if the login method is rsa
+      if(loginMethod === "rsa")
+      {
+        upload(uid);
+      }
+
+      $.ajax({
+      type: "POST",
+      url: "/reserve",
+      traditional: true,
+      data: 
+      {
+          emailId: emailId,
+          ids: ids,
+          loginMethod: loginMethod, 
+          startDateTime: start,
+          endDateTime: end,
+          uid: uid 
+      }
+      }).done(
+          function(response) {
+              var response = JSON.parse(response);
+              console.log(response);
+              $("#reservationLogin").html(response.login);
+              $("#reservationPassword").html(response.password);
+              $("#keyUploaded").hide();
+              showResults(response);
+          });
       }
 
     return false;

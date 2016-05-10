@@ -1,176 +1,226 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta name="google-site-verification" content="2A_Cf2fEEalPeQiFz_0V1g_G9JIZgfRl5PDyX4Bb6gg" />
-    <meta name="google-signin-client_id" content="478711668783-9bldnvmo10tkph8sfhvh4rc29b6urrhs.apps.googleusercontent.com">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/datepicker.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" media="screen">
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-    <script src="js/bootstrap-datetimepicker.js"></script>
-    <script src="js/init.js"></script>
-    <script src="js/rendersignin.js"></script>
-    <script src="js/signin.js"></script>
-    <script src="js/signout.js"></script>
-    <script src="js/reserve.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/upload.js"></script>
-    <script src="js/loginmethod.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-  </head>
-  <body>
-    <nav class="navbar navbar-default">
-  <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Sense Net</a>
-    </div>
-
-    <!-- Top Navbar -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-       <li><a href="/reservations">Resevations</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a class="blackText" id="user"></a></li>
-        <li>
-        <div class="btn btn-lg" id="signin"></div></li>
-        <li><a href="#" id="signout" onclick="signOut();" style="display:none;position:relative !important;
-  bottom:4px;"><div class="btn btn-default offsetBottom">Sign out</div></a><li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-<div class ="container">
-  <div class-"row">
-    <div class="col-md-12">
-    <p id="signedout">Please sign in</p>
-  </div>
-  </div>
-  </div>
-
-<!-- Reservation Results Modal Window -->
-<div class="modal fade" id="reservationResults" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Reservation Results</h4>
-      </div>
-      <div class="modal-body">
-        <div id = "invalidEvent" class="alert alert-danger" style="display:none" role="alert">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            <span> <strong>Failed</strong></span>
-            <br><span>The attempted reservation conflicts with an existing reservation. </span> <br>
-            <span>Please change the timings and attempt again.</span>
-        </div>
-        <div id = "reservationsCreated" class="alert alert-success" style="display:none" role="alert">
-            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-            <span class="sr-only">Reservations Created:</span>
-            <span><strong>Succeeded </strong></span>
-            <section id="reservationsCreatedDetails"></section>
-            <span>Your login name is </span><span id="reservationLogin"></span><span> 
-            and your password is </span> <span id="reservationPassword"></span>
-        </div>
-        <div id = "reservationsFailed" class="alert alert-danger" style="display:none" role="alert">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            <span class="sr-only">Reservations Failed:</span>
-            <span><strong>Failed </strong></span>
-            <section id="reservationsFailedDetails"></section>        
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-<div class = "sensenetInterface" style="display:none;">
-  <div class ="container">
-  <div class="row paddingBottom">
-  <div class="col-md-6  paddingAll" style="border:1px solid lightgray;">
-    <div class="row paddingBottom">
-      <div class="col-md-6">
-        <div class = "btn  btn-primary" onclick="refreshCalendars()">
-          Refresh
-        </div>
-      </div>
-    </div>
-    <div  id = "calendars" class="row">
-      <div class="col-md-12">
-      <iframe id="BBB1Calendar" src="https://calendar.google.com/calendar/embed?title=BBB&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=ncsu.edu_3dviothfpmkijqoli8bpn4s1q4%40group.calendar.google.com&amp;color=%23B1365F&amp;src=ncsu.edu_kabpq58p37u5lmr82eiooeohp0%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=America%2FNew_York" style="border: 0" width="100%" height="100%" frameborder="1" scrolling="yes">
-      </iframe>
-      </div>
-  </div>
-  </div>
-    <div class="col-md-6" >
-     <form class="paddingAll" style="border:1px solid lightgray;">
-  <div class="form-group">
-    <label class="control-label">Email ID</label>
-      <p class="form-control-static" id="emailId"></p>
-  </div>
-  <div class="form-group">
-    <label for="bbbId">BBB ID</label>
-    <input class="form-control" id="bbbId">
-  </div>
-  <div class="form-group">
-    <label for="startDateTime">Start Time </label>
-       <div class="input-group date" id="startDateTime">
-  <input type="text" class="form-control" />
-  <span class="input-group-addon">
-    <span class="glyphicon glyphicon-calendar"></span> 
-  </span>
-</div>
-    </div>
-    <div class="form-group">
-      <label for="startDateTime">End Time </label>
-       <div class="input-group date" id="endDateTime">
-      <input type="text" class="form-control" />
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-calendar"></span> 
-      </span>
-    </div>
-    </div>
-    <div class="form-group">
-    <label for="loginMethod" class="control-label input-group">Login method</label>
-    <div class="btn-group loginMethod" data-toggle="buttons">
-        <label id= "rsalogin" class="btn btn-default">
-            <input type="radio"  name="loginMethod" value="rsa">RSA Key
-        </label>
-        <label id= "pwdlogin" class="btn btn-default active">
-            <input type="radio" name="loginMethod" value="password">Password
-        </label>
-    </div>
-       <span class="form-group" style="display:none" id="uploadForm">
-          <button class="btn btn-default" id="upload-btn" type="button">Upload Public Key</button>
-          <input id="upload-input" class="hidden" type="file" name="uploads" multiple="false">
-          <span id="keyUploaded" style="display:none">Key saved.Click on Reserve to finsh.</span>
-    </span>
-  </div>
- 
-    
-    <script type="text/javascript">
-      $('#endDateTime').datetimepicker();
+<head>
+    <meta content="2A_Cf2fEEalPeQiFz_0V1g_G9JIZgfRl5PDyX4Bb6gg" name=
+    "google-site-verification">
+    <meta content=
+    "478711668783-9bldnvmo10tkph8sfhvh4rc29b6urrhs.apps.googleusercontent.com"
+    name="google-signin-client_id">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/datepicker.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link media="screen" rel="stylesheet" type="text/css">
+    <script src="js/jquery.js">
     </script>
-    <script type="text/javascript">
-      $('#startDateTime').datetimepicker();
-    </script>  
-
-  <button class="btn btn-default" id="showReservationDetails" onclick="$('#reservationResults').modal('show');" type="button">Show Reservation</button>
-</form>
-  <button id="reserve" disabled="false" class="btn btn-success" onclick="reserve(event)">Reserve</button>
-</div>
-</div>
-  </body>
+    <script src="js/bootstrap.min.js">
+    </script>
+    <script src=
+    "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js">
+    </script>
+    <script src="js/bootstrap-datetimepicker.js">
+    </script>
+    <script src="js/init.js">
+    </script>
+    <script src="js/rendersignin.js">
+    </script>
+    <script src="js/signin.js">
+    </script>
+    <script src="js/signout.js">
+    </script>
+    <script src="js/reserve.js">
+    </script>
+    <script src="js/utils.js">
+    </script>
+    <script src="js/upload.js">
+    </script>
+    <script src="js/loginmethod.js">
+    </script>
+    <script async defer src="https://apis.google.com/js/platform.js">
+    </script>
+    <script async defer src=
+    "https://apis.google.com/js/platform.js?onload=renderButton">
+    </script>
+    <title></title>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button aria-expanded="false" class="navbar-toggle collapsed"
+                data-target="#bs-example-navbar-collapse-1" data-toggle=
+                "collapse" type="button"><span class="sr-only">Toggle
+                navigation</span> <span class="icon-bar"></span> <span class=
+                "icon-bar"></span> <span class="icon-bar"></span></button>
+                <a class="navbar-brand" href="/">Sense Net</a>
+            </div><!-- Top Navbar -->
+            <div class="collapse navbar-collapse" id=
+            "bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/reservations">Resevations</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="blackText" id="user"></a>
+                    </li>
+                    <li>
+                        <div class="btn btn-lg" id="signin"></div>
+                    </li>
+                    <li>
+                        <a href="#" id="signout" onclick="signOut();" style=
+                        "display:none;position:relative !important; bottom:4px;">
+                        <div class="btn btn-default offsetBottom">
+                            Sign out
+                        </div></a>
+                    </li>
+                    <li></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+        <div class="row&quot;">
+            <div class="col-md-12">
+                <p id="signedout">Please sign in</p>
+            </div>
+        </div>
+    </div><!-- Reservation Results Modal Window -->
+    <div class="modal fade" id="reservationResults" role="dialog" tabindex=
+    "-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-label="Close" class="close" data-dismiss=
+                    "modal" type="button"><span aria-hidden=
+                    "true">&times;</span></button>
+                    <h4 class="modal-title">Reservation Results</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" id="invalidEvent" role=
+                    "alert" style="display:none">
+                        <span aria-hidden="true" class=
+                        "glyphicon glyphicon-remove"></span>
+                        <span><strong>Failed</strong></span><br>
+                        <span>The attempted reservation conflicts with an
+                        existing reservation.</span><br>
+                        <span>Please change the timings and attempt
+                        again.</span>
+                    </div>
+                    <div class="alert alert-success" id="reservationsCreated"
+                    role="alert" style="display:none">
+                        <span aria-hidden="true" class=
+                        "glyphicon glyphicon-ok"></span> <span class=
+                        "sr-only">Reservations Created:</span>
+                        <span><strong>Succeeded</strong></span>
+                        <section id="reservationsCreatedDetails">
+                        </section><span>Your login name is</span> <span id=
+                        "reservationLogin"></span> <span>and your password
+                        is</span> <span id="reservationPassword"></span>
+                    </div>
+                    <div class="alert alert-danger" id="reservationsFailed"
+                    role="alert" style="display:none">
+                        <span aria-hidden="true" class=
+                        "glyphicon glyphicon-remove"></span> <span class=
+                        "sr-only">Reservations Failed:</span>
+                        <span><strong>Failed</strong></span>
+                        <section id="reservationsFailedDetails"></section>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal" type=
+                    "button">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="sensenetInterface" style="display:none;">
+        <div class="container">
+            <div class="row paddingBottom">
+                <div class="col-md-6 paddingAll" style=
+                "border:1px solid lightgray;">
+                    <div class="row paddingBottom">
+                        <div class="col-md-6">
+                            <div class="btn btn-primary" onclick=
+                            "refreshCalendars()">
+                                Refresh
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="calendars">
+                        <div class="col-md-12">
+                            <iframe frameborder="1" height="100%" id=
+                            "BBB1Calendar" name="BBB1Calendar" scrolling="yes"
+                            src=
+                            "https://calendar.google.com/calendar/embed?title=BBB&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=ncsu.edu_3dviothfpmkijqoli8bpn4s1q4%40group.calendar.google.com&amp;color=%23B1365F&amp;src=ncsu.edu_kabpq58p37u5lmr82eiooeohp0%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=America%2FNew_York"
+                            style="border: 0" width="100%"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form class="paddingAll" style=
+                    "border:1px solid lightgray;">
+                        <div class="form-group">
+                            <label class="control-label">Email ID</label>
+                            <p class="form-control-static" id="emailId"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="bbbId">BBB ID</label> <input class=
+                            "form-control" id="bbbId">
+                        </div>
+                        <div class="form-group">
+                            <label for="startDateTime">Start Time</label>
+                            <div class="input-group date" id="startDateTime">
+                                <input class="form-control" type="text">
+                                <span class="input-group-addon"><span class=
+                                "glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDateTime">End Time</label>
+                            <div class="input-group date" id="endDateTime">
+                                <input class="form-control" type="text">
+                                <span class="input-group-addon"><span class=
+                                "glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label input-group" for=
+                            "loginMethod">Login method</label>
+                            <div class="btn-group loginMethod" data-toggle=
+                            "buttons">
+                                <label class="btn btn-default" id=
+                                "rsalogin"><input name="loginMethod" type=
+                                "radio" value="rsa">RSA Key</label>
+                                <label class="btn btn-default active" id=
+                                "pwdlogin"><input name="loginMethod" type=
+                                "radio" value="password">Password</label>
+                            </div><span class="form-group" id="uploadForm"
+                            style="display:none"><button class=
+                            "btn btn-default" id="upload-btn" type=
+                            "button"><span class="form-group" id="uploadForm"
+                            style="display:none">Upload Public Key</span>
+                            <input class="hidden" id="upload-input" multiple=
+                            "false" name="uploads" type="file"> <span id=
+                            "keyUploaded" style="display:none">Key saved.Click
+                            on Reserve to finsh.</span></button></span>
+                        </div>
+                        <script type="text/javascript">
+                        $('#endDateTime').datetimepicker();
+                        </script> 
+                        <script type="text/javascript">
+                        $('#startDateTime').datetimepicker();
+                        </script> <button class="btn btn-default" id=
+                        "showReservationDetails" onclick=
+                        "$('#reservationResults').modal('show');" type=
+                        "button">Show Reservation</button> <button class=
+                        "btn btn-success" disabled="false" id="reserve"
+                        onclick="reserve(event)">Reserve</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
