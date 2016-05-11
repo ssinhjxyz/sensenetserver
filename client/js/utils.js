@@ -5,5 +5,5 @@ function getExtension(filename)
 
 function getEmailUserName(email)
 {
-	return emailId.match(/^([^@]*)@/)[1]; 	
+	return email.match(/^([^@]*)@/)[1]; 	
 }

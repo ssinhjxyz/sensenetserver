@@ -12,7 +12,7 @@ $(function(){
 });
 
 
-function upload(filename)
+function upload(filename, callback)
 {
 	  // sends the public key to the server
 	  var files = $('#upload-input').get(0).files;
@@ -33,6 +33,7 @@ function upload(filename)
 			  success: function(data)
 			  {
 			      console.log('upload successful!');
+			      callback();
 			  }
 			});
 	  	}
