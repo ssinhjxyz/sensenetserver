@@ -5,7 +5,7 @@ var uploadDir = '/uploads';
 
 
 
-exports.upload = function(req, res) {
+exports.do = function(req, res) {
       
       // body...
       // create an incoming form object
