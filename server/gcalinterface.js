@@ -1,5 +1,6 @@
 var google = require('googleapis');
 var CALENDAR = require('./calendars');
+var authToken - require('./authToken');
 
 exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
   
@@ -62,11 +63,12 @@ calendar.events.insert({
  * Validate the event : requested event should not overlap with an existing event
  *
  */
-exports.validateEvent = function(startTime, endTime, callback) {
+exports.validateEvent = function(startTime, endTime, callback) 
+{
   var calendar = google.calendar('v3');
   calendar.events.list(
   {
-    auth: globalAuth,
+    auth: authToken.token,
     calendarId: 'primary',
     timeMin: startTime,
     timeMax: endTime,
