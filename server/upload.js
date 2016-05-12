@@ -4,7 +4,6 @@ var fs = require('fs');
 var uploadDir = '/uploads';
 
 
-
 exports.do = function(req, res) {
       
       // body...
