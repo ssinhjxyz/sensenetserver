@@ -26,8 +26,20 @@ function reserve(event)
       // upload the public key if the login method is rsa
       if(loginMethod === "rsa")
       {
-        upload(uid);
+        upload(uid, callReserve);
       }
+      else
+      {
+        callReserve();
+      }
+
+
+
+    return false;
+}
+
+function callReserve()
+{
 
       $.ajax({
       type: "POST",
@@ -53,7 +65,6 @@ function reserve(event)
           });
       }
 
-    return false;
 }
 
 function showResults(response)
