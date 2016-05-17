@@ -9,7 +9,7 @@ var BBB = require('./server/bbbs');
 var accessScheduler = require('./server/accessScheduler');
 var upload = require('./server/upload');
 var gcalInterface = require('./server/upload');
-var googleAuth = require('./server/googleAuth');
+var googleAuth = require('./server/googleauth');
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -83,17 +83,5 @@ app.post('/reserve', urlencodedParser, function (req, res) {
 app.post('/upload', urlencodedParser, function(req, res)
 {
   	upload.do(req, res);
-});
-
-
-// Load client secrets from a local file.
-fs.readFile('client_secret.json', function processClientSecrets(err, content) {
-  if (err) {
-    console.log('Error loading client secret file: ' + err);
-    return;
-  }
-  // Authorize a client with the loaded credentials, then call the
-  // Google Calendar API.
-  googleAuth.authorize(JSON.parse(content), function(){});
 });
 

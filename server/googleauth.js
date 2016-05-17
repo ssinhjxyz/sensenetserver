@@ -1,9 +1,10 @@
+var googleApi = require('googleapis');
 var googleAuthLib = require('google-auth-library');
 var fs = require('fs');
 var readline = require('readline');
-var SCOPES = ['https://www.googleapis.com/auth/calendar'];
+var SCOPES = 'https://www.googleapis.com/auth/gmail.modify';
 var authToken = require('./authToken');
-var TOKEN_PATH = 'calendar-nodejs-quickstart.json';
+var TOKEN_PATH = './server/nodejs-googleauth-token.json';
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -12,7 +13,7 @@ var TOKEN_PATH = 'calendar-nodejs-quickstart.json';
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-exports.authorize(credentials, callback) {
+authorize = function(credentials, callback) {
   var clientSecret = credentials.installed.client_secret;
   var clientId = credentials.installed.client_id;
   var redirectUrl = credentials.installed.redirect_uris[0];
@@ -79,4 +80,31 @@ function storeToken(token) {
   
   fs.writeFile(TOKEN_PATH, JSON.stringify(token));
   console.log('Token stored to ' + TOKEN_PATH);
+}
+
+
+// Load client secrets from a local file.
+fs.readFile('./server/client_secret.json', function processClientSecrets(err, content) {
+  if (err) {
+    console.log('Error loading client secret file: ' + err);
+    return;
+  }
+  // Authorize a client with the loaded credentials, then call the
+  // Google Calendar API.
+  authorize(JSON.parse(content), function(){});
+});
+
+
+
+/**
+ * Send Message.
+ *
+ * @param  {String} userId User's email address. The special value 'me'
+ * can be used to indicate the authenticated user.
+ * @param  {String} email RFC 5322 formatted String.
+ * @param  {Function} callback Function to call when the request is complete.
+ */
+function sendMessage(userId, email, callback)
+{
+
 }
