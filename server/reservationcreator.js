@@ -1,6 +1,7 @@
 var gcalInterface = require('./gcalInterface');
 var accessScheduler = require('./accessScheduler');
 var utils = require('./utils');
+var gmailInterface = require('./gmailinterface')
 
 exports.createReservation = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, callback){
   
@@ -13,6 +14,7 @@ exports.createReservation = function(ids, emailId, startDateTime, endDateTime, l
         gcalInterface.createEvents(ids, emailId, startDateTime, endDateTime);
         var password = accessScheduler.schedule(ids, startDateTime, endDateTime, login, loginMethod, uid); 
       } 
+      gmailInterface.sendEmail(emailId, login, password, results[0], results[1], results[2], isValidEvent);
       callback(password, results[0], results[1], results[2], isValidEvent);
    });
 }

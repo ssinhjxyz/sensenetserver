@@ -95,16 +95,3 @@ fs.readFile('./server/client_secret.json', function processClientSecrets(err, co
 });
 
 
-
-/**
- * Send Message.
- *
- * @param  {String} userId User's email address. The special value 'me'
- * can be used to indicate the authenticated user.
- * @param  {String} email RFC 5322 formatted String.
- * @param  {Function} callback Function to call when the request is complete.
- */
-function sendMessage(userId, email, callback)
-{
-
-}
