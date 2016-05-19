@@ -10,6 +10,7 @@ var accessScheduler = require('./server/accessScheduler');
 var upload = require('./server/upload');
 var gcalInterface = require('./server/upload');
 var googleAuth = require('./server/googleauth');
+var reservationCreator = require('./server/reservationcreator')
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -67,7 +68,7 @@ app.post('/reserve', urlencodedParser, function (req, res) {
       password : "" 
    };
 
-   createReservation( ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, 
+   reservationCreator.create( ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, 
 		      function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
 			{
 			  response.password = password;

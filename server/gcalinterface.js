@@ -1,6 +1,6 @@
 var google = require('googleapis');
 var CALENDAR = require('./calendars');
-var authToken - require('./authToken');
+var authToken = require('./authtoken');
 
 exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
   
@@ -11,7 +11,7 @@ exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
     if(calendarId)
     {
       console.log("creating event for bbb " + ids[i]);
-      createGCalEvent( ids[i], calendarId, emailId, startDateTime, endDateTime);
+      createEvent( ids[i], calendarId, emailId, startDateTime, endDateTime);
     }
   }
 }
@@ -45,7 +45,7 @@ var createEvent = function( bbbId, calendarId, emailId, startDateTime, endDateTi
   };
 
 calendar.events.insert({
-  auth: globalAuth,
+  auth: authToken.token,
   calendarId: calendarId,
   sendNotifications:true,
   resource: event,

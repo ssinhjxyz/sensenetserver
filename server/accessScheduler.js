@@ -4,7 +4,7 @@ var schedule = require('node-schedule');
 var BBB = require('./bbbs');
 var utils = require('./utils');
 
-exports.scheduleAccess = function(ids, startDateTime, endDateTime, login, loginMethod, uid)
+exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid)
 {
   var password = "";
   if(loginMethod === "password")

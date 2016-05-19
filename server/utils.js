@@ -1,3 +1,6 @@
+var BBB = require('./bbbs');
+
+
 exports.makeRandomString = function(len)
 {
     var randStr = "";

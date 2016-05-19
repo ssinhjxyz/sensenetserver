@@ -3,7 +3,7 @@ var accessScheduler = require('./accessScheduler');
 var utils = require('./utils');
 var gmailInterface = require('./gmailinterface')
 
-exports.createReservation = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, callback){
+exports.create = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, callback){
   
    var results = utils.validateBBBIDs(ids);
    gcalInterface.validateEvent(startDateTime, endDateTime, 

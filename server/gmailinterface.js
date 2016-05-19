@@ -1,4 +1,5 @@
-var authToken = require('./authToken');
+var authToken = require('./authtoken');
+var googleApi = require('googleapis');
 
 exports.sendEmail = function(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent) 
 {

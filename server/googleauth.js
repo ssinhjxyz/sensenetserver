@@ -2,8 +2,8 @@ var googleApi = require('googleapis');
 var googleAuthLib = require('google-auth-library');
 var fs = require('fs');
 var readline = require('readline');
-var SCOPES = 'https://www.googleapis.com/auth/gmail.modify';
-var authToken = require('./authToken');
+var SCOPES = 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/gmail.modify';
+var authToken = require('./authtoken');
 var TOKEN_PATH = './server/nodejs-googleauth-token.json';
 
 /**
