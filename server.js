@@ -6,9 +6,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var https = require("https");
 var util = require('util');
 var BBB = require('./server/bbbs');
-var accessScheduler = require('./server/accessScheduler');
+var reservationCreator = require('./server/reservationcreator');
 var upload = require('./server/upload');
-var gcalInterface = require('./server/upload');
 var googleAuth = require('./server/googleauth');
 var reservationCreator = require('./server/reservationcreator')
 
@@ -75,7 +74,7 @@ app.post('/reserve', urlencodedParser, function (req, res) {
 			  response.reservedBBBIDs = reservedBBBIDs;
 			  response.reservedBBBIPs = reservedBBBIPs;
 			  response.failedBBBIDs = failedBBBIDs;
-        response.isValidEvent = isValidEvent;
+                          response.isValidEvent = isValidEvent;
 			  res.end(JSON.stringify(response));
 			});
 

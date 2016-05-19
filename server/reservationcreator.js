@@ -1,7 +1,7 @@
-var gcalInterface = require('./gcalInterface');
+var gcalInterface = require('./gcalinterface');
 var accessScheduler = require('./accessScheduler');
 var utils = require('./utils');
-var gmailInterface = require('./gmailinterface')
+var gmailInterface = require('./gmailinterface');
 
 exports.create = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, callback){
   
