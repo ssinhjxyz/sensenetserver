@@ -62,7 +62,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
       });
     });
   	
-   var deleteUserCommand = "sh ./server/deleteuser.sh " + bbbIP + " " + login;
+   var deleteUserCommand = "sh ./server/deleteuser.sh " + bbbIP + " " + login + " " + uid;
    var endReservation = schedule.scheduleJob(endDateTime, function(){
       exec(deleteUserCommand,
       function (error, stdout, stderr) {
