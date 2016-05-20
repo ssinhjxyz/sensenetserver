@@ -81,7 +81,7 @@ function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, log
   python.stdout.on('data', 
   function(encpasswd)
   { 
-  var command = "sh ./server/adduser.sh " + bbbIP + " " + encpasswd.toString().slice(0,-1) + " " + login;
+  var command = "sh ./server/adduser.sh " + bbbIP + " " + login + " " + encpasswd.toString().slice(0,-1) + " " + password;
   var createUser = schedule.scheduleJob(startDateTime, function(){
     exec(command,
     function (error, stdout, stderr) 
