@@ -34,7 +34,7 @@ function upload(filename, callback)
 			  success: function(data)
 			  {
 			      console.log('upload successful!');
-			      callback();
+			     // callback();
 			  }
 			});
 	  	}

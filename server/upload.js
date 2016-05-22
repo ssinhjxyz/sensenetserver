@@ -19,6 +19,11 @@ exports.do = function(req, res) {
           console.log("creating uploads folder");
       }
 
+      // When a field has been parsed.
+      form.on('field', function(name, field) {
+        console.log("field :" + name + ", value : " + field);
+      });
+
       // every time a file has been uploaded successfully,
       // rename it to it's orignal name
       form.on('file', function(field, file) {
