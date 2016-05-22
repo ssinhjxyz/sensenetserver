@@ -17,23 +17,19 @@ function reserve(event)
     // If the inputs are valid, call the schedule API and pass the user's inputs
     if(isValid)
     {
-
       // Create a unique id to identify the reservation.
       // This is used to uniquely name the public key, so that it is not overwritten at the server.
       var uid = (new Date()).getTime() + getEmailUserName(emailId);
-      console.log(uid);
-
+      upload(uid, emailId, ids, start, end, loginMethod);
       // upload the public key if the login method is rsa
       if(loginMethod === "rsa")
       {
-        upload(uid, callReserve);
+        //upload(uid, callReserve);
       }
       else
       {
-        callReserve();
+        //callReserve();
       }
-
-
 
     return false;
 }

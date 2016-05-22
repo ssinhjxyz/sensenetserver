@@ -4,8 +4,9 @@ var fs = require('fs');
 var uploadDir = '/uploads';
 
 
-exports.do = function(req, res) {
+exports.do = function(req, res, callback) {
       
+      var inputs = {};
       // body...
       // create an incoming form object
       var form = new formidable.IncomingForm();
@@ -20,7 +21,8 @@ exports.do = function(req, res) {
       }
 
       // When a field has been parsed.
-      form.on('field', function(name, field) {
+      form.on('field', function(key, value) {
+        inputs[key] = value;
         console.log("field :" + name + ", value : " + field);
       });
 
