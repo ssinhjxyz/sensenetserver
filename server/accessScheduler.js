@@ -35,7 +35,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
 function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
 {
  
-  var addUserCommand = "sh ./server/adduser.sh " + bbbIP + " papAq5PwY/QQM " + login;
+  var addUserCommand = "sh ./server/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
   var addPublicKeyCommand = "sh ./server/addpublickey.sh " + bbbIP + " " + login + " " + uid;
   // first create the user, then add the public key
   var createReservation = schedule.scheduleJob(startDateTime, function()
