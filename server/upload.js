@@ -1,10 +1,11 @@
 var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
+var reservationCreator = require('./reservationcreator');
 var uploadDir = '/uploads';
 
-
-exports.do = function(req, res, callback) {
+exports.do = function(req, res, callback) 
+{
       
       var inputs = {};
       // body...
@@ -23,7 +24,7 @@ exports.do = function(req, res, callback) {
       // When a field has been parsed.
       form.on('field', function(key, value) {
         inputs[key] = value;
-        console.log("field :" + name + ", value : " + field);
+        console.log("field :" + key + ", value : " + value);
       });
 
       // every time a file has been uploaded successfully,
@@ -38,8 +39,25 @@ exports.do = function(req, res, callback) {
       });
 
       // once all the files have been uploaded, send a response to the client
-      form.on('end', function() {
-        res.end('success');
+      form.on('end', function() 
+      {
+         var response = {};
+         var login = inputs.emailId.match(/^([^@]*)@/)[1];
+         var response = 
+         {
+            login  : login 
+         };
+         var ids = inputs.bbbIds.split(",");
+         reservationCreator.create( ids, inputs.emailId, inputs.start, inputs.end, login, inputs.loginMethod, inputs.uid, 
+           function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
+           {
+             response.password = password;
+             response.reservedBBBIDs = reservedBBBIDs;
+             response.reservedBBBIPs = reservedBBBIPs;
+             response.failedBBBIDs = failedBBBIDs;
+             response.isValidEvent = isValidEvent;
+             res.end(JSON.stringify(response));
+          });
       });
 
       // parse the incoming request containing the form data

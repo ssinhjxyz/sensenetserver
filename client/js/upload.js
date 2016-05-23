@@ -35,6 +35,7 @@ function upload(filename, emailId, bbbIds,start, end, loginMethod)
 	formData.append('end', end);
 	formData.append('start', start);
 	formData.append('loginMethod', loginMethod);
+	formData.append('uid', filename);
     $.ajax(
     {
 	  url: '/upload',
@@ -42,10 +43,15 @@ function upload(filename, emailId, bbbIds,start, end, loginMethod)
 	  data: formData,
 	  processData: false,
 	  contentType: false,
-	  success: function(data)
+	  success: function(response)
 	  {
+	  	  response = JSON.parse(response);
 	      console.log('upload successful!');
-	      //callback();
+	      console.log(response);
+          $("#reservationLogin").html(response.login);
+          $("#reservationPassword").html(response.password);
+          $("#keyUploaded").hide();
+          showResults(response);
 	  }
 	});
 }

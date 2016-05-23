@@ -64,19 +64,10 @@ app.post('/reserve', urlencodedParser, function (req, res) {
    var response = 
    {
       login  : login,
-      password : "" 
+      password : ""  
    };
 
-   reservationCreator.create( ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, 
-		      function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
-			{
-			  response.password = password;
-			  response.reservedBBBIDs = reservedBBBIDs;
-			  response.reservedBBBIPs = reservedBBBIPs;
-			  response.failedBBBIDs = failedBBBIDs;
-                          response.isValidEvent = isValidEvent;
-			  res.end(JSON.stringify(response));
-			});
+
 
 })
 
