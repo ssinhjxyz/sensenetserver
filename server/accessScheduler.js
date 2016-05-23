@@ -105,4 +105,3 @@ function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, log
  }); }); });
 
 }
-

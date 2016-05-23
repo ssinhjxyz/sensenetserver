@@ -9,7 +9,6 @@ var BBB = require('./server/bbbs');
 var reservationCreator = require('./server/reservationcreator');
 var upload = require('./server/upload');
 var googleAuth = require('./server/googleauth');
-var reservationCreator = require('./server/reservationcreator')
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -66,9 +65,6 @@ app.post('/reserve', urlencodedParser, function (req, res) {
       login  : login,
       password : ""  
    };
-
-
-
 })
 
 app.post('/upload', urlencodedParser, function(req, res)
@@ -76,3 +72,4 @@ app.post('/upload', urlencodedParser, function(req, res)
   	upload.do(req, res);
 });
 
+   

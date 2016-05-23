@@ -1,5 +1,6 @@
 // Event handlers
-$(function(){
+$(function()
+{
 	$('#upload-btn').on('click', function (){
 	    $('#upload-input').click();
 	});
