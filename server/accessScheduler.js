@@ -44,7 +44,9 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
     function (error, stdout, stderr) 
     {
       console.log("user " + login + " created");
-    	exec(addPublicKeyCommand,    	
+    	console.log('stdout:' + stdout);
+      console.log('exec error:' + error);
+      exec(addPublicKeyCommand,    	
     	function (error, stdout, stderr) 
     	{
     	      	//console.log("public key " + login + " added");

@@ -8,6 +8,7 @@ then
 	sudo usermod --expiredate '' $2
 	sudo passwd -u $2
 	echo  '$2:$4' | sudo chpasswd
+	echo 'enabling login'
 else
 	sudo /usr/sbin/useradd -m -p $3 $2
 	if sudo grep -q '$2 ALL=ALL' </etc/sudoers;
@@ -17,5 +18,6 @@ else
 		echo '$2 ALL=ALL' | sudo tee -a /etc/sudoers  
 		echo 'user added to sudoers list'
 	fi
+	echo 'creating user'
 fi" 
 

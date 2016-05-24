@@ -16,7 +16,6 @@ echo 'created authorized_key file'
 else echo 'authorized_keys file exists'
 fi"
 
-
 #if the same public key is also present in "authorized_keys", do not add again.
 publickey=$(cat "server/uploads/$3") 
 ssh access_server@$1 "if sudo grep -q '$publickey' </home/$2/.ssh/authorized_keys;
