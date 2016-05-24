@@ -47,4 +47,15 @@ app.post('/reserve', urlencodedParser, function(req, res)
   	upload.do(req, res);
 });
 
-reachabilityChecker.run();   
+
+app.get('/bbbinfo', urlencodedParser, function(req, res)
+{
+    var response = 
+         {
+            info  : BBB.Info 
+         };
+    res.end(JSON.stringify(response));
+});
+
+
+reachabilityChecker.start();   
