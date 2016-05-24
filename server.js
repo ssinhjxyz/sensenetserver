@@ -9,6 +9,7 @@ var BBB = require('./server/bbbs');
 var reservationCreator = require('./server/reservationcreator');
 var upload = require('./server/upload');
 var googleAuth = require('./server/googleauth');
+var reachabilityChecker = require('./server/reachabilitychecker');
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -41,35 +42,9 @@ app.get('/admin', function (req, res) {
 })
 
 
-app.post('/reserve', urlencodedParser, function (req, res) {
-
-   // Fetch parameters from request
-   var emailId = req.body.emailId;
-   var startDateTime = req.body.startDateTime;
-   var endDateTime = req.body.endDateTime;
-   var ids = req.body.ids;
-   var uid = req.body.uid;
-
-   // case when single id is sent. 
-   // TODO: this should ideally be handled using JSON
-   if(typeof ids == "string")
-   {
-      ids = [parseInt(ids)];
-   }
-
-   var loginMethod = req.body.loginMethod
-   console.log("loginMethod : " + loginMethod);
-   var login = emailId.match(/^([^@]*)@/)[1];
-   var response = 
-   {
-      login  : login,
-      password : ""  
-   };
-})
-
-app.post('/upload', urlencodedParser, function(req, res)
+app.post('/reserve', urlencodedParser, function(req, res)
 {
   	upload.do(req, res);
 });
 
-   
+reachabilityChecker.run();   

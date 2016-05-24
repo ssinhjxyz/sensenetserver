@@ -39,7 +39,7 @@ function upload(filename, emailId, bbbIds,start, end, loginMethod)
 	formData.append('uid', filename);
     $.ajax(
     {
-	  url: '/upload',
+	  url: '/reserve',
 	  type: 'POST',
 	  data: formData,
 	  processData: false,
