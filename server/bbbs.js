@@ -8,8 +8,9 @@ module.exports = {
 	 {IP:"152.14.102.235", Reachability:"unknown", Configured:false},
 	 {IP:"152.14.102.236", Reachability:"unknown", Configured:false},
 	 {IP:"152.14.102.237", Reachability:"unknown", Configured:false},
-	 {IP:"152.14.102.240", Reachability:"unknown", Configured:false},
-	 {IP:"152.14.102.241", Reachability:"unknown", Configured:false},
+	 {IP:"152.14.102.231", Reachability:"unknown", Configured:false},
+	 {IP:"152.14.102.250", Reachability:"unknown", Configured:false},
+	 {IP:"152.14.102.251", Reachability:"unknown", Configured:false}
 	],
 	IPS: 
 	{
