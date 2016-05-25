@@ -37,6 +37,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
  
   var addUserCommand = "sh ./server/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
   var addPublicKeyCommand = "sh ./server/addpublickey.sh " + bbbIP + " " + login + " " + uid;
+  
   // first create the user, then add the public key
   var createReservation = schedule.scheduleJob(startDateTime, function()
   {
@@ -64,15 +65,31 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
       });
     });
   	
+   // disable login for the user and delete the public key.
    var deleteUserCommand = "sh ./server/deleteuser.sh " + bbbIP + " " + login + " " + uid;
+   var deletePublicKeyCommand = "sh ./server/deletepublickey.sh " + bbbIP + " " + login + " " + uid;
    var endReservation = schedule.scheduleJob(endDateTime, function(){
       exec(deleteUserCommand,
-      function (error, stdout, stderr) {
+      function (error, stdout, stderr) 
+      {
         console.log("user " + login + " deleted");
-        if (error !== null) {
+        if (error !== null) 
+        {
           console.log('exec error: ' + error);
         }
-    });
+        console.log('stdout:' + stdout);
+        console.log('exec error:' + error);
+        exec(deletePublicKeyCommand,     
+        function (error, stdout, stderr) 
+        {
+            console.log("public key " + login + " deleted");
+            console.log('stdout: ' + stdout);
+            if (error !== null) 
+            {
+               console.log('exec error: ' + error);
+            }
+          });
+      });
   });
 }
 
