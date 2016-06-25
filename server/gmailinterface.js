@@ -11,7 +11,7 @@ exports.sendMails = function(to, login, password, reservedBBBIDs, reservedBBBIPs
 sendReservationDetails = function(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent) 
 {
 
-  var email = createReservationDetailsMail(to, login, password);
+  var email = createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent);
   var gmail = googleApi.gmail('v1');
   var request = gmail.users.messages.send({
     auth: authToken.token,
@@ -73,6 +73,27 @@ function createReservationDetailsMail(to, login, password, reservedBBBIDs, reser
 {
   var email_lines = [];  
   var body = "Password : " + password + ". Login : " + login;
+  
+  var numReserved = reservedBBBIPs.length;
+  var numFailed = failedBBBIDs.length;
+  if(numReserved > 0)
+  {
+     body += ". Successful Reservations : ";   
+     for(var i = 0; i < numReserved; i++)
+     {
+        body += reservedBBBIPs[i] + ", ";
+     }
+  }
+
+  if(numFailed > 0)
+  { 
+     body += "Failed Reservations : ";   
+     for(var i = 0; i < numFailed; i++)
+     {
+         body += failedBBBIDs[i] + ", ";
+     }  
+  }
+
   email_lines.push("To: " + to);
   email_lines.push('Content-type: text/html;charset=iso-8859-1');
   email_lines.push('MIME-Version: 1.0');

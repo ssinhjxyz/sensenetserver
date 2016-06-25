@@ -22,7 +22,7 @@ exports.validateBBBIDs = function(ids)
   for(var i = 0; i < numIds; i++)
   { 
     var id = ids[i];
-    var bbbIP = BBB.IPS[ids[i]];
+    var bbbIP = BBB.Info[id].Port;
     if(bbbIP)
     {
       reservedIDs.push(id);
