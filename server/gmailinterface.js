@@ -35,8 +35,7 @@ sendReservationDetails = function(to, login, password, reservedBBBIDs, reservedB
 scheduleReservationEndNotification = function(to, reservedBBBIDs, endDateTime) 
 {
   var notificationDateTime = new Date(endDateTime);
-  notificationDateTime.setUTCMinutes(notificationDateTime.getUTCMinutes() - 5);
-  console.log(notificationDateTime);
+  notificationDateTime.setTime(notificationDateTime.getTime() - 1000*5*60);
   schedule.scheduleJob(notificationDateTime, 
                       function()
                       {
@@ -72,25 +71,30 @@ function sendReservationEndNotification(to, reservedBBBIDs, endDate)
 function createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
 {
   var email_lines = [];  
-  var body = "Password : " + password + ". Login : " + login;
+  var body = "Password : " + password + ". Login : " + login + ". <br>" ;
   
   var numReserved = reservedBBBIPs.length;
   var numFailed = failedBBBIDs.length;
   if(numReserved > 0)
   {
-     body += ". Successful Reservations : ";   
+
+     body += " <br>Successful Reservations : <br>";   
      for(var i = 0; i < numReserved; i++)
      {
-        body += reservedBBBIPs[i] + ", ";
+        body += (i+1) + ". BBB ";
+        body += reservedBBBIDs[i] + ", Port : " + reservedBBBIPs[i];
+        body += " <br>";
      }
   }
 
   if(numFailed > 0)
   { 
-     body += "Failed Reservations : ";   
+     body += " <br>Failed Reservations :<br>";   
      for(var i = 0; i < numFailed; i++)
      {
-         body += failedBBBIDs[i] + ", ";
+         body += (i+1) + ". BBB ";
+         body += failedBBBIDs[i].id;
+         body += "<br>";
      }  
   }
 

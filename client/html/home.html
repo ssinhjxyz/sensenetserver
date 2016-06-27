@@ -22,6 +22,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
        <li><a href="/reservations">Resevations</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -32,7 +33,6 @@
   <div class ="container">
   <div class="row">
   <div class="col-md-12">
-  Welcome to the Sensenet Home page.
   <div id="map"></div>
     <script>
       var map;
@@ -41,6 +41,25 @@
           center: {lat: 35.7718965, lng: -78.6743833},
           zoom: 19
         });
+
+
+        var bbbInfo = [
+                       {id:3, lat: 35.771959, lng:-78.673920},
+                       {id:2, lat: 35.771659, lng:-78.673327},
+                       {id:1, lat: 35.771736, lng:-78.673527}
+                      ];
+
+        for(var i = 0; i < bbbInfo.length; i++)
+        {
+            var marker = new google.maps.Marker({
+                position: {lat : bbbInfo[i].lat, lng : bbbInfo[i].lng},
+                title: 'BBB ' + bbbInfo[i].id,
+                map: map
+              });
+        }
+        
+
+
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFxmvEavJ_rzggq8339WSDGYkfmGeXbPY&callback=initMap"
