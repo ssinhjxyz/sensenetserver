@@ -97,8 +97,10 @@ function showResults(response)
        $('#reservationsFailed').show();
        for(var i = 0; i < numFailed; i++)
        {
-           $('#reservationsFailedDetails').append("<div> BBB " + response.failedBBBIDs[i] +
-                                                    " : Device does not exist. </div>");
+           var id = response.failedBBBIDs[i].id;
+           var message = response.failedBBBIDs[i].message; 
+           $('#reservationsFailedDetails').append("<div> BBB " + id +
+                                                    " : " + message +  "</div>");
        }  
     }
     else

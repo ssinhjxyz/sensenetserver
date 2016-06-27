@@ -1,5 +1,6 @@
 var google = require('googleapis');
 var CALENDAR = require('./calendars');
+var BBB = require('./bbbs');
 var authToken = require('./authtoken');
 
 exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
@@ -49,8 +50,10 @@ calendar.events.insert({
   calendarId: calendarId,
   sendNotifications:true,
   resource: event,
-}, function(err, event) {
-  if (err) {
+}, function(err, event) 
+{
+  if (err) 
+  {
     console.log('There was an error contacting the Calendar service: ' + err);
     return;
   }
@@ -59,37 +62,92 @@ calendar.events.insert({
   
 });}
 
+
 /**
  * Validate the event : requested event should not overlap with an existing event
  *
  */
-exports.validateEvent = function(startTime, endTime, callback) 
+exports.validateTimings = function(results, startTime, endTime, callback) 
 {
-  var calendar = google.calendar('v3');
-  calendar.events.list(
+    new TimingsValidater(results, callback).validate(startTime, endTime);
+}
+
+
+function TimingsValidater(results, callback)
+{
+  this.results = results;
+  this.callback = callback;
+  this.numResponsesReceived = 0;
+}
+
+TimingsValidater.prototype.validate = function(startTime, endTime)
+{
+  var bbbIds = this.results[0];
+  var numResponsesReceived = 0;
+  var numBBBs = bbbIds.length;
+  for(var i = 0; i < numBBBs; i++)
   {
-    auth: authToken.token,
-    calendarId: 'primary',
-    timeMin: startTime,
-    timeMax: endTime,
-    maxResults: 1,
-    singleEvents: true,
-    orderBy: 'startTime'
-  }, 
-  function(err, response) 
+     var bbbId = bbbIds[i];
+     this.validateBBBCalendar(bbbId, startTime, endTime, numBBBs);  
+  } 
+}
+
+TimingsValidater.prototype.validateBBBCalendar = function( bbbId, startTime, endTime, numBBBs)
+{
+    var that = this;
+    var calendarId = CALENDAR.IDS[bbbId];
+    var calendar = google.calendar('v3');
+    calendar.events.list(
+    {
+      auth: authToken.token,
+      calendarId: calendarId,
+      timeMin: startTime,
+      timeMax: endTime,
+      maxResults: 1,
+      singleEvents: true,
+      orderBy: 'startTime'
+    }, 
+    function(err, response) 
+    {
+      that.numResponsesReceived++;
+      if (err)
+      {
+        // To do : Remove from valid list.
+        console.log('The API returned an error: ' + err);
+      }
+      else if (response.items.length > 0) 
+      {
+        // Remove entry from valid lists
+        removeElemFromArray(that.results[1], BBB.Info[bbbId].Port);
+        removeElemFromArray(that.results[0], bbbId);
+
+        // Add entry to invalid list
+        that.results[2].push({id:bbbId, message:"device is already booked in this duration."});
+
+        // If responses for all BBBs have been received, call the callback.
+        if(that.numResponsesReceived == numBBBs)
+        {
+          that.callback(that.results);
+        }
+      } 
+      else 
+      {
+        // If responses for all BBBs have been received, call the callback.
+        if(that.numResponsesReceived == numBBBs)
+        {
+          that.callback(that.results);
+        }
+      }
+    });
+}
+
+
+function removeElemFromArray(array, element)
+{
+  // Remove entry from valid lists
+  var index = array.indexOf(element);
+  if(index !== -1)
   {
-    if (err)
-    {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    if (response.items.length > 0) 
-    {
-      callback(false);
-    } 
-    else
-    {
-      callback(true);
-    }
-  });
+    array.splice(index, 1);
+  }
 }

@@ -15,22 +15,27 @@ exports.makeRandomString = function(len)
 
 exports.validateBBBIDs = function(ids)
 {
+  var numIds = ids.length;
+  
   var reservedIDs = [];
   var reservedIPs = [];
   var failedIDs = [];
+  var errorMessages = [];
   var numIds = ids.length;
   for(var i = 0; i < numIds; i++)
   { 
+    var exists = false;
     var id = ids[i];
-    var bbbIP = BBB.Info[id].Port;
-    if(bbbIP)
+    var bbbPort = BBB.Info[id].Port;
+    if(bbbPort)
     {
       reservedIDs.push(id);
-      reservedIPs.push(bbbIP);
+      reservedIPs.push(bbbPort);
+      errorMessages.push[""];
     }
     else
     {
-      failedIDs.push(id);
+      failedIDs.push({id:id, message:"device does not exist."});
     }
   }
   return [reservedIDs, reservedIPs, failedIDs];

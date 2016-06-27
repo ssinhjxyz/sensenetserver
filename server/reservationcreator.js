@@ -6,15 +6,12 @@ var gmailInterface = require('./gmailinterface');
 exports.create = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, callback)
 {  
    var results = utils.validateBBBIDs(ids);
-   gcalInterface.validateEvent(startDateTime, endDateTime, 
-   function(isValidEvent)
+   gcalInterface.validateTimings(results, startDateTime, endDateTime, 
+   function(updatedResults)
    {
-      if(isValidEvent)
-      {
-        gcalInterface.createEvents(ids, emailId, startDateTime, endDateTime);
-        var password = "";//accessScheduler.schedule(ids, startDateTime, endDateTime, login, loginMethod, uid); 
-      } 
-      gmailInterface.sendMails(emailId, login, password, results[0], results[1], results[2], isValidEvent, endDateTime);
-      callback(password, results[0], results[1], results[2], isValidEvent);
+      gcalInterface.createEvents(updatedResults[0], emailId, startDateTime, endDateTime);
+      var password = accessScheduler.schedule(ids, startDateTime, endDateTime, login, loginMethod, uid); 
+      gmailInterface.sendMails(emailId, login, password, updatedResults[0], updatedResults[1], updatedResults[2], true, endDateTime);
+      callback(password, updatedResults[0], updatedResults[1], updatedResults[2], true);
    });
 }
