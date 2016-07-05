@@ -71,7 +71,7 @@ function sendReservationEndNotification(to, reservedBBBIDs, endDate)
 function createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
 {
   var email_lines = [];  
-  var body = "Password : " + password + ". Login : " + login + ". <br>" ;
+  var body = "Password : " + password + ". <br>Login : " + login + ". <br>" ;
   
   var numReserved = reservedBBBIPs.length;
   var numFailed = failedBBBIDs.length;
