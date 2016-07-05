@@ -15,7 +15,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
   var numIds = ids.length;
   for(var i = 0; i < numIds; i++)
   { 
-    var bbbIP = BBB.Info[id - 1].IP;
+    var bbbIP = BBB.Info[ids[i] - 1].IP;
     if(bbbIP)
     {
       if(loginMethod === "password")
@@ -28,7 +28,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
       }
     }
   }
-  return password 
+  return password ;
 }
 
 
