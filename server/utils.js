@@ -26,7 +26,7 @@ exports.validateBBBIDs = function(ids)
   { 
     var exists = false;
     var id = ids[i];
-    var bbbPort = BBB.Info[id].Port;
+    var bbbPort = BBB.Info[id - 1].Port;
     if(bbbPort)
     {
       reservedIDs.push(id);
