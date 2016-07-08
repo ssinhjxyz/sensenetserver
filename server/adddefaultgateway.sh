@@ -4,4 +4,4 @@
 # third input is the ethernet interface name of the BBB nearest to the above access server's interface
 # delete any existing default route and then add the new default route to avoid duplicate routes
 
-ssh root@$1 "sudo route add default gw $2 $3"
+ssh root@$1 "route add default gw $2 $3"
