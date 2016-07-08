@@ -19,7 +19,7 @@ exports.add = function(req, res)
 	console.log(bbbPort);
 
 	var addUserCommand = "sh ./server/addaccessserveruser.sh " + bbbIP +  " " + accessServerUser + " " + accessServerPassword;
-  	var addPublicKeyCommand = "sh ./server/addpublickey.sh " + bbbIP + " " + accessServerUser + " " + accessServerKeyName;
+  	var addPublicKeyCommand = "sh ./server/addaccessserveruser.sh " + bbbIP + " " + accessServerUser + " " + accessServerKeyName;
   	var portTranslationCommand = "sh ./server/porttranslation.sh " + bbbIP + " " + bbbPort;
   	var addDefaultGatewayCommand = "sh ./server/adddefaultgateway.sh " + bbbIP + " " + accessServerIP + " " + bbbInterface;
 
