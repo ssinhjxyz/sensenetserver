@@ -8,6 +8,7 @@ var util = require('util');
 var BBB = require('./server/bbbs');
 var reservationCreator = require('./server/reservationcreator');
 var upload = require('./server/upload');
+var addbbb = require('./server/addbbb');
 var googleAuth = require('./server/googleauth');
 var reachabilityChecker = require('./server/reachabilitychecker');
 
@@ -42,11 +43,16 @@ app.get('/admin', function (req, res) {
 })
 
 
-app.post('/reserve', urlencodedParser, function(req, res)
+app.post('/addbbb', urlencodedParser, function(req, res)
 {
-  	upload.do(req, res);
+  	addbbb.add(req, res);
 });
 
+
+app.post('/reserve', urlencodedParser, function(req, res)
+{
+    upload.do(req, res);
+});
 
 app.get('/bbbinfo', urlencodedParser, function(req, res)
 {

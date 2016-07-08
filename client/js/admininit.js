@@ -17,4 +17,16 @@ $(function()
               							'<div class="col-md-3">' + bbbInfo[i].Configured + '</div></div></li>');
               }
           });
+
+
+      $.ajax({
+      type: "POST",
+      url: "/addbbb",
+      traditional: true,
+      data: 
+      {
+          bbbIP:"152.14.102.251",
+          bbbPort:"51003"
+      }
+      });
 });
