@@ -18,7 +18,7 @@ $(function()
               }
           });
 
-
+/*
       $.ajax({
       type: "POST",
       url: "/addbbb",
@@ -28,5 +28,5 @@ $(function()
           bbbIP:"152.14.102.251",
           bbbPort:"51003"
       }
-      });
+      });*/
 });
