@@ -26,9 +26,10 @@ exports.validateBBBIDs = function(ids)
   { 
     var exists = false;
     var id = ids[i];
-    var bbbPort = BBB.Info[id - 1].Port;
-    if(bbbPort)
+    var bbb = getBBBFromId(id);
+    if(bbb != null)
     {
+      var bbbPort = bbb.Port;
       reservedIDs.push(id);
       reservedIPs.push(bbbPort);
       errorMessages.push[""];
@@ -41,3 +42,16 @@ exports.validateBBBIDs = function(ids)
   return [reservedIDs, reservedIPs, failedIDs];
  }
 
+getBBBFromId = function(id)
+{
+  var matchingBBB = null;
+  var matchingBBBs = $.grep(BBB.Info, function(bbb)
+  {
+    return bbb.ID == id;
+  });
+  if(matchingBBBs.length == 1)
+  {
+     matchingBBB = matchingBBBs[0];
+  }
+  return matchingBBB;
+}
