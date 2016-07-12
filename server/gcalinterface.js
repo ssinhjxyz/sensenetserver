@@ -89,6 +89,10 @@ TimingsValidater.prototype.validate = function(startTime, endTime)
   {
      var bbbId = bbbIds[i];
      this.validateBBBCalendar(bbbId, startTime, endTime, numBBBs);  
+  }
+  if(numBBBs == 0)
+  {
+    this.callback(this.results);
   } 
 }
 
