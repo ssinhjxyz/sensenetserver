@@ -1,7 +1,7 @@
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var schedule = require('node-schedule');
-var BBB = require('./bbbs');
+var BBB = require('./settings/bbbs');
 var utils = require('./utils');
 
 exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid)
@@ -35,8 +35,8 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
 function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
 {
  
-  var addUserCommand = "sh ./server/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
-  var addPublicKeyCommand = "sh ./server/addpublickey.sh " + bbbIP + " " + login + " " + uid;
+  var addUserCommand = "sh ./server/scripts/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
+  var addPublicKeyCommand = "sh ./server/scripts/addpublickey.sh " + bbbIP + " " + login + " " + uid;
   
   // first create the user, then add the public key
   var createReservation = schedule.scheduleJob(startDateTime, function()
@@ -66,8 +66,8 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
     });
   	
    // disable login for the user and delete the public key.
-   var deleteUserCommand = "sh ./server/deleteuser.sh " + bbbIP + " " + login + " " + uid;
-   var deletePublicKeyCommand = "sh ./server/deletepublickey.sh " + bbbIP + " " + login + " " + uid;
+   var deleteUserCommand = "sh ./server/scripts/deleteuser.sh " + bbbIP + " " + login + " " + uid;
+   var deletePublicKeyCommand = "sh ./server/scripts/deletepublickey.sh " + bbbIP + " " + login + " " + uid;
    var endReservation = schedule.scheduleJob(endDateTime, function(){
       exec(deleteUserCommand,
       function (error, stdout, stderr) 
@@ -96,11 +96,11 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
 
 function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login)
 {  
-  var python = spawn('python', ["./server/encodepassword.py", password]);
+  var python = spawn('python', ["./server/scripts/encodepassword.py", password]);
   python.stdout.on('data', 
   function(encpasswd)
   { 
-  var command = "sh ./server/adduser.sh " + bbbIP + " " + login + " " + encpasswd.toString().slice(0,-1) + " " + password;
+  var command = "sh ./server/scripts/adduser.sh " + bbbIP + " " + login + " " + encpasswd.toString().slice(0,-1) + " " + password;
   var createUser = schedule.scheduleJob(startDateTime, function(){
     exec(command,
     function (error, stdout, stderr) 
@@ -115,7 +115,7 @@ function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, log
 
   var killUser = schedule.scheduleJob(endDateTime, function()
   {
-    exec("sh ./server/deleteuser.sh " + bbbIP + " " + login,
+    exec("sh ./server/scripts/deleteuser.sh " + bbbIP + " " + login,
         function (error, stdout, stderr) {
           console.log("user " + login + " deleted");
           if (error !== null) {

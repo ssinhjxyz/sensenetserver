@@ -1,4 +1,4 @@
-var BBB = require('./bbbs');
+var BBB = require('./settings/bbbs');
 
 
 exports.makeRandomString = function(len)

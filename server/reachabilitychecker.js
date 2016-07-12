@@ -1,6 +1,6 @@
 var exec = require('child_process').exec;
 var schedule = require('node-schedule');
-var BBB = require('./bbbs');
+var BBB = require('./settings/bbbs');
 
 exports.start = function()
 {

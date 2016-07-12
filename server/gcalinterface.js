@@ -1,7 +1,7 @@
 var google = require('googleapis');
-var CALENDAR = require('./calendars');
-var BBB = require('./bbbs');
-var authToken = require('./authtoken');
+var CALENDAR = require('./settings/calendars');
+var BBB = require('./settings/bbbs');
+var authToken = require('./authentication/authtoken');
 
 exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
   

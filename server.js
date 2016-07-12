@@ -5,11 +5,11 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var https = require("https");
 var util = require('util');
-var BBB = require('./server/bbbs');
+var BBB = require('./server/settings/bbbs');
 var reservationCreator = require('./server/reservationcreator');
 var upload = require('./server/upload');
 var addbbb = require('./server/addbbb');
-var googleAuth = require('./server/googleauth');
+var googleAuth = require('./server/authentication/googleauth');
 var reachabilityChecker = require('./server/reachabilitychecker');
 
 app.set('port', (process.env.PORT || 80));
@@ -64,4 +64,4 @@ app.get('/bbbinfo', urlencodedParser, function(req, res)
 });
 
 
-reachabilityChecker.start();   
+//reachabilityChecker.start();   

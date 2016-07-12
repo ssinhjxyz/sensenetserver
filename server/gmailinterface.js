@@ -1,4 +1,4 @@
-var authToken = require('./authtoken');
+var authToken = require('./authentication/authtoken');
 var googleApi = require('googleapis');
 var schedule = require('node-schedule');
 

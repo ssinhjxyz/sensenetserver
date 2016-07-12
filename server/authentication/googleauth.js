@@ -4,7 +4,7 @@ var fs = require('fs');
 var readline = require('readline');
 var SCOPES = 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/gmail.modify';
 var authToken = require('./authtoken');
-var TOKEN_PATH = './server/nodejs-googleauth-token.json';
+var TOKEN_PATH = './server/authentication/nodejs-googleauth-token.json';
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -84,7 +84,7 @@ function storeToken(token) {
 
 
 // Load client secrets from a local file.
-fs.readFile('./server/client_secret.json', function processClientSecrets(err, content) {
+fs.readFile('./server/authentication/client_secret.json', function processClientSecrets(err, content) {
   if (err) {
     console.log('Error loading client secret file: ' + err);
     return;
