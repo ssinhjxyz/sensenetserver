@@ -45,13 +45,15 @@ exports.validateBBBIDs = function(ids)
 getBBBFromId = function(id)
 {
   var matchingBBB = null;
-  var matchingBBBs = $.grep(BBB.Info, function(bbb)
+  var numBBBs = BBB.Info.length;
+  for(var i = 0; i < numBBBs; i++)
   {
-    return bbb.ID == id;
-  });
-  if(matchingBBBs.length == 1)
-  {
-     matchingBBB = matchingBBBs[0];
+    var bbb = BBB.Info[i];
+    if(bbb.ID == id)
+    {
+       matchingBBB = bbb;
+       break;
+    }  
   }
   return matchingBBB;
 }
