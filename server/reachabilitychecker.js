@@ -22,7 +22,7 @@ run = function()
 checkReachability = function(i)
 {
     var bbbIP = BBB.Info[i].IP;
-    exec("sh ./server/checkreachability.sh " + bbbIP,
+    exec("sh ./server/scripts/checkreachability.sh " + bbbIP,
         function (error, stdout, stderr) 
         {
           if (error !== null) 
