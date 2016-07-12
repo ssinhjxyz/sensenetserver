@@ -17,7 +17,6 @@ $(function()
               							'<div class="col-md-3">' + bbbInfo[i].Configured + '</div></div></li>');
               }
           });
-
 /*
       $.ajax({
       type: "POST",
