@@ -1,64 +1,81 @@
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
-    <script src="../js/jquery.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/admininit.js"></script>
-  </head>
-  <body>
-    <nav class="navbar navbar-default">
-  <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Sense Net</a>
-    </div>
+<head>
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="../js/jquery.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/admininit.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+<div class="container">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">Sense Net</a>
+  </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-       <li><a href="/">Home</a></li>
-       <li><a href="/reservations">Resevations</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+     <li><a href="/">Home</a></li>
+     <li><a href="/reservations">Resevations</a></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</div><!-- /.container-fluid -->
 </nav>
-  
-
-  <div class ="container">
-  <div class="row paddingBottom">
-  <div class="col-md-12">
-  </div>
-  </div>
+<div class ="container">
+<div class="row paddingBottom">
+<div class="col-md-12">
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<ul class="list-group" id="bbbInfo">
+<li class="list-group-item">
   <div class="row">
-  <div class="col-md-12">
-  <ul class="list-group" id="bbbInfo">
-    <li class="list-group-item">
-      <div class="row">
-        <strong>
-        <div class="col-md-2">
-        BBB ID
-        </div>
-        <div class="col-md-4">
-         IP Address
-        </div> 
-        <div class="col-md-3">
-         Reachability
-        </div> 
-        <div class="col-md-3">
-         Configured
-        </div>
-        </strong>   
-      </div>
-    </li>
-  </ul>
+    <strong>
+    <div class="col-md-2">
+    BBB ID
+    </div>
+    <div class="col-md-4">
+     IP Address
+    </div> 
+    <div class="col-md-3">
+     Reachability
+    </div> 
+    <div class="col-md-3">
+     Configured
+    </div>
+    </strong>   
   </div>
+</li>
+</ul>
+</div>
+</div>
+<div class="row paddingBottom">
+<div class="col-md-12">
+<form class="form-inline">
+  <div class="form-group">
+    <label for="exampleInputName2">BBB ID</label>
+    <input type="text" class="form-control" id="bbbID" placeholder="1">
   </div>
-  </body>
+  <div class="form-group">
+    <label for="exampleInputName2">BBB IP</label>
+    <input type="text" class="form-control" id="bbbIP" placeholder="152.14.102.230">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail2">BBB Port</label>
+    <input type="text" class="form-control" id="bbbPort" placeholder="51001">
+  </div>
+  <button id="configureBBB" class="btn btn-default">Configure</button>
+</form>
+</div>
+</div>
+</body>
 </html>

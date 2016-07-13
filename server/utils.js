@@ -16,7 +16,7 @@ exports.makeRandomString = function(len)
 exports.validateBBBIDs = function(ids)
 {
   var numIds = ids.length;  
-  var reservedIDs = [];
+  var validIDs = [];
   var reservedIPs = [];
   var failedIDs = [];
   var errorMessages = [];
@@ -30,25 +30,21 @@ exports.validateBBBIDs = function(ids)
     {
       failedIDs.push({id:id, message:"device does not exist."});
     }
-    else if(!bbb.configured)
+    else if(!bbb.Configured)
     {
      failedIDs.push({id:id, message:"device is not configured."}); 
     }
-    else if(bbb.reachability != "up")
+    else if(bbb.Reachability != "up")
     {
      failedIDs.push({id:id, message:"device is down."});  
     }
     else
     {
       var bbbPort = bbb.Port;
-      reservedIDs.push(id);
+      validIDs.push(id);
       reservedIPs.push(bbbPort);
       errorMessages.push[""];
     }
-    else
-    {
-      
-    }
   }
-  return [reservedIDs, reservedIPs, failedIDs];
+  return [validIDs, reservedIPs, failedIDs];
  }

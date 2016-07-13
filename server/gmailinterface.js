@@ -2,16 +2,16 @@ var authToken = require('./authentication/authtoken');
 var googleApi = require('googleapis');
 var schedule = require('node-schedule');
 
-exports.sendMails = function(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent, endDateTime) 
+exports.sendMails = function(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, endDateTime) 
 {
-    sendReservationDetails(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent);
+    sendReservationDetails(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs);
     scheduleReservationEndNotification(to, reservedBBBIDs, endDateTime);
 }
 
-sendReservationDetails = function(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent) 
+sendReservationDetails = function(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs) 
 {
 
-  var email = createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent);
+  var email = createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs);
   var gmail = googleApi.gmail('v1');
   var request = gmail.users.messages.send({
     auth: authToken.token,
@@ -68,17 +68,16 @@ function sendReservationEndNotification(to, reservedBBBIDs, endDate)
   });
 }
 
-function createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
+function createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs)
 {
   var email_lines = [];  
-  var body = "Password : " + password + ". <br>Login : " + login + ". <br>" ;
-  
   var numReserved = reservedBBBIPs.length;
   var numFailed = failedBBBIDs.length;
+  var body = "";
   if(numReserved > 0)
   {
-
-     body += " <br>Successful Reservations : <br>";   
+     body += "Password : " + password + ". <br>Login : " + login + ". <br>" ;
+     body += " <br> Successful Reservations : <br>";   
      for(var i = 0; i < numReserved; i++)
      {
         body += (i+1) + ". BBB ";
@@ -89,12 +88,12 @@ function createReservationDetailsMail(to, login, password, reservedBBBIDs, reser
 
   if(numFailed > 0)
   { 
-     body += " <br>Failed Reservations :<br>";   
+     body += " <br> SFailed Reservations : <br>";      
      for(var i = 0; i < numFailed; i++)
      {
          body += (i+1) + ". BBB ";
-         body += failedBBBIDs[i].id;
-         body += "<br>";
+         body += failedBBBIDs[i].id + " : " + failedBBBIDs[i].message;
+         body += " <br>";
      }  
   }
 

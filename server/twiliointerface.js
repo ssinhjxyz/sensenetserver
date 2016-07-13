@@ -4,7 +4,7 @@ var client = require('twilio')('AC62494497fe1eb943d38d4b28adbbf7e3', '5c86112820
 // Use this convenient shorthand to send an SMS:
 exports.sendSms = function()
 {
-    client.sendSms(
+    /*client.sendSms(
     {
         to:'+19193481309',
         from:'+12018993318',
@@ -18,5 +18,5 @@ exports.sendSms = function()
         } else {
             console.log('Oops! There was an error.');
         }
-    });
+    });*/
 }
