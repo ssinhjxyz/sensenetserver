@@ -15,8 +15,7 @@ exports.makeRandomString = function(len)
 
 exports.validateBBBIDs = function(ids)
 {
-  var numIds = ids.length;
-  
+  var numIds = ids.length;  
   var reservedIDs = [];
   var reservedIPs = [];
   var failedIDs = [];
@@ -26,8 +25,20 @@ exports.validateBBBIDs = function(ids)
   { 
     var exists = false;
     var id = ids[i];
-    var bbb = getBBBFromId(id);
-    if(bbb != null)
+    var bbb = BBB.Info[id];
+    if(!bbb)
+    {
+      failedIDs.push({id:id, message:"device does not exist."});
+    }
+    else if(!bbb.configured)
+    {
+     failedIDs.push({id:id, message:"device is not configured."}); 
+    }
+    else if(bbb.reachability != "up")
+    {
+     failedIDs.push({id:id, message:"device is down."});  
+    }
+    else
     {
       var bbbPort = bbb.Port;
       reservedIDs.push(id);
@@ -36,24 +47,8 @@ exports.validateBBBIDs = function(ids)
     }
     else
     {
-      failedIDs.push({id:id, message:"device does not exist."});
+      
     }
   }
   return [reservedIDs, reservedIPs, failedIDs];
  }
-
-getBBBFromId = function(id)
-{
-  var matchingBBB = null;
-  var numBBBs = BBB.Info.length;
-  for(var i = 0; i < numBBBs; i++)
-  {
-    var bbb = BBB.Info[i];
-    if(bbb.ID == id)
-    {
-       matchingBBB = bbb;
-       break;
-    }  
-  }
-  return matchingBBB;
-}

@@ -120,7 +120,6 @@ function createReservationEndNotificationMail(to, reservedBBBIDs, endDate)
   return createBase64EncodedEmail(email_lines);
 }
 
-
 function createBase64EncodedEmail(email_lines)
 {
   var email = email_lines.join("\r\n").trim();

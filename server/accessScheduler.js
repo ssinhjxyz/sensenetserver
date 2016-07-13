@@ -28,7 +28,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
       }
     }
   }
-  return password ;
+  return password;
 }
 
 
