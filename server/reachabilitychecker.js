@@ -9,10 +9,11 @@ exports.start = function()
 
 run = function()
 {
+  console.log("checking Reachability");
   var nextRun = new Date();
   nextRun.setUTCMinutes(nextRun.getUTCMinutes() + 10);
   var numBBBs = BBB.Info.length
-  for(var i = 0; i < numBBBs; i++)
+  for(var i in BBB.Info)
   {
     checkReachability(i);
   } 
@@ -21,6 +22,7 @@ run = function()
 
 checkReachability = function(i)
 {
+    console.log("checking reachability " + i);
     var bbbIP = BBB.Info[i].IP;
     exec("sh ./server/scripts/checkreachability.sh " + bbbIP,
         function (error, stdout, stderr) 
@@ -39,5 +41,4 @@ checkReachability = function(i)
           }
           BBB.Info[i].Reachability = stdout;
         }); 
-
 }
