@@ -39,6 +39,7 @@ checkReachability = function(i)
           {
            console.log(bbbIp + " is down"); 
           }
+          stdout = stdout.slice(0,-1);
           BBB.Info[i].Reachability = stdout;
         }); 
 }
