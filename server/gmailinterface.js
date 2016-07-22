@@ -123,6 +123,6 @@ function createBase64EncodedEmail(email_lines)
 {
   var email = email_lines.join("\r\n").trim();
   var base64EncodedEmail = (new Buffer(email)).toString('base64');
-  base64EncodedEmail.replace(/\+/g, '-').replace(/\//g, '_')
+  base64EncodedEmail.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
   return base64EncodedEmail;
 }
