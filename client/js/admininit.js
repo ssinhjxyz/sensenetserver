@@ -7,7 +7,17 @@ $(function()
     data.bbbIP = $("#bbbIP").val();
     data.bbbPort = $("#bbbPort").val();
     data.bbbID = $("#bbbID").val();
-    console.log(data);
+    $.ajax({
+      type: "POST",
+      url: "/addbbb",
+      traditional: true,
+      data: 
+      {
+          bbbIP:bbbIP,
+          bbbPort:bbbPort,
+          bbbID:bbbID
+      }
+      });
   });
 
 	$.ajax({
@@ -26,15 +36,4 @@ $(function()
               							'<div class="col-md-3">' + bbbInfo[i].Configured + '</div></div></li>');
               }
           });
-/*
-      $.ajax({
-      type: "POST",
-      url: "/addbbb",
-      traditional: true,
-      data: 
-      {
-          bbbIP:"152.14.102.251",
-          bbbPort:"51003"
-      }
-      });*/
 });
