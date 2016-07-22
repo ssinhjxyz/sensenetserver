@@ -114,6 +114,7 @@ TimingsValidater.prototype.validateBBBCalendar = function( bbbId, startTime, end
     function(err, response) 
     {
       that.numResponsesReceived++;
+      console.log( bbbId + " : " + response.items);
       if (err)
       {
         // To do : Remove from valid list.

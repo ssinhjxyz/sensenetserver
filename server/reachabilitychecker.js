@@ -9,7 +9,6 @@ exports.start = function()
 
 run = function()
 {
-  console.log("checking Reachability");
   var nextRun = new Date();
   nextRun.setUTCMinutes(nextRun.getUTCMinutes() + 10);
   var numBBBs = BBB.Info.length
@@ -22,7 +21,6 @@ run = function()
 
 checkReachability = function(i)
 {
-    console.log("checking reachability " + i);
     var bbbIP = BBB.Info[i].IP;
     exec("sh ./server/scripts/checkreachability.sh " + bbbIP,
         function (error, stdout, stderr) 
@@ -31,14 +29,7 @@ checkReachability = function(i)
           {
             console.log('exec error: ' + error);
           }
-          if(stdout == "up")
-          {
-           console.log(bbbIp + " is up"); 
-          }
-          else if(stdout == "down")
-          {
-           console.log(bbbIp + " is down"); 
-          }
+          // The stdout has a "newline" character at the end. Remove this character.
           stdout = stdout.slice(0,-1);
           BBB.Info[i].Reachability = stdout;
         }); 

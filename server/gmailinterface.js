@@ -11,25 +11,30 @@ exports.sendMails = function(to, login, password, reservedBBBIDs, reservedBBBIPs
 sendReservationDetails = function(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs) 
 {
 
-  var email = createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs);
-  var gmail = googleApi.gmail('v1');
-  var request = gmail.users.messages.send({
-    auth: authToken.token,
-    userId: 'ssingh28@ncsu.edu',
-    resource: 
+  var email = createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs,
+    function(email)
     {
-      raw: email
+      var gmail = googleApi.gmail('v1');
+      var request = gmail.users.messages.send({
+        auth: authToken.token,
+        userId: 'ssingh28@ncsu.edu',
+        resource: 
+        {
+          raw: email
+        }
+      }, function(err,response){
+        if (err) {
+          console.log('The API returned an error: ' + err);
+          return;
+        }
+        if (response) {
+          console.log('The API returned a response: ' + response);
+          return;
+        }
+      });   
     }
-  }, function(err,response){
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    if (response) {
-      console.log('The API returned a response: ' + response);
-      return;
-    }
-  });
+    );
+  
 }
 
 scheduleReservationEndNotification = function(to, reservedBBBIDs, endDateTime) 
@@ -47,28 +52,31 @@ scheduleReservationEndNotification = function(to, reservedBBBIDs, endDateTime)
 
 function sendReservationEndNotification(to, reservedBBBIDs, endDate) 
 {
-  var email = createReservationEndNotificationMail(to, reservedBBBIDs, endDate);
-  var gmail = googleApi.gmail('v1');
-  var request = gmail.users.messages.send({
-    auth: authToken.token,
-    userId: 'ssingh28@ncsu.edu',
-    resource: 
+  var email = createReservationEndNotificationMail(to, reservedBBBIDs, endDate,
+    function(email)
     {
-      raw: email
-    }
-  }, function(err,response){
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    if (response) {
-      console.log('The API returned a response: ' + response);
-      return;
-    }
-  });
+      var gmail = googleApi.gmail('v1');
+      var request = gmail.users.messages.send({
+        auth: authToken.token,
+        userId: 'ssingh28@ncsu.edu',
+        resource: 
+        {
+          raw: email
+        }
+      }, function(err,response){
+        if (err) {
+          console.log('The API returned an error: ' + err);
+          return;
+        }
+        if (response) {
+          console.log('The API returned a response: ' + response);
+          return;
+        }
+      });
+    });
 }
 
-function createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs)
+function createReservationDetailsMail(to, login, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, callback)
 {
   var email_lines = [];  
   var numReserved = reservedBBBIPs.length;
@@ -103,10 +111,10 @@ function createReservationDetailsMail(to, login, password, reservedBBBIDs, reser
   email_lines.push("Subject: Sensenet: Reservation Details");
   email_lines.push("");
   email_lines.push(body);
-  return createBase64EncodedEmail(email_lines);
+  return createBase64EncodedEmail(email_lines, callback);
 }
 
-function createReservationEndNotificationMail(to, reservedBBBIDs, endDate)
+function createReservationEndNotificationMail(to, reservedBBBIDs, endDate, callback)
 {
   var email_lines = [];  
   var body = "Your reservation ends in 5 minutes. Please save your work.";
@@ -116,13 +124,15 @@ function createReservationEndNotificationMail(to, reservedBBBIDs, endDate)
   email_lines.push("Subject: Sensenet : Reservation ends in 5 min");
   email_lines.push("");
   email_lines.push(body);
-  return createBase64EncodedEmail(email_lines);
+  return createBase64EncodedEmail(email_lines, callback);
 }
 
-function createBase64EncodedEmail(email_lines)
+function createBase64EncodedEmail(email_lines, callback)
 {
-  var email = email_lines.join("\r\n").trim();
-  var base64EncodedEmail = (new Buffer(email)).toString('base64');
-  base64EncodedEmail.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-  return base64EncodedEmail;
+  var python = spawn('python', ["./server/scripts/base64urlencode.py", email_lines]);
+  python.stdout.on('data', 
+  function(base64EncodedEmail)
+  { 
+    callback(base64EncodedEmail);
+  });
 }
