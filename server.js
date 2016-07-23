@@ -63,5 +63,4 @@ app.get('/bbbinfo', urlencodedParser, function(req, res)
     res.end(JSON.stringify(response));
 });
 
-
 reachabilityChecker.start();   

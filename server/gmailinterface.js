@@ -97,7 +97,7 @@ function createReservationDetailsMail(to, login, password, reservedBBBIDs, reser
 
   if(numFailed > 0)
   { 
-     body += " <br> SFailed Reservations : <br>";      
+     body += " <br> Failed Reservations : <br>";      
      for(var i = 0; i < numFailed; i++)
      {
          body += (i+1) + ". BBB ";
@@ -130,10 +130,12 @@ function createReservationEndNotificationMail(to, reservedBBBIDs, endDate, callb
 
 function createBase64EncodedEmail(email_lines, callback)
 {
-  var python = spawn('python', ["./server/scripts/base64urlencode.py", email_lines]);
+  var email = email_lines.join("\r\n").trim();
+  var python = spawn('python', ["./server/scripts/base64urlencode.py", email]);
   python.stdout.on('data', 
   function(base64EncodedEmail)
-  { 
-    callback(base64EncodedEmail);
+  {
+    console.log(base64EncodedEmail.toString().slice(0,-1) ); 
+    callback(base64EncodedEmail.toString().slice(0,-1) );
   });
 }
