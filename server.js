@@ -11,6 +11,7 @@ var upload = require('./server/upload');
 var addbbb = require('./server/addbbb');
 var googleAuth = require('./server/authentication/googleauth');
 var reachabilityChecker = require('./server/reachabilitychecker');
+var myReservations = require('./server/reservations/myreservations');
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -52,6 +53,7 @@ app.post('/addbbb', urlencodedParser, function(req, res)
 app.post('/reserve', urlencodedParser, function(req, res)
 {
     upload.do(req, res);
+
 });
 
 app.get('/bbbinfo', urlencodedParser, function(req, res)

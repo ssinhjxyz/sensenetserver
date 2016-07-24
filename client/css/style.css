@@ -36,3 +36,10 @@ html, body {
 #map {
     height: 100%;
   }
+
+.active {
+	font-weight: bolder;
+	background-color: white !important;
+	box-shadow: none !important;
+	-webkit-box-shadow:none !important;
+}
