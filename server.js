@@ -72,5 +72,4 @@ app.get('/myreservations', urlencodedParser, function(req, res)
     myReservations.get(emailId, res);
 });
 
-
 reachabilityChecker.start();   

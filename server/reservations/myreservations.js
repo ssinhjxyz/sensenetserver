@@ -7,7 +7,6 @@ var utils = require('../utils');
 exports.get = function (emailId, res)
 {
     var now = new Date();
-    console.log(utils.ISODateString(now));
   	var that = this;
     var calendarId = CALENDAR.IDS[1];
     var calendar = google.calendar('v3');

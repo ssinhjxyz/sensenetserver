@@ -22,8 +22,10 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   </head>
+
   <body>
-    <nav class="navbar navbar-default">
+  
+  <nav class="navbar navbar-default">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -44,7 +46,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a class="blackText" id="user"></a></li>
-        <li><a id="myreservations" href="#">My Reservations</a></li>
+        <li><a id="myReservationsLink" href="#">My Reservations</a></li>
         <li>
         <div class="btn btn-lg" id="signin"></div></li>
         <li><a href="#" id="signout" onclick="signOut();" style="display:none;position:relative !important;
@@ -103,64 +105,64 @@
   <div class ="container">
   <div class="row paddingBottom">
   <div class="col-md-6  paddingAll" style="border:1px solid lightgray;">
-    <div class="row paddingBottom">
-      <div class="col-md-6">
-        <div class = "btn  btn-primary" onclick="refreshCalendars()">
-          Refresh
+      <div class="row paddingBottom">
+        <div class="col-md-6">
+          <div class = "btn  btn-primary" onclick="refreshCalendars()">
+            Refresh
+          </div>
         </div>
       </div>
-    </div>
-    <div  id = "calendars" class="row">
-      <div class="col-md-12">
-      <iframe id="BBB1Calendar" src="https://calendar.google.com/calendar/embed?title=BBB&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=ncsu.edu_3dviothfpmkijqoli8bpn4s1q4%40group.calendar.google.com&amp;color=%23B1365F&amp;src=ncsu.edu_kabpq58p37u5lmr82eiooeohp0%40group.calendar.google.com&amp;src=ncsu.edu_e90fub5mtq3htjt1e01a1t3mp0@group.calendar.google.com&amp;color=%235229A3&amp;ctz=America%2FNew_York" style="border: 0" width="100%" height="100%" frameborder="1" scrolling="yes">
-      </iframe>
+      <div id = "calendars" class="row">
+          <div class="col-md-12">
+          <iframe id="BBB1Calendar" src="https://calendar.google.com/calendar/embed?title=BBB&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=ncsu.edu_3dviothfpmkijqoli8bpn4s1q4%40group.calendar.google.com&amp;color=%23B1365F&amp;src=ncsu.edu_kabpq58p37u5lmr82eiooeohp0%40group.calendar.google.com&amp;src=ncsu.edu_e90fub5mtq3htjt1e01a1t3mp0@group.calendar.google.com&amp;color=%235229A3&amp;ctz=America%2FNew_York" style="border: 0" width="100%" height="100%" frameborder="1" scrolling="yes">
+          </iframe>
+          </div>
       </div>
-  </div>
   </div>
     <div class="col-md-6" >
      <form class="paddingAll" style="border:1px solid lightgray;">
-  <div class="form-group">
-    <label class="control-label">Email ID</label>
-      <p class="form-control-static" id="emailId">ssingh28@ncsu.edu</p>
-  </div>
-  <div class="form-group">
-    <label for="bbbId">BBB ID</label>
-    <input class="form-control" id="bbbId">
-  </div>
-  <div class="form-group">
-    <label for="startDateTime">Start Time </label>
-       <div class="input-group date" id="startDateTime">
-  <input type="text" class="form-control"/>
-  <span class="input-group-addon">
-    <span class="glyphicon glyphicon-calendar"></span> 
-  </span>
-</div>
-    </div>
+      <div class="form-group">
+        <label class="control-label">Email ID</label>
+          <p class="form-control-static" id="emailId">ssingh28@ncsu.edu</p>
+      </div>
+      <div class="form-group">
+        <label for="bbbId">BBB ID</label>
+        <input class="form-control" id="bbbId">
+      </div>
+      <div class="form-group">
+        <label for="startDateTime">Start Time </label>
+           <div class="input-group date" id="startDateTime">
+            <input type="text" class="form-control"/>
+            <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span> 
+            </span>
+          </div>
+      </div>
+      <div class="form-group">
+        <label for="startDateTime">End Time </label>
+         <div class="input-group date" id="endDateTime">
+            <input type="text" class="form-control" />
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span> 
+            </span>
+          </div>
+      </div>
     <div class="form-group">
-      <label for="startDateTime">End Time </label>
-       <div class="input-group date" id="endDateTime">
-      <input type="text" class="form-control" />
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-calendar"></span> 
-      </span>
-    </div>
-    </div>
-    <div class="form-group">
-    <label for="loginMethod" class="control-label input-group">Login method</label>
-    <div class="btn-group loginMethod" data-toggle="buttons">
-        <label id= "rsalogin" class="btn btn-default">
-            <input type="radio"  name="loginMethod" value="rsa">RSA Key
-        </label>
-        <label id= "pwdlogin" class="btn btn-default active">
-            <input type="radio" name="loginMethod" value="password">Password
-        </label>
-    </div>
-       <span class="form-group" style="display:none" id="uploadForm">
+      <label for="loginMethod" class="control-label input-group">Login method</label>
+      <div class="btn-group loginMethod" data-toggle="buttons">
+          <label id= "rsalogin" class="btn btn-default">
+              <input type="radio"  name="loginMethod" value="rsa">RSA Key
+          </label>
+          <label id= "pwdlogin" class="btn btn-default active">
+              <input type="radio" name="loginMethod" value="password">Password
+          </label>
+      </div>
+        <span class="form-group" style="display:none" id="uploadForm">
           <button class="btn btn-default" id="upload-btn" type="button">Upload Public Key</button>
           <input id="upload-input" class="hidden" type="file" name="uploads" multiple="false">
           <span id="keyUploaded" style="display:none">Key saved.Click on Reserve to finsh.</span>
-    </span>
-  </div>    
+        </span>
+      </div>    
     <script type="text/javascript">
       $('#endDateTime').datetimepicker();
     </script>
@@ -173,5 +175,31 @@
 </form>
 </div>
 </div>
-  </body>
+</div>
+</div>
+
+<div id = "myReservations" class ="container">
+<div class="row">
+<div class="col-md-12">
+<ul class="list-group" id="myReservationsList">
+<li class="list-group-item">
+  <div class="row">
+    <strong>
+    <div class="col-md-4">
+    Start
+    </div>
+    <div class="col-md-4">
+    End
+    </div>
+    <div class="col-md-4">
+    BBB
+    </div>
+    </strong>   
+  </div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</body>
 </html>
