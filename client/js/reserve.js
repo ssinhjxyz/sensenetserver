@@ -2,7 +2,6 @@ function reserve(event)
 {
     event.preventDefault();
     $("#reservationDetails").hide();
-    
     // Get the user's inputs
     var emailId = $("#emailId").text();
     var bbbIds = $("#bbbId").val();
@@ -36,31 +35,28 @@ function reserve(event)
 
 function callReserve()
 {
-
-      $.ajax({
-      type: "POST",
-      url: "/reserve",
-      traditional: true,
-      data: 
-      {
-          emailId: emailId,
-          ids: ids,
-          loginMethod: loginMethod, 
-          startDateTime: start,
-          endDateTime: end,
-          uid: uid 
-      }
-      }).done(
-          function(response) {
-              var response = JSON.parse(response);
-              console.log(response);
-              $("#reservationLogin").html(response.login);
-              $("#reservationPassword").html(response.password);
-              $("#keyUploaded").hide();
-              showResults(response);
-          });
-      }
-
+    $.ajax({
+    type: "POST",
+    url: "/reserve",
+    traditional: true,
+    data: 
+    {
+        emailId: emailId,
+        ids: ids,
+        loginMethod: loginMethod, 
+        startDateTime: start,
+        endDateTime: end,
+        uid: uid 
+    }
+    }).done(
+        function(response) {
+            var response = JSON.parse(response);
+            $("#reservationLogin").html(response.login);
+            $("#reservationPassword").html(response.password);
+            $("#keyUploaded").hide();
+            showResults(response);
+        });
+    }
 }
 
 function showResults(response)

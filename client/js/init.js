@@ -5,4 +5,5 @@ $(function()
 	$("#reserve").prop("disabled",false);
 	$("#reserve").click(function(event){reserve(event)});
 	$("#showReservationDetails").hide();
+	$("#myreservations").click(function(event){myReservations();;});
 });

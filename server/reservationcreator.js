@@ -10,7 +10,6 @@ exports.create = function(ids, emailId, startDateTime, endDateTime, login, login
    gcalInterface.validateTimings(results, startDateTime, endDateTime, 
    function(updatedResults)
    {
-   	  console.log(updatedResults);
       gcalInterface.createEvents(updatedResults[0], emailId, startDateTime, endDateTime);
       var password = accessScheduler.schedule(updatedResults[0], startDateTime, endDateTime, login, loginMethod, uid); 
       gmailInterface.sendMails(emailId, login, password, updatedResults[0], updatedResults[1], updatedResults[2], endDateTime);

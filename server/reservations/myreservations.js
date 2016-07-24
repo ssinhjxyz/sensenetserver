@@ -2,9 +2,12 @@ var google = require('googleapis');
 var CALENDAR = require('../settings/calendars');
 var BBB = require('../settings/bbbs');
 var authToken = require('../authentication/authtoken');
+var utils = require('../utils');
 
-exports.get = function (emailId)
+exports.get = function (emailId, res)
 {
+    var now = new Date();
+    console.log(utils.ISODateString(now));
   	var that = this;
     var calendarId = CALENDAR.IDS[1];
     var calendar = google.calendar('v3');
@@ -12,13 +15,13 @@ exports.get = function (emailId)
     {
       auth: authToken.token,
       calendarId: calendarId,
-      q:"s.singh.xyz@gmail.com",
+      q:emailId,
       singleEvents: true,
-      orderBy: 'startTime'
+      orderBy: 'startTime',
+      timeMin: utils.ISODateString(now)
     }, 
     function(err, response) 
-    {
-      console.log(response.items.length);
+    { 	
+      res.end(JSON.stringify(response.items));
     });  
 }
-

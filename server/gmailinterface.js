@@ -135,7 +135,6 @@ function createBase64EncodedEmail(email_lines, callback)
   python.stdout.on('data', 
   function(base64EncodedEmail)
   {
-    console.log(base64EncodedEmail.toString().slice(0,-1) ); 
     callback(base64EncodedEmail.toString().slice(0,-1) );
   });
 }
