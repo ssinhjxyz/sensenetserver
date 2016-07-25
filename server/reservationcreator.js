@@ -4,14 +4,14 @@ var utils = require('./utils');
 var gmailInterface = require('./gmailinterface');
 var twilioInterface = require('./twiliointerface');
 
-exports.create = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, callback)
-{  
+exports.create = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, callback)
+{ 
    var results = utils.validateBBBIDs(ids);
    gcalInterface.validateTimings(results, startDateTime, endDateTime, 
    function(updatedResults)
    {
       gcalInterface.createEvents(updatedResults[0], emailId, startDateTime, endDateTime);
-      var password = accessScheduler.schedule(updatedResults[0], startDateTime, endDateTime, login, loginMethod, uid); 
+      var password = accessScheduler.schedule(updatedResults[0], startDateTime, endDateTime, login, loginMethod, uid, deleteKey); 
       gmailInterface.sendMails(emailId, login, password, updatedResults[0], updatedResults[1], updatedResults[2], endDateTime);
       twilioInterface.sendSms();
       callback(password, updatedResults[0], updatedResults[1], updatedResults[2], true);

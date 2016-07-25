@@ -7,8 +7,7 @@ $(function()
 
 	$('#upload-input').on('change', function()
 	{
-	    $("#keyUploaded").show();
-		$("#reserve").prop("disabled",false);
+	    //$("#keyUploaded").show();
 	});
 });
 
@@ -37,6 +36,7 @@ function upload(filename, emailId, bbbIds,start, end, loginMethod)
 	formData.append('start', start);
 	formData.append('loginMethod', loginMethod);
 	formData.append('uid', filename);
+	formData.append('deleteKey', document.getElementById('deleteKey').checked);
     $.ajax(
     {
 	  url: '/reserve',

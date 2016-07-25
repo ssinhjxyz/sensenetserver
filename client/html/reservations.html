@@ -138,7 +138,7 @@
             <span class="glyphicon glyphicon-calendar"></span> 
             </span>
           </div>
-      </div>
+      </div>-
       <div class="form-group">
         <label for="startDateTime">End Time </label>
          <div class="input-group date" id="endDateTime">
@@ -148,7 +148,7 @@
             </span>
           </div>
       </div>
-    <div class="form-group">
+    <div class="form-group form-inline">
       <label for="loginMethod" class="control-label input-group">Login method</label>
       <div class="btn-group loginMethod" data-toggle="buttons">
           <label id= "rsalogin" class="btn btn-default">
@@ -161,8 +161,14 @@
         <span class="form-group" style="display:none" id="uploadForm">
           <button class="btn btn-default" id="upload-btn" type="button">Upload Public Key</button>
           <input id="upload-input" class="hidden" type="file" name="uploads" multiple="false">
-          <span id="keyUploaded" style="display:none">Key saved.Click on Reserve to finsh.</span>
+          <span id="keyUploaded" style="display:none">Key saved</span>
+          <div class="checkbox">
+            <label>
+              <input id="deleteKey" checked="checked" type="checkbox"> Delete Key
+            </label>
+        </div>
         </span>
+        
       </div>    
     <script type="text/javascript">
       $('#endDateTime').datetimepicker();

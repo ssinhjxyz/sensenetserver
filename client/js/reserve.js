@@ -46,7 +46,8 @@ function callReserve()
         loginMethod: loginMethod, 
         startDateTime: start,
         endDateTime: end,
-        uid: uid 
+        uid: uid, 
+        deleteKey: document.getElementById('deleteKey').checked
     }
     }).done(
         function(response) {

@@ -6,14 +6,13 @@ var uploadDir = '/uploads';
 
 exports.do = function(req, res, callback) 
 {
-      
       var inputs = {};
       // body...
       // create an incoming form object
       var form = new formidable.IncomingForm();
 
       // store all uploads in the /uploads directory
-      form.uploadDir = path.join(__dirname, '/uploads');
+      form.uploadDir = path.join(__dirname, 'uploads');
       
       // create uploads folder if it does not exist
       if (!fs.existsSync(form.uploadDir)){
@@ -29,7 +28,7 @@ exports.do = function(req, res, callback)
       // every time a file has been uploaded successfully,
       // rename it to it's orignal name
       form.on('file', function(field, file) {
-        fs.rename(file.path, path.join(form.uploadDir, file.name));
+          fs.rename(file.path, path.join(form.uploadDir, file.name));
       });
     
       // log any errors that occur
@@ -47,8 +46,8 @@ exports.do = function(req, res, callback)
             login  : login 
          };
          var ids = inputs.bbbIds.split(",");
-         reservationCreator.create( ids, inputs.emailId, inputs.start, inputs.end, login, inputs.loginMethod, inputs.uid, 
-           function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
+         reservationCreator.create( ids, inputs.emailId, inputs.start, inputs.end, login, 
+            inputs.loginMethod, inputs.uid, inputs.deleteKey, function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
            {
              response.password = password;
              response.reservedBBBIDs = reservedBBBIDs;
@@ -63,5 +62,3 @@ exports.do = function(req, res, callback)
       form.parse(req);
 
     };
-
-   

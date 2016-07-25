@@ -4,7 +4,7 @@ var schedule = require('node-schedule');
 var BBB = require('./settings/bbbs');
 var utils = require('./utils');
 
-exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid)
+exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey)
 {
   var password = "";
   if(loginMethod === "password")
@@ -24,7 +24,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
       }
       else if (loginMethod === "rsa")
       {
-        scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid);
+        scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey);
       }
     }
   }
@@ -32,7 +32,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
 }
 
 
-function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
+function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey)
 {
  
   var addUserCommand = "sh ./server/scripts/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
@@ -79,16 +79,20 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid)
         }
         console.log('stdout:' + stdout);
         console.log('exec error:' + error);
-        exec(deletePublicKeyCommand,     
-        function (error, stdout, stderr) 
+
+        if(deleteKey)
         {
-            console.log("public key " + login + " deleted");
-            console.log('stdout: ' + stdout);
-            if (error !== null) 
-            {
-               console.log('exec error: ' + error);
-            }
+          exec(deletePublicKeyCommand,     
+          function (error, stdout, stderr) 
+          {
+              console.log("public key " + login + " deleted");
+              console.log('stdout: ' + stdout);
+              if (error !== null) 
+              {
+                 console.log('exec error: ' + error);
+              }
           });
+        }
       });
   });
 }

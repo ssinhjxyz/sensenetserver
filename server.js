@@ -66,13 +66,11 @@ app.get('/bbbinfo', urlencodedParser, function(req, res)
     res.end(JSON.stringify(response));
 });
 
-
 app.get('/myreservations', urlencodedParser, function(req, res)
 {
     var emailId = req.query.emailId;
     myReservations.get(emailId, res);
 });
-
 
 app.get('/deletereservation', urlencodedParser, function(req, res)
 {
