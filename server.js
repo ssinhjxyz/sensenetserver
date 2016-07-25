@@ -12,6 +12,7 @@ var addbbb = require('./server/addbbb');
 var googleAuth = require('./server/authentication/googleauth');
 var reachabilityChecker = require('./server/reachabilitychecker');
 var myReservations = require('./server/reservations/myreservations');
+var gcalInterface = require('./server/gcalinterface');
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -70,6 +71,13 @@ app.get('/myreservations', urlencodedParser, function(req, res)
 {
     var emailId = req.query.emailId;
     myReservations.get(emailId, res);
+});
+
+
+app.get('/deletereservation', urlencodedParser, function(req, res)
+{
+    var eventId = req.query.id;
+    gcalInterface.deleteEvent(eventId,res);
 });
 
 reachabilityChecker.start();   

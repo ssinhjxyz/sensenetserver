@@ -17,6 +17,29 @@ exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
   }
 }
 
+exports.deleteEvent = function(id, res)
+{
+  var calendar = google.calendar('v3');
+  var calendarId = CALENDAR.IDS[1];
+
+  calendar.events.delete({
+  auth: authToken.token,
+  calendarId: calendarId,
+  sendNotifications:true,
+  eventId:id
+  }, function(err, event) 
+  {
+    var response ={status:"ok"};
+    if (err) 
+    {
+      console.log('There was an error contacting the Calendar service: ' + err);
+      response.status = "error";
+    }
+    res.end(JSON.stringify(response));
+  });
+
+
+}
 
 var createEvent = function( bbbId, calendarId, emailId, startDateTime, endDateTime){
 
@@ -60,7 +83,8 @@ calendar.events.insert({
   console.log('Event created with ' + attendees[0].email);
   console.log('Start : ' + startDateTime + ' | End : ' + endDateTime);
   
-});}
+});
+}
 
 
 /**
