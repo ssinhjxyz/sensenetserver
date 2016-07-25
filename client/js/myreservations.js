@@ -1,8 +1,9 @@
 function myReservations()
 {
-	$(".sensenetInterface").hide();
+	$("#createReservation").hide();
+    $("#myReservations").show();
     var emailId = $("#emailId").text();
-    $("ul#myReservationsList").empty();
+    $(".myReservationsData").remove();
     $.ajax({
     type: "GET",
     url: "/myreservations?emailId=" + emailId,
@@ -13,7 +14,7 @@ function myReservations()
         	var reservations = JSON.parse(response);
             for(var i in reservations)
         	{
-        		$("ul#myReservationsList").append('<li class="list-group-item"><div class="row">' +
+        		$("#myReservationsList").append('<li class="list-group-item myReservationsData"><div class="row">' +
 				'<div class="col-md-3">' + rfc339ToString(reservations[i].start.dateTime) + '</div>' +
 				'<div class="col-md-3">' + rfc339ToString(reservations[i].end.dateTime) + '</div>' +
 				'<div class="col-md-3">' + (reservations[i].location) + '</div>' +
