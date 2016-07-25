@@ -24,7 +24,6 @@ exports.do = function(req, res, callback)
       // When a field has been parsed.
       form.on('field', function(key, value) {
         inputs[key] = value;
-        console.log("field :" + key + ", value : " + value);
       });
 
       // every time a file has been uploaded successfully,

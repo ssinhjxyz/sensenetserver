@@ -28,10 +28,6 @@ sendReservationDetails = function(to, login, password, reservedBBBIDs, reservedB
           console.log('The API returned an error: ' + err);
           return;
         }
-        if (response) {
-          console.log('The API returned a response: ' + response);
-          return;
-        }
       });   
     }
     );

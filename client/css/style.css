@@ -43,3 +43,7 @@ html, body {
 	box-shadow: none !important;
 	-webkit-box-shadow:none !important;
 }
+
+.navbar{
+	min-height: 70px !important;
+}
