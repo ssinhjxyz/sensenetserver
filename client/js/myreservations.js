@@ -17,17 +17,17 @@ function myReservations()
 				'<div class="col-md-3">' + rfc339ToString(reservations[i].start.dateTime) + '</div>' +
 				'<div class="col-md-3">' + rfc339ToString(reservations[i].end.dateTime) + '</div>' +
 				'<div class="col-md-3">' + (reservations[i].location) + '</div>' +
-                '<div class="col-md-3"><div class = "btn btn-danger" onclick=deleteReservation("' + (reservations[i].id) + '");>Delete</div></div>' +
+                '<div class="col-md-3"><div class = "btn btn-danger" onclick=deleteReservation("' + (reservations[i].id) + '","' + (reservations[i].organizer.email) + '");>Delete</div></div>' +
 				'</div></li>');
         	}
         });
 }
 
-function deleteReservation(id)
+function deleteReservation(eventId, calendarId)
 {
     $.ajax({
     type: "GET",
-    url: "/deletereservation?id=" + id,
+    url: "/deletereservation?eventId=" + eventId + "&calendarId=" + calendarId,
     traditional: true,
     }).done(
         function(response) 

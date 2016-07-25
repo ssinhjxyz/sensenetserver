@@ -17,16 +17,15 @@ exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
   }
 }
 
-exports.deleteEvent = function(id, res)
+exports.deleteEvent = function(eventId, calendarId, res)
 {
   var calendar = google.calendar('v3');
-  var calendarId = CALENDAR.IDS[1];
-
+  
   calendar.events.delete({
   auth: authToken.token,
   calendarId: calendarId,
   sendNotifications:true,
-  eventId:id
+  eventId:eventId
   }, function(err, event) 
   {
     var response ={status:"ok"};

@@ -41,6 +41,7 @@ exports.get = function (emailId, res)
         }, 
         function(err, response) 
         {
+          
           numResponses++;
           events.push.apply(events, response.items)
           // If we have received all the responses from all calendars, 

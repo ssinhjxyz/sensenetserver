@@ -76,8 +76,11 @@ app.get('/myreservations', urlencodedParser, function(req, res)
 
 app.get('/deletereservation', urlencodedParser, function(req, res)
 {
-    var eventId = req.query.id;
-    gcalInterface.deleteEvent(eventId,res);
+    var eventId = req.query.eventId;
+    var calendarId = req.query.calendarId;
+    console.log(eventId);
+    console.log(calendarId);
+    gcalInterface.deleteEvent(eventId, calendarId, res);
 });
 
 reachabilityChecker.start();   
