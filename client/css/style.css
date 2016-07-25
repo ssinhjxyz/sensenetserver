@@ -38,12 +38,19 @@ html, body {
   }
 
 .active {
+	font-color:black !important;
 	font-weight: bolder;
-	background-color: white !important;
 	box-shadow: none !important;
 	-webkit-box-shadow:none !important;
 }
 
+.loginMethod .active{
+	background-color: white !important;
+}
+
+.loginMethod label{
+	color:gray;
+}
 .navbar{
 	min-height: 70px !important;
 }

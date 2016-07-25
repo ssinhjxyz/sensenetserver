@@ -6,10 +6,4 @@ $(function()
 	$("#reserve").click(function(event){reserve(event)});
 	$("#showReservationDetails").hide();
 	$("#myReservationsLink").click(function(event){myReservations()});
-	$(window).resize(function(event)
-	{
-		var newHeight = $(window).height()-70;
-		$("#sensenetInterface").height(newHeight);
-
-	});
 });
