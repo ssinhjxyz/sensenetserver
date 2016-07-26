@@ -88,7 +88,7 @@ calendar.events.insert({
 });
 }
 
-exports.checkIfEventExists(calendarId, eventId)
+exports.checkIfEventExists = function(calendarId, eventId)
 {
   var calendar = google.calendar('v3');
     calendar.events.get(
