@@ -4,7 +4,7 @@ app.use(express.static('client'));
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var https = require("https");
-var util = require('util');
+var utils = require('./server/utils');
 var BBB = require('./server/settings/bbbs');
 var reservationCreator = require('./server/reservationcreator');
 var upload = require('./server/upload');

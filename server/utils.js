@@ -63,5 +63,7 @@ exports.ISODateString = function(d)
 
 exports.getUUID=function()
 {
-  return UUID.v4();
+  // Google Calendar does not allow '-' character in ids of events.
+  // So, remove this character.
+  return UUID.v4().replace(new RegExp('-', 'g'), '');
 }

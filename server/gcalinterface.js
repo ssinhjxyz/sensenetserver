@@ -47,7 +47,6 @@ var createEvent = function( bbbId, calendarId, emailId, startDateTime, endDateTi
 
   var calendar = google.calendar('v3');
   var attendees = [{'email':emailId}];
-
   var event = {
     'summary': "Sensenet Reservation",
     'location': "BBB " + bbbId,
@@ -88,7 +87,7 @@ calendar.events.insert({
 });
 }
 
-exports.checkIfEventExists = function(calendarId, eventId)
+exports.checkIfEventExists = function(calendarId, eventId, callback)
 {
   var calendar = google.calendar('v3');
     calendar.events.get(
@@ -99,8 +98,8 @@ exports.checkIfEventExists = function(calendarId, eventId)
     }, 
     function(err, response) 
     {
-      console.log("checking if event exists");
-      console.log(response);   
+      var exists = response.status == "confirmed";
+      callback(exists);   
     });
 
 }
