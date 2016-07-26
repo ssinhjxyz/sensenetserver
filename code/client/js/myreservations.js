@@ -12,8 +12,10 @@ function myReservations()
         function(response) 
         {
         	var reservations = JSON.parse(response);
+            reservations.sort(compareStartDate);
             for(var i in reservations)
         	{
+                console.log(rfc339ToTicks(reservations[i].start.dateTime));
         		$("#myReservationsList").append('<li class="list-group-item myReservationsData"><div class="row">' +
 				'<div class="col-md-3">' + rfc339ToString(reservations[i].start.dateTime) + '</div>' +
 				'<div class="col-md-3">' + rfc339ToString(reservations[i].end.dateTime) + '</div>' +
@@ -23,7 +25,7 @@ function myReservations()
         	}
         });
 }
-
+0
 function deleteReservation(eventId, calendarId)
 {
     $.ajax({
@@ -39,4 +41,11 @@ function deleteReservation(eventId, calendarId)
                 myReservations();
             }
         });
+}
+
+function compareStartDate(a,b) {
+  if (rfc339ToTicks(a.start.dateTime) < rfc339ToTicks(b.start.dateTime))
+    return -1;
+ else 
+    return 1;
 }
