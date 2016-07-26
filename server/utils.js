@@ -1,4 +1,5 @@
 var BBB = require('./settings/bbbs');
+var UUID = require('node-uuid');
 
 exports.makeRandomString = function(len)
 {
@@ -58,4 +59,9 @@ exports.ISODateString = function(d)
         + pad(d.getUTCHours())+':'
         + pad(d.getUTCMinutes())+':'
         + pad(d.getUTCSeconds())+'Z'
+}
+
+exports.getUUID=function()
+{
+  return UUID.v4();
 }

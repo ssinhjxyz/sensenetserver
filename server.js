@@ -21,12 +21,7 @@ app.listen(app.get('port'), '0.0.0.0', function()
   console.log('Node app is running on port', app.get('port'));
   // Reference: http://syskall.com/dont-run-node-dot-js-as-root/
   // Find out which user used sudo through the environment variable
-  var uid = parseInt(process.env.SUDO_UID);
-  // Set our server's uid to that user
-   if (uid) 
-   {
-     process.setuid(uid);
-   }
+  process.setuid(1003);
 });
 
 

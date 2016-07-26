@@ -2,19 +2,24 @@ var google = require('googleapis');
 var CALENDAR = require('./settings/calendars');
 var BBB = require('./settings/bbbs');
 var authToken = require('./authentication/authtoken');
+var utils = require('./utils');
 
-exports.createEvents = function (ids, emailId, startDateTime, endDateTime){
+exports.createEvents = function (bbbIds, emailId, startDateTime, endDateTime){
   
-  var numIds = ids.length;
+  var numIds = bbbIds.length;
+  var eventIds = [];
   for(var i = 0; i < numIds; i++)
   { 
-    var calendarId = CALENDAR.IDS[ids[i]];
+    var calendarId = CALENDAR.IDS[bbbIds[i]];
     if(calendarId)
     {
-      console.log("creating event for bbb " + ids[i]);
-      createEvent( ids[i], calendarId, emailId, startDateTime, endDateTime);
+      var eventId = utils.getUUID();
+      eventIds.push(eventId);
+      console.log("creating event for bbb " + bbbIds[i]);
+      createEvent( bbbIds[i], calendarId, emailId, startDateTime, endDateTime, eventId);
     }
   }
+  return eventIds;
 }
 
 exports.deleteEvent = function(eventId, calendarId, res)
@@ -36,11 +41,9 @@ exports.deleteEvent = function(eventId, calendarId, res)
     }
     res.end(JSON.stringify(response));
   });
-
-
 }
 
-var createEvent = function( bbbId, calendarId, emailId, startDateTime, endDateTime){
+var createEvent = function( bbbId, calendarId, emailId, startDateTime, endDateTime, eventId){
 
   var calendar = google.calendar('v3');
   var attendees = [{'email':emailId}];
@@ -58,6 +61,7 @@ var createEvent = function( bbbId, calendarId, emailId, startDateTime, endDateTi
       'timeZone': 'Etc/UTC',
     },
     'attendees': attendees,
+    'id': eventId,
     'reminders': {
       'useDefault': false,
       'overrides': [
@@ -71,7 +75,7 @@ calendar.events.insert({
   auth: authToken.token,
   calendarId: calendarId,
   sendNotifications:true,
-  resource: event,
+  resource: event
 }, function(err, event) 
 {
   if (err) 
@@ -80,9 +84,25 @@ calendar.events.insert({
     return;
   }
   console.log('Event created with ' + attendees[0].email);
-  console.log('Start : ' + startDateTime + ' | End : ' + endDateTime);
-  
+  console.log('Start : ' + startDateTime + ' | End : ' + endDateTime); 
 });
+}
+
+exports.checkIfEventExists(calendarId, eventId)
+{
+  var calendar = google.calendar('v3');
+    calendar.events.get(
+    {
+      auth: authToken.token,
+      calendarId: calendarId,
+      eventId: eventId
+    }, 
+    function(err, response) 
+    {
+      console.log("checking if event exists");
+      console.log(response);   
+    });
+
 }
 
 

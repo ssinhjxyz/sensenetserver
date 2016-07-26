@@ -3,9 +3,11 @@ var spawn = require('child_process').spawn;
 var schedule = require('node-schedule');
 var BBB = require('./settings/bbbs');
 var utils = require('./utils');
+var gcalInterface = require('./gcalinterface');
 
-exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey)
+exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, eventIds)
 {
+
   var password = "";
   if(loginMethod === "password")
   {
@@ -20,11 +22,11 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
     {
       if(loginMethod === "password")
       {
-        schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login);
+        schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login, BBB.Info[ids[i]].CalendarId, eventIds[i]);
       }
       else if (loginMethod === "rsa")
       {
-        scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey);
+        scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey, BBB.Info[ids[i]].CalendarId, eventIds[i]);
       }
     }
   }
@@ -32,7 +34,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
 }
 
 
-function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey)
+function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey, calendarId, eventId)
 {
  
   var addUserCommand = "sh ./server/scripts/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
@@ -41,6 +43,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, delete
   // first create the user, then add the public key
   var createReservation = schedule.scheduleJob(startDateTime, function()
   {
+    gcalInterface.checkIfEventExists(calendarId, eventId)
     exec(addUserCommand,
     function (error, stdout, stderr) 
     {
@@ -97,8 +100,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, delete
   });
 }
 
-
-function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login)
+function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login, eventIds)
 {  
   var python = spawn('python', ["./server/scripts/encodepassword.py", password]);
   python.stdout.on('data', 
