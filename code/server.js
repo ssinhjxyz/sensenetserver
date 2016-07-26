@@ -13,6 +13,7 @@ var googleAuth = require('./server/authentication/googleauth');
 var reachabilityChecker = require('./server/reachabilitychecker');
 var myReservations = require('./server/reservations/myreservations');
 var gcalInterface = require('./server/gcalinterface');
+var readSettings = require('./server/readsettings');
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -74,4 +75,5 @@ app.get('/deletereservation', urlencodedParser, function(req, res)
     gcalInterface.deleteEvent(eventId, calendarId, res);
 });
 
-reachabilityChecker.start();   
+readSettings.read();
+//reachabilityChecker.start();  
