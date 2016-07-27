@@ -87,7 +87,7 @@ function showResults(response)
        else if(response.loginMethod == "rsa")
        {
         $("#reservationPassword").html("");
-        $("#reservationLoginMethod").html("RSA key"-);
+        $("#reservationLoginMethod").html("RSA key");
        }
        for(var i = 0; i < numReserved; i++)
        {
