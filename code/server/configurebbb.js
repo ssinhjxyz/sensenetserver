@@ -57,10 +57,11 @@ exports.add = function(req, res)
 		          	{
 					   console.log('exec error: ' + error);
 			      	}
+			      	BBB.Info[bbbID] = {};
 			      	BBB.Info[bbbID].IP = bbbIP;
 					BBB.Info[bbbID].Port = bbbPort;
 					BBB.Info[bbbID].Configured = true;
-					BBB.Info[bbbID].Reachability = "unknown";
+					BBB.Info[bbbID].Reachability = "up";
 			      	res.end(JSON.stringify({status:"ok"}));
 		      	});
 	      	});

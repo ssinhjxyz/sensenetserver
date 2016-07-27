@@ -10,7 +10,7 @@ exports.start = function()
 run = function()
 {
   var nextRun = new Date();
-  nextRun.setUTCMinutes(nextRun.getUTCMinutes() + 10);
+  nextRun.setUTCMinutes(nextRun.getUTCMinutes() + 1);
   var numBBBs = BBB.Info.length
   for(var i in BBB.Info)
   {
