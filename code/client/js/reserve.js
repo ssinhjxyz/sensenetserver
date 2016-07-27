@@ -81,13 +81,13 @@ function showResults(response)
        $('#reservationsCreated').show();
        if(response.loginMethod == "password")
        {
-        $("#reservationPassword").html(".Your password is " + response.password);
+        $("#reservationPassword").html("<br>.Your password is " + response.password);
         $("#reservationLoginMethod").html("password");
        }
        else if(response.loginMethod == "rsa")
        {
         $("#reservationPassword").html("");
-        $("#reservationLoginMethod").html("RSA key");
+        $("#reservationLoginMethod").html("RSA key"-);
        }
        for(var i = 0; i < numReserved; i++)
        {
