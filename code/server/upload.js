@@ -47,7 +47,7 @@ exports.do = function(req, res, callback)
          };
          var ids = inputs.bbbIds.split(",");
          reservationCreator.create( ids, inputs.emailId, inputs.start, inputs.end, login, 
-            inputs.loginMethod, inputs.uid, inputs.deleteKey, function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
+            inputs.loginMethod, inputs.uid, inputs.deleteKey, inputs.uploadKey, function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
            {
              response.password = password;
              response.reservedBBBIDs = reservedBBBIDs;

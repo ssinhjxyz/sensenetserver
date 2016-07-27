@@ -54,7 +54,8 @@ function callReserve()
         startDateTime: start,
         endDateTime: end,
         uid: uid, 
-        deleteKey: document.getElementById('deleteKey').checked
+        deleteKey: document.getElementById('deleteKey').checked,
+        uploadKey: document.getElementById('uploadKey').checked
     }
     }).done(
         function(response) {
