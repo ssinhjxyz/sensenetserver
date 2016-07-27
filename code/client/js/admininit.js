@@ -11,12 +11,7 @@ $(function()
       type: "POST",
       url: "/configurebbb",
       traditional: true,
-      data: 
-      {
-          bbbIP:bbbIP,
-          bbbPort:bbbPort,
-          bbbID:bbbID
-      }
+      data:data
       });
   });
 
