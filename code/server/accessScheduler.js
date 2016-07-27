@@ -7,6 +7,7 @@ var gcalInterface = require('./gcalinterface');
 
 exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds)
 {
+  console.log(uploadKey);
   var password = "";
   if(loginMethod === "password")
   {

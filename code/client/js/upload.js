@@ -37,6 +37,7 @@ function upload(filename, emailId, bbbIds,start, end, loginMethod)
 	formData.append('loginMethod', loginMethod);
 	formData.append('uid', filename);
 	formData.append('deleteKey', document.getElementById('deleteKey').checked);
+	formData.append('uploadKey', document.getElementById('uploadKey').checked)
     $.ajax(
     {
 	  url: '/reserve',
