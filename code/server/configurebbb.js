@@ -15,6 +15,7 @@ exports.add = function(req, res)
 	var bbbIP = req.body.bbbIP;
 	var bbbPort = req.body.bbbPort;
 	var bbbID = req.body.bbbID;
+	var bbbCalendarId = req.body.bbbCalendarId;
 
 	var addUserCommand = "sh ./server/scripts/addaccessserveruser.sh " + bbbIP +  " " + accessServerUser + " " + accessServerPassword;
 	var addPublicKeyCommand = "sh ./server/scripts/addaccessserverpublickey.sh " + bbbIP + " " + accessServerUser + " " + accessServerKeyName;
@@ -62,6 +63,7 @@ exports.add = function(req, res)
 					BBB.Info[bbbID].Port = bbbPort;
 					BBB.Info[bbbID].Configured = true;
 					BBB.Info[bbbID].Reachability = "up";
+					BBB.Info[bbbID].CalendarId = bbbCalendarId;
 			      	res.end(JSON.stringify({status:"ok"}));
 		      	});
 	      	});

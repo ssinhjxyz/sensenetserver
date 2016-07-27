@@ -14,6 +14,7 @@ $(function()
     data.bbbIP = $("#bbbIP").val();
     data.bbbPort = $("#bbbPort").val();
     data.bbbID = $("#bbbID").val();
+    data.bbbCalendarId = $("#bbbCalendarId").val();
     $.ajax({
       type: "POST",
       url: "/configurebbb",
