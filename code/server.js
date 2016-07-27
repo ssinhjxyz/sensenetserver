@@ -41,7 +41,7 @@ app.get('/admin', function (req, res) {
 })
 
 
-app.post('/addbbb', urlencodedParser, function(req, res)
+app.post('/configurebbb', urlencodedParser, function(req, res)
 {
   	addbbb.add(req, res);
 });
@@ -76,4 +76,4 @@ app.get('/deletereservation', urlencodedParser, function(req, res)
 });
 
 readSettings.read();
-//reachabilityChecker.start();  
+reachabilityChecker.start();  

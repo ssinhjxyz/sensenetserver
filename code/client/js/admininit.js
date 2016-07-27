@@ -9,7 +9,7 @@ $(function()
     data.bbbID = $("#bbbID").val();
     $.ajax({
       type: "POST",
-      url: "/addbbb",
+      url: "/configurebbb",
       traditional: true,
       data: 
       {

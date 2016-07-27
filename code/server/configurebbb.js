@@ -9,34 +9,32 @@ var accessServerPassword = "papIusctQCe3U";
 var accessServerIP = "152.14.102.239";
 var bbbInterface = "eth0";
 
-
 exports.add = function(req, res)
 {
-
 	var bbbIP = req.body.bbbIP;
 	var bbbPort = req.body.bbbPort;
 	console.log(bbbIP);
 	console.log(bbbPort);
 
 	var addUserCommand = "sh ./server/scripts/addaccessserveruser.sh " + bbbIP +  " " + accessServerUser + " " + accessServerPassword;
-  	var addPublicKeyCommand = "sh ./server/scripts/addaccessserverpublickey.sh " + bbbIP + " " + accessServerUser + " " + accessServerKeyName;
-  	var portTranslationCommand = "sh ./server/scripts/porttranslation.sh " + bbbIP + " " + bbbPort;
-  	var addDefaultGatewayCommand = "sh ./server/scripts/adddefaultgateway.sh " + bbbIP + " " + accessServerIP + " " + bbbInterface;
+	var addPublicKeyCommand = "sh ./server/scripts/addaccessserverpublickey.sh " + bbbIP + " " + accessServerUser + " " + accessServerKeyName;
+	var portTranslationCommand = "sh ./server/scripts/porttranslation.sh " + bbbIP + " " + bbbPort;
+	var addDefaultGatewayCommand = "sh ./server/scripts/adddefaultgateway.sh " + bbbIP + " " + accessServerIP + " " + bbbInterface;
 
-  	exec(addUserCommand,
-    function (error, stdout, stderr) 
-    {
-      console.log('stdout:' + stdout);
-      if (error !== null) 
-      {
-        console.log('exec error: ' + error);
-      }
-      exec(addPublicKeyCommand,    	
-    	function (error, stdout, stderr) 
-    	{
+	exec(addUserCommand,
+	function (error, stdout, stderr) 
+	{
+	  console.log('stdout:' + stdout);
+	  if (error !== null) 
+	  {
+	    console.log('exec error: ' + error);
+	  }
+	  exec(addPublicKeyCommand,    	
+		function (error, stdout, stderr) 
+		{
 	      	console.log('stdout: ' + stdout);
 	      	if (error !== null) 
-          	{
+	      	{
 			   console.log('exec error: ' + error);
 	      	}
 	      	exec(portTranslationCommand,    	
@@ -57,7 +55,6 @@ exports.add = function(req, res)
 			      	}
 		      	});
 	      	});
-
-      	});
-      });
+	  	});
+	  });
 }
