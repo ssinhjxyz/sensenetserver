@@ -25,7 +25,7 @@ function rfc339ToString(rfc339)
 
 function rfc339ToTicks(rfc339)
 {
-    var ticks = moment(rfc339).unix();
+    var ticks = moment(rfc339).toDate().getTime();
     return ticks;
           
 }
