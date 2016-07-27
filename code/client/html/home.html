@@ -46,15 +46,16 @@
 
 
         var bbbInfo = [
-                       {id:3, lat: 35.771959, lng:-78.673920},
-                       {id:2, lat: 35.771659, lng:-78.673327},
-                       {id:1, lat: 35.771736, lng:-78.673527}
+                       {id:3, lat: 35.771920, lng:-78.674100, description:"EB2 ECE, 1st floor, Student org room"},
+                       {id:2, lat: 35.771659, lng:-78.673327, description:"EB2 CSC, 2nd floor, faculty cabins"},
+                       {id:1, lat: 35.771736, lng:-78.673527, description:"EB2 CSC, 2nd floor, 2303C"}
                       ];
 
         for(var i = 0; i < bbbInfo.length; i++)
         {
             var contentString = '<div id="content">'+
-            '<h1 id="firstHeading" class="firstHeading">BBB '+ bbbInfo[i].id + '</h1>'+
+            '<h1 class="firstHeading">BBB '+ bbbInfo[i].id + '</h1>'+
+            '<h5>'+ bbbInfo[i].description + '</div>'+
             '</div>';
 
             var infoWindow = new google.maps.InfoWindow({
