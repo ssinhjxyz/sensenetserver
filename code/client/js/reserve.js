@@ -1,3 +1,10 @@
+function showCreateReservation()
+{
+  $("#createReservation").show();
+  $("#myReservations").hide(); 
+}
+
+
 function reserve(event) 
 {
     event.preventDefault();

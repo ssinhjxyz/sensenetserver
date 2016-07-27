@@ -6,4 +6,5 @@ $(function()
 	$("#reserve").click(function(event){reserve(event)});
 	$("#showReservationDetails").hide();
 	$("#myReservationsLink").click(function(event){myReservations()});
+	$("#createReservationLink").click(function(event){showCreateReservation()});
 });

@@ -45,7 +45,10 @@ function hasEventStarted(startTime)
 function deleteReservation(eventId, calendarId, startTime)
 {  
     if(hasEventStarted(startTime))
+    {
+        alert("The reservation has already started. It cannot be deleted now.")
         return;
+    }
 
     $.ajax({
     type: "GET",
