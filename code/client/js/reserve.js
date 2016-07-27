@@ -52,8 +52,6 @@ function callReserve()
     }).done(
         function(response) {
             var response = JSON.parse(response);
-            $("#reservationLogin").html(response.login);
-            $("#reservationPassword").html(response.password);
             $("#keyUploaded").hide();
             showResults(response);
         });
@@ -62,6 +60,7 @@ function callReserve()
 
 function showResults(response)
 {
+    $("#reservationLogin").html(response.login);
     $('#reservationsCreated').hide();
     $('#reservationsFailed').hide();
     $('#invalidEvent').hide();
@@ -78,7 +77,18 @@ function showResults(response)
     var numFailed = response.failedBBBIDs.length;
     if(numReserved > 0)
     {
+
        $('#reservationsCreated').show();
+       if(response.loginMethod == "password")
+       {
+        $("#reservationPassword").html(".Your password is " + response.password);
+        $("#reservationLoginMethod").html("password");
+       }
+       else if(response.loginMethod == "rsa")
+       {
+        $("#reservationPassword").html("");
+        $("#reservationLoginMethod").html("RSA key");
+       }
        for(var i = 0; i < numReserved; i++)
        {
            $('#reservationsCreatedDetails').append("<div>BBB " + response.reservedBBBIDs[i] +

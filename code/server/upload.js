@@ -54,6 +54,7 @@ exports.do = function(req, res, callback)
              response.reservedBBBIPs = reservedBBBIPs;
              response.failedBBBIDs = failedBBBIDs;
              response.isValidEvent = isValidEvent;
+             response.loginMethod = inputs.loginMethod;
              res.end(JSON.stringify(response));
           });
       });
