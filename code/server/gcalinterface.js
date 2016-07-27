@@ -97,7 +97,11 @@ exports.checkIfEventExists = function(calendarId, eventId, callback)
     }, 
     function(err, response) 
     {
-      var exists = response.status == "confirmed";
+      var exists = false;
+      if(!err)
+      {
+        exists = response.status == "confirmed";
+      }
       callback(exists);   
     });
 

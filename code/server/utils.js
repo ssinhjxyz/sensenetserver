@@ -38,6 +38,10 @@ exports.validateBBBIDs = function(ids)
     {
      failedIDs.push({id:id, message:"device is down."});  
     }
+    else if(!bbb.CalendarId)
+    {
+     failedIDs.push({id:id, message:"device does not have a calendar."});   
+    }
     else
     {
       var bbbPort = bbb.Port;
