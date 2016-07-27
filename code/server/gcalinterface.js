@@ -1,5 +1,4 @@
 var google = require('googleapis');
-var CALENDAR = require('./settings/calendars');
 var BBB = require('./settings/bbbs');
 var authToken = require('./authentication/authtoken');
 var utils = require('./utils');
@@ -10,7 +9,7 @@ exports.createEvents = function (bbbIds, emailId, startDateTime, endDateTime){
   var eventIds = [];
   for(var i = 0; i < numIds; i++)
   { 
-    var calendarId = CALENDAR.IDS[bbbIds[i]];
+    var calendarId = BBB.Info[bbbIds[i]].CalendarId;
     if(calendarId)
     {
       var eventId = utils.getUUID();
@@ -141,7 +140,13 @@ TimingsValidater.prototype.validate = function(startTime, endTime)
 TimingsValidater.prototype.validateBBBCalendar = function( bbbId, startTime, endTime, numBBBs)
 {
     var that = this;
-    var calendarId = CALENDAR.IDS[bbbId];
+    var calendarId = BBB.Info[bbbId].CalendarId;
+    if(!calendarId)
+    {
+      this.numResponsesReceived++;
+      this.results[2].push({id:bbbId, message:"device does not have a google calendar."});
+      return;
+    }
     var calendar = google.calendar('v3');
     calendar.events.list(
     {
@@ -156,7 +161,7 @@ TimingsValidater.prototype.validateBBBCalendar = function( bbbId, startTime, end
     function(err, response) 
     {
       that.numResponsesReceived++;
-      console.log( bbbId + " : " + response.items);
+      //console.log( bbbId + " : " + response.items);
       if (err)
       {
         // To do : Remove from valid list.
