@@ -18,7 +18,7 @@ else echo 'authorized_keys file exists'
 fi"
 
 #if the same public key is already present in "authorized_keys", do not add again.
-publickey=$(cat "/home/ssingh28/sensenetserver/server/code/uploads/$3") 
+publickey=$(cat "/home/ssingh28/sensenetserver/code/server/uploads/$3") 
 ssh root@$1 "if  grep -q '$publickey' </home/$2/.ssh/authorized_keys;
 then echo 'public key already exists'
 else echo '$publickey' |  tee -a /home/$2/.ssh/authorized_keys  
