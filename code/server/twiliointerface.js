@@ -4,11 +4,11 @@ var client = require('twilio')('AC62494497fe1eb943d38d4b28adbbf7e3', '5c86112820
 // Use this convenient shorthand to send an SMS:
 exports.sendSms = function()
 {
-    /*client.sendSms(
+    client.sendSms(
     {
         to:'+19193481309',
         from:'+12018993318',
-        body:'ahoy hoy! Testing Twilio and node.js'
+        body:'Reservation succeded !'
     }, function(error, message) {
         if (!error) {
             console.log('Success! The SID for this SMS message is:');
@@ -18,5 +18,5 @@ exports.sendSms = function()
         } else {
             console.log('Oops! There was an error.');
         }
-    });*/
+    });
 }
