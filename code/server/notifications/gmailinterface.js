@@ -102,7 +102,7 @@ function createReservationDetailsMail(to, login, loginMethod, password, reserved
         body += reservedBBBIDs[i] + ", Port : " + reservedBBBIPs[i];
         body += " <br>";
      }
-     body += ' Login using the command : "ssh &lt;login&gt; &#64;152.14.87.8 -p &lt;port&gt; "  <br>';   
+     body += ' Login using the command : "ssh &lt;login&gt;&#64;152.14.87.8 -p &lt;port&gt; "  <br>';   
   }
 
   if(numFailed > 0)
