@@ -2,7 +2,7 @@ var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
 var reservationCreator = require('./reservationcreator');
-var uploadDir = '/uploads';
+var uploadDir = './server/uploads';
 
 exports.do = function(req, res, callback) 
 {
@@ -12,11 +12,11 @@ exports.do = function(req, res, callback)
       var form = new formidable.IncomingForm();
 
       // store all uploads in the /uploads directory
-      form.uploadDir = path.join(__dirname, 'uploads');
+      form.uploadDir =  uploadDir;
       
       // create uploads folder if it does not exist
-      if (!fs.existsSync(form.uploadDir)){
-          fs.mkdirSync(form.uploadDir);
+      if (!fs.existsSync(uploadDir)){
+          fs.mkdirSync(uploadDir);
           console.log("creating uploads folder");
       }
 
@@ -26,8 +26,6 @@ exports.do = function(req, res, callback)
         console.log(key + ":" + value);
       });
 
-      // every time a file has been uploaded successfully,
-      // rename it to it's orignal name
       form.on('file', function(field, file) {
           fs.rename(file.path, path.join(form.uploadDir, file.name));
       });
