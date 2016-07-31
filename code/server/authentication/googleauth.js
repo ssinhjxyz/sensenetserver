@@ -25,6 +25,7 @@ authorize = function(credentials, callback) {
   {
     if (err) 
     {
+      console.log("reading auth token" + err);
       getNewToken(oauth2Client, callback);
     } 
     else 
@@ -35,7 +36,6 @@ authorize = function(credentials, callback) {
     }
   });
 }
-
 
 /**
  * Get and store new token after prompting for user authorization, and then

@@ -1,8 +1,8 @@
-var gcalInterface = require('./gcalinterface');
-var accessScheduler = require('./accessScheduler');
-var utils = require('./utils');
-var gmailInterface = require('./gmailinterface');
-var twilioInterface = require('./twiliointerface');
+var gcalInterface = require('../reservations/gcalinterface');
+var accessScheduler = require('../deviceaccess/accessScheduler');
+var utils = require('../utils/utils');
+var gmailInterface = require('../notifications/gmailinterface');
+var twilioInterface = require('../notifications/twiliointerface');
 
 exports.create = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, callback)
 { 

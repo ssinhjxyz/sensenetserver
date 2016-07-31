@@ -1,4 +1,4 @@
-var BBB = require('./settings/bbbs');
+var BBB = require('../settings/bbbs');
 var UUID = require('node-uuid');
 
 exports.makeRandomString = function(len)

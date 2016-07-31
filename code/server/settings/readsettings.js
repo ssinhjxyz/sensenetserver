@@ -1,12 +1,12 @@
 var fs = require('fs');
-var BBB = require('./settings/bbbs');
+var BBB = require('./bbbs');
 var SETTINGS_PATH = '../settings/settings.json';
 
 exports.read = function()
 {
   try
   {
-    BBB.Info = JSON.parse(fs.readFileSync(SETTINGS_PATH));
+    BBB.Info = JSON.parse(fs.readFileSync(SETTINGS_PATH));   
     console.log("settings read successfully.");
   }
   catch(err)
@@ -15,7 +15,6 @@ exports.read = function()
     console.log(err);
   } 
 }
-
 
 
   

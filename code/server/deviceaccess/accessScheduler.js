@@ -1,9 +1,9 @@
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var schedule = require('node-schedule');
-var BBB = require('./settings/bbbs');
-var utils = require('./utils');
-var gcalInterface = require('./gcalinterface');
+var BBB = require('../settings/bbbs');
+var utils = require('../utils/utils');
+var gcalInterface = require('../reservations/gcalinterface');
 
 exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds)
 {

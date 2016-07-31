@@ -1,7 +1,7 @@
 var google = require('googleapis');
 var BBB = require('../settings/bbbs');
 var authToken = require('../authentication/authtoken');
-var utils = require('../utils');
+var utils = require('../utils/utils');
 
 exports.get = function (emailId, res)
 {

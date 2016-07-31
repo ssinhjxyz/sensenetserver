@@ -1,5 +1,5 @@
 var exec = require('child_process').exec;
-var BBB = require('./settings/bbbs');
+var BBB = require('../settings/bbbs');
 
 // Constants
 var accessServerUser = "access_server";
