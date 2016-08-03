@@ -20,9 +20,9 @@ app.use(express.static(__dirname + '/public'));
 app.listen(app.get('port'), '0.0.0.0', function() 
 {
   console.log('Node app is running on port', app.get('port'));
-  // Reference: http://syskall.com/dont-run-node-dot-js-as-root/
-  // Find out which user used sudo through the environment variable
-     process.setuid(1003);
+  // We launch the server using sudo as listening to port 80 needs sudo privelges
+  // Then we run the server as a user with limited rights to minimize security risks in case the server is compromised.
+  process.setuid(1003);
 });
 
 

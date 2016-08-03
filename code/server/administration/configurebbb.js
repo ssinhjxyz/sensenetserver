@@ -1,6 +1,5 @@
 var exec = require('child_process').exec;
 var BBB = require('../settings/bbbs');
-
 // Constants
 var accessServerUser = "access_server";
 var accessServerKeyName = "access_server.pub;"
@@ -9,6 +8,7 @@ var accessServerPassword = "papIusctQCe3U";
 // Used for adding a default gateway at the BBB
 var accessServerIP = "152.14.102.239";
 var bbbInterface = "eth0";
+
 
 exports.add = function(req, res)
 {
