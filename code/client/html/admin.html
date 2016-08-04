@@ -2,9 +2,12 @@
 <head>
   <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <link rel="stylesheet" type="text/css" href="../css/admin/color.css">
   <script src="../js/common/jquery.js"></script>
   <script src="../js/common/bootstrap.min.js"></script>
   <script src="../js/admin/init.js"></script>
+  <script src="../js/admin/updateBBBConfig.js"></script>
+  <script src="../js/admin/eventHandling.js"></script>
 </head>
 <body>
   <nav class="navbar navbar-default">
@@ -35,8 +38,11 @@
 <div class="col-md-8">
  The reachability status is refreshed every 1 minute using a "ping" command.
 </div>
-<div class="col-md-4">
+<div class="col-md-2">
  <div class="btn btn-primary pull-right" id="refreshInfo">Refresh</div>
+</div>
+<div class="col-md-2">
+ <div id="updateBBBConfig" class="btn btn-primary pull-right">Update Config</div>
 </div>
 </div>
 <div class="row">
@@ -69,19 +75,19 @@
 <div class="col-md-12">
 <form class="form-inline">
   <div class="form-group">
-    <label for="exampleInputName2">BBB ID</label>
+    <label>BBB ID</label>
     <input type="text" class="form-control" id="bbbID" placeholder="1">
   </div>
   <div class="form-group">
-    <label for="exampleInputName2">BBB IP</label>
+    <label>BBB IP</label>
     <input type="text" class="form-control" id="bbbIP" placeholder="152.14.102.230">
   </div>
   <div class="form-group">
-    <label for="exampleInputEmail2">BBB Port</label>
+    <label>BBB Port</label>
     <input type="text" class="form-control" id="bbbPort" placeholder="51001">
   </div>
   <div class="form-group">
-    <label for="exampleInputEmail2">Calendar Id</label>
+    <label>Calendar Id</label>
     <input type="text" class="form-control" id="bbbCalendarId" placeholder="calendar id">
   </div>
   <button id="configureBBB" class="btn btn-default">Configure</button>

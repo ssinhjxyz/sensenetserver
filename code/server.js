@@ -9,13 +9,15 @@ var BBB = require('./server/settings/bbbs');
 var reservationCreator = require('./server/reservations/reservationcreator');
 var upload = require('./server/reservations/upload');
 var addbbb = require('./server/administration/configurebbb');
+var updateBBBConfig = require('./server/administration/updatebbbconfig');
 var googleAuth = require('./server/authentication/googleauth');
 var reachabilityChecker = require('./server/administration/reachabilitychecker');
 var myReservations = require('./server/reservations/myreservations');
 var gcalInterface = require('./server/reservations/gcalinterface');
 var readSettings = require('./server/settings/readsettings');
 
-app.set('port', (process.env.PORT || 80));
+
+app.set('port', (process.env.PORT || 81));
 app.use(express.static(__dirname + '/public'));
 app.listen(app.get('port'), '0.0.0.0', function() 
 {
@@ -26,17 +28,20 @@ app.listen(app.get('port'), '0.0.0.0', function()
 });
 
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res) 
+{
     res.sendFile(__dirname + "/client/html/" + "home.html" );
 })
 
 
-app.get('/reservations', function (req, res) {
+app.get('/reservations', function (req, res) 
+{
     res.sendFile( __dirname + "/client/html/" + "reservations.html" );
 })
 
 
-app.get('/admin', function (req, res) {
+app.get('/admin', function (req, res) 
+{
     res.sendFile( __dirname + "/client/html/" + "admin.html" );
 })
 
@@ -73,6 +78,11 @@ app.get('/deletereservation', urlencodedParser, function(req, res)
     var eventId = req.query.eventId;
     var calendarId = req.query.calendarId;
     gcalInterface.deleteEvent(eventId, calendarId, res);
+});
+
+app.post('/updatebbbconfig', urlencodedParser, function(req, res)
+{
+    updateBBBConfig.update(req, res);
 });
 
 readSettings.read();

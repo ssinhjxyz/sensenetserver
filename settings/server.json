@@ -1,0 +1,22 @@
+	{
+	 // The next 3 fields are used while creating a user for the access server at the BBB.
+	 // This enables the access server to login to the BBB programatically
+	 // User name for access server created at the BBB
+	 "accessServerUser":"access_server",
+	 // Name of the RSA key of the access server. 
+	 // This is kept in the uploads folder for easy access
+	 "accessServerKeyName":"access_server.pub", 
+	 // Encrypted password for "BlueMountains*953".
+	 // The access server user created at the BBB has this password.
+	 "accessServerPassword":"papIusctQCe3U",
+
+	 //These 2 fields are used to configure a default gateway at the BBB pointing to the access server 
+	 "accessServerInterfaceTowardsBBB":"152.14.102.239",
+	 "bbbInterfaceTowardsAccessServer":"eth0",
+
+	 // Id of the user as whom the server runs
+	 // We launch the server using sudo as listening to port 80 needs sudo privelges
+  	 // Then we run the server as a user with limited priveleges, to minimize security risks in case the server is compromised.
+	 "accessServerUserId":1003
+	}
+
