@@ -17,7 +17,7 @@ var gcalInterface = require('./server/reservations/gcalinterface');
 var readSettings = require('./server/settings/readsettings');
 
 
-app.set('port', (process.env.PORT || 81));
+app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
 app.listen(app.get('port'), '0.0.0.0', function() 
 {

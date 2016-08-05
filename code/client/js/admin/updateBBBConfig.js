@@ -5,7 +5,7 @@ function sendBBBConfigToServer()
 {
 	var data = {};
 	data.configs = JSON.stringify(changedConfigs);
-	$("#updateBBBConfig").attr("disabled","true");
+	$("#updateBBBYes").attr("disabled","true");
     $.ajax({
       type: "POST",
       url: "/updatebbbconfig",
@@ -13,8 +13,9 @@ function sendBBBConfigToServer()
       data:data
     }).done(function()
     {
-    	$("#updateBBBConfig").removeAttr("disabled");
+    	$("#updateBBBYes").removeAttr("disabled");
     	resetChangedHTML();
+    	$("#updateBBBLaunchModal").attr("disabled","true");
     	changedConfigs = {};
     	changedHTML = [];
     });  
@@ -31,6 +32,7 @@ function resetChangedHTML()
 
 function addToChangedConfigs(htmlElem)
 {
+	$("#updateBBBLaunchModal").removeAttr("disabled");
 	var bbbId = $(htmlElem).data("id");
 	var property = $(htmlElem).data("property");
 	$(htmlElem).addClass("changed");

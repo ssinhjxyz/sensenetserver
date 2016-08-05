@@ -42,7 +42,7 @@
  <div class="btn btn-primary pull-right" id="refreshInfo">Refresh</div>
 </div>
 <div class="col-md-2">
- <div id="updateBBBConfig" class="btn btn-primary pull-right">Update Config</div>
+ <div id="updateBBBLaunchModal" class="btn btn-primary pull-right" data-toggle="modal" data-target=".bbbConfigUpdateConfirm" disabled="true">Update Config</div>
 </div>
 </div>
 <div class="row">
@@ -71,6 +71,25 @@
 </ul>
 </div>
 </div>
+
+<div class="modal fade bbbConfigUpdateConfirm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Please Confirm</h4>
+    </div>
+      <div class="modal-body">
+      <div>Are you sure that you want to update the BBB configuration ?</div>
+        </br>
+        <div id="updateBBBYes" class="btn btn-success" id data-dismiss="modal"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Yes</div>
+        <div class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="row paddingBottom">
 <div class="col-md-12">
 <form class="form-inline">

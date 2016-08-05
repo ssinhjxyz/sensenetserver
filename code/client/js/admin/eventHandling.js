@@ -18,7 +18,7 @@ $(function()
   });
 
 
-  $('#updateBBBConfig').click(function()
+  $('#updateBBBYes').click(function()
   {
     sendBBBConfigToServer();
   });
