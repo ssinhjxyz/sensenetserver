@@ -28,6 +28,7 @@ exports.do = function(req, res, callback)
 
       form.on('file', function(field, file) {
           fs.rename(file.path, path.join(form.uploadDir, file.name));
+
       });
     
       // log any errors that occur
@@ -38,6 +39,7 @@ exports.do = function(req, res, callback)
       // once all the files have been uploaded, send a response to the client
       form.on('end', function() 
       {
+
          var response = {};
          var login = inputs.emailId.match(/^([^@]*)@/)[1];
          var response = 
@@ -45,6 +47,7 @@ exports.do = function(req, res, callback)
             login  : login 
          };
          var ids = inputs.bbbIds.split(",");
+
          reservationCreator.create( ids, inputs.emailId, inputs.start, inputs.end, login, 
             inputs.loginMethod, inputs.uid, inputs.deleteKey, inputs.uploadKey, function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
            {

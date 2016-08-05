@@ -4,6 +4,7 @@ var schedule = require('node-schedule');
 var BBB = require('../settings/bbbs');
 var utils = require('../utils/utils');
 var gcalInterface = require('../reservations/gcalinterface');
+var fs = require('fs');
 
 exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds)
 {
@@ -81,7 +82,8 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, delete
    // disable login for the user and delete the public key.
    var deleteUserCommand = "sh ./server/scripts/deleteuser.sh " + bbbIP + " " + login + " " + uid;
    var deletePublicKeyCommand = "sh ./server/scripts/deletepublickey.sh " + bbbIP + " " + login + " " + uid;
-   var endReservation = schedule.scheduleJob(endDateTime, function(){
+   var endReservation = schedule.scheduleJob(endDateTime, function()
+   {
       exec(deleteUserCommand,
       function (error, stdout, stderr) 
       {
@@ -104,10 +106,30 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, delete
               {
                  console.log('exec error: ' + error);
               }
+              deleteLocallyStoredKey(uid);
           });
+        }
+        else
+        {
+          deleteLocallyStoredKey(uid);
         }
       });
   });
+}
+
+
+function deleteLocallyStoredKey(uid)
+{
+  // delete locally stored key
+  fs.unlink('./server/uploads/' + uid, (err) =>  {
+            if (err)
+            {
+              console.log('error deleting public key');
+              console.log(err);  
+            } 
+            console.log('successfully deleted /tmp/hello');
+          });
+
 }
 
 function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login, calendarId, eventId)
@@ -116,25 +138,25 @@ function schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, log
   python.stdout.on('data', 
   function(encpasswd)
   { 
-  var command = "sh ./server/scripts/adduser.sh " + bbbIP + " " + login + " " + encpasswd.toString().slice(0,-1) + " " + password;
-  var createUser = schedule.scheduleJob(startDateTime, function()
-  {
-    gcalInterface.checkIfEventExists(calendarId, eventId, function(exists)
+    var command = "sh ./server/scripts/adduser.sh " + bbbIP + " " + login + " " + encpasswd.toString().slice(0,-1) + " " + password;
+    var createUser = schedule.scheduleJob(startDateTime, function()
     {
-        if(!exists)
-          return;
-        
-        exec(command,
-        function (error, stdout, stderr) 
-        {
-          console.log("user " + login + " created");
-          if (error !== null) 
+      gcalInterface.checkIfEventExists(calendarId, eventId, function(exists)
+      {
+          if(!exists)
+            return;
+          
+          exec(command,
+          function (error, stdout, stderr) 
           {
-            console.log('exec error: ' + error);
-          }
-        });
-    });  
-  });
+            console.log("user " + login + " created");
+            if (error !== null) 
+            {
+              console.log('exec error: ' + error);
+            }
+          });
+      });  
+    });
 
   var killUser = schedule.scheduleJob(endDateTime, function()
   {
