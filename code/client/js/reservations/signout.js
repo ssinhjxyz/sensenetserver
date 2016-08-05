@@ -7,5 +7,6 @@
   		$("#signin").show();
   		$("#signout").hide();
       $("#signedout").show();
+      $("#reservationLinks").hide();
     });
   }

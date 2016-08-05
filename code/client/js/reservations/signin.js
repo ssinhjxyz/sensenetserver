@@ -9,6 +9,7 @@ function signIn(googleUser) {
 	  $("#user").text("Welcome, " + profile.getName());
 	  $(".sensenetInterface").show();
 	  $("#signedout").hide();
+	  $("#reservationLinks").show();
   }
   else
   {

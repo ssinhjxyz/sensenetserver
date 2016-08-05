@@ -22,7 +22,6 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   </head>
-
   <body>
   
   <nav class="navbar navbar-default">
@@ -48,18 +47,16 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a class="blackText" id="user"></a></li>
-        <li><a id="createReservationLink" href="#">Create Reservation</a></li>
-        <li><a id="myReservationsLink" href="#">My Reservations</a></li>
-        <li>
-        <div class="btn btn-lg" id="signin"></div></li>
+        <li><div class="btn btn-lg" id="signin"></div></li>
         <li><a href="#" id="signout" onclick="signOut();" style="display:none;position:relative !important;
   bottom:4px;"><div class="btn btn-default offsetBottom">Sign out</div></a><li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
 <div class ="container">
-  <div class-"row">
+  <div class="row">
     <div class="col-md-12">
     <p id="signedout">Please sign in</p>
   </div>
@@ -104,6 +101,17 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="container" id="reservationLinks" style="display:none;">
+<div class="row paddingBottom">
+    <div class="col-md-2">
+    <a href="#" id="createReservationLink">Create Reservation</a>
+    </div>
+    <div class="col-md-2">
+    <a href="#" id="myReservationsLink">My Reservations</a>
+    </div>
+</div>
+</div>
+  
 
 <div class = "sensenetInterface" style="display:none;">
   <div id="createReservation" class ="container">
