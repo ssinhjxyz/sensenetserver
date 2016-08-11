@@ -1,0 +1,82 @@
+var connection = require('../database/connection');
+
+exports.addUnique = function(emailId, callback)
+{
+   getCount(emailId, function(numUsers)
+   {
+   	 if(numUsers > 0)
+   	 {
+   	 	callback({status:"error", message:"user already exists."});
+   	 }
+   	 else
+   	 {
+   	 	add(emailId, callback);
+   	 }
+   });
+}
+
+getCount = function(emailId, callback)
+{
+   var users = connection.object.collection('users').find({"emailId":emailId});
+   users.count(function(err, numUsers)
+   	{
+   		if(err)
+   		{
+   			console.log("Error while getting count in Mongo DB: " + err);
+   			callback(-1);
+   		}
+   		else
+   		{
+   			console.log(numUsers);
+   			callback(numUsers);
+   		}
+   	});
+}
+
+add = function(emailId, callback)
+{
+	connection.object.collection('users').insertOne(
+	{
+		"emailId":emailId,
+		"password":"test",
+		"rsaKeys":[]
+	},function(err, result) 
+	{
+		if(err)
+   		{
+   			console.log("Error while getting count in Mongo DB: " + err);
+   			callback({status:"error", message:"Mongo DB error while getting count."});
+   		}
+   		else
+   		{
+   			console.log("Inserted user " + emailId + " into the users collection.");
+	    	callback({status:"ok"});
+   		}
+	    
+  	});
+}
+
+exports.updatePassword = function(emailId, callback, newPassword)
+{
+
+}
+
+exports.delete = function(emailId, callback)
+{	
+	connection.object.collection('users').deleteMany(
+	{
+	  "emailId":emailId
+	},function(err, result) 
+	{
+		if(err)
+   		{
+   			console.log("Error while deleting from Mongo DB:" + err);
+   			callback({status:"error", message:"Mongo DB error while removing user."});
+   		}
+   		else
+   		{
+   			console.log("Deleted user " + emailId + " from the users collection.");
+	    	callback({status:"ok"});
+   		}
+  	});
+}

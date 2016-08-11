@@ -5,13 +5,12 @@
   <link rel="stylesheet" type="text/css" href="../css/admin/color.css">
   <script src="../js/common/jquery.js"></script>
   <script src="../js/common/bootstrap.min.js"></script>
-  <script src="../js/admin/bbb.js"></script>
+  <script src="../js/admin/init.js"></script>
   <script src="../js/admin/updateBBBConfig.js"></script>
-  <script src="../js/admin/user.js"></script>
   <script src="../js/admin/eventHandling.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-default">
+  <nav class="navbar navbar-default">
 <div class="container">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
@@ -35,22 +34,7 @@
   </div><!-- /.navbar-collapse -->
 </div><!-- /.container-fluid -->
 </nav>
-
 <div class ="container">
-
-<!-- /.Admin page sublinks starts -->
-<div class="row paddingBottom">
-    <div class="col-md-2">
-    <a href="#" id="bbbLink">BBB</a>
-    </div>
-    <div class="col-md-2">
-    <a href="#" id="usersLink">Users</a>
-    </div>
-</div>
-<!-- /.Admin page sublinks ends -->
-
-<!-- /.BBB section starts -->
-<section id="bbbSection">
 <div class="row paddingBottom">
 <div class="col-md-8">
  The reachability status is refreshed every 1 minute using a "ping" command.
@@ -89,7 +73,6 @@
 </div>
 </div>
 
-<!-- BBB Update Confirmation Modal Dialog -->
 <div class="modal fade bbbConfigUpdateConfirm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-sm" role="document">
   <div class="modal-content">
@@ -107,7 +90,6 @@
   </div>
 </div>
 
-<!--Configure BBB Form-->
 <div class="row paddingBottom">
 <div class="col-md-12">
 <form class="form-inline">
@@ -131,24 +113,6 @@
 </form>
 </div>
 </div>
-</section>
-<!-- /.BBB section ends -->
-
-<!--Users section starts-->
-<section id="usersSection" class="row paddingBottom">
-<div class="col-md-12">
-<form class="form-inline">
-  <div class="form-group">
-    <label>Email</label>
-    <input type="text" class="form-control" id="userEmail" placeholder="name@ncsu.edu">
-  </div>
-  <button id="addUser" class="btn btn-primary">Add</button>
-  <button id="deleteUser" class="btn btn-primary">Delete</button>
-</form>
-</div>
-</section>
-</div>
-<!--Users section ends-->
 
 </body>
 </html>

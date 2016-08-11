@@ -10,12 +10,14 @@ var reservationCreator = require('./server/reservations/reservationcreator');
 var upload = require('./server/reservations/upload');
 var addbbb = require('./server/administration/configurebbb');
 var updateBBBConfig = require('./server/administration/updatebbbconfig');
+var addUser = require('./server/administration/adduser');
 var googleAuth = require('./server/authentication/googleauth');
 var reachabilityChecker = require('./server/administration/reachabilitychecker');
 var myReservations = require('./server/reservations/myreservations');
 var gcalInterface = require('./server/reservations/gcalinterface');
 var readSettings = require('./server/settings/readsettings');
-
+var connection = require('./server/database/connection');
+var users = require('./server/database/users');
 
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
@@ -84,5 +86,35 @@ app.post('/updatebbbconfig', urlencodedParser, function(req, res)
     updateBBBConfig.update(req, res);
 });
 
+app.post('/adduser', urlencodedParser, function(req, res)
+{
+    var emailId = req.body.emailId; 
+    users.addUnique(emailId, function(result)
+    {
+      if(result.status == "error")
+      {
+        console.log(result.status);
+        console.log(result.message);  
+      }
+      res.end();
+    });
+});
+
+app.post('/deleteuser', urlencodedParser, function(req, res)
+{
+    var emailId = req.body.emailId;
+    console.log(emailId);
+    users.delete(emailId, function(result)
+    {
+      if(result.status == "error")
+      {
+        console.log(result.status);
+        console.log(result.message);  
+      }
+      res.end();
+    });    
+});
+
 readSettings.read();
 reachabilityChecker.start();  
+connection.connect();
