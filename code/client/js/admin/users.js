@@ -1,6 +1,5 @@
 function addUser()
 {
-	
 	var data = {};
 	data.emailId = $("#userEmail").val();
 	$("#addUser").attr("disabled","true");
@@ -12,14 +11,14 @@ function addUser()
 	}).done(function()
 	{
 		$("#addUser").removeAttr("disabled");
-		console.log("user added")
+		refreshUserInfo();
 	});  
 }
 
-function deleteUser()
+function deleteUser(emailId)
 {
 	var data = {};
-	data.emailId = $("#userEmail").val();
+	data.emailId = emailId;
 	$("#deleteUser").attr("disabled","true");
 	$.ajax({
 	  type: "POST",
@@ -29,14 +28,13 @@ function deleteUser()
 	}).done(function()
 	{
 		$("#deleteUser").removeAttr("disabled");
-		console.log("user deleted")
-	});  
+		refreshUserInfo();
+	});
 }
 
 function refreshUserInfo()
-{
-	
-  $.ajax({
+{	
+  	$.ajax({
     type: "GET",
     url: "/userinfo",
     traditional: true,
@@ -47,9 +45,9 @@ function refreshUserInfo()
       var userInfo = JSON.parse(userInfo);
       for(var i in userInfo)
       {
-        $("#userInfo").append('<li class="list-group-item"><div class="row"><div class="col-md-2">' + parseInt(i+1) + '</div>' +
-                    '<div class="col-md-3">' + (userInfo[i]) + '</div>' + 
-                    '<div class="col-md-3"><div class = "btn btn-danger">Delete</div></div>');
+		$("#userInfo").append('<li class="list-group-item"><div class="row"><div class="col-md-2">' + parseInt(i+1) + '</div>' +
+        '<div class="col-md-3">' + (userInfo[i]) + '</div>' + 
+        '<div class="col-md-3"><div class = "btn btn-danger" onclick=deleteUser("' + userInfo[i] + '");>Delete</div></div>');
       }
     });  
 }
