@@ -50,7 +50,7 @@ add = function(emailId, callback)
    		else
    		{
    			console.log("Inserted user " + emailId + " into the users collection.");
-	    	callback({status:"ok"});
+	    	   callback({status:"ok"});
    		}
 	    
   	});
@@ -68,7 +68,7 @@ exports.delete = function(emailId, callback)
 	  "emailId":emailId
 	},function(err, result) 
 	{
-		if(err)
+		   if(err)
    		{
    			console.log("Error while deleting from Mongo DB:" + err);
    			callback({status:"error", message:"Mongo DB error while removing user."});
@@ -76,7 +76,29 @@ exports.delete = function(emailId, callback)
    		else
    		{
    			console.log("Deleted user " + emailId + " from the users collection.");
-	    	callback({status:"ok"});
+	    	   callback({status:"ok"});
    		}
   	});
+}
+
+exports.getAllEmails = function(callback)
+{
+   userEmails = [];
+   var users = connection.object.collection('users').find();
+   users.each(function(err, user) {
+      if(err)
+      {
+         console.log("Error while deleting from Mongo DB:" + err);
+         callback({status:"error", message:"Mongo DB error while getting all users."});
+      }
+      if(user != null) 
+      {
+         userEmails.push(user.emailId);
+      } 
+      else
+      {
+         callback({status:"ok"}, userEmails);      
+      }
+   });
+   //console.log(users);
 }

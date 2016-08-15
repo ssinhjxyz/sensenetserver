@@ -7,7 +7,7 @@
   <script src="../js/common/bootstrap.min.js"></script>
   <script src="../js/admin/bbb.js"></script>
   <script src="../js/admin/updateBBBConfig.js"></script>
-  <script src="../js/admin/user.js"></script>
+  <script src="../js/admin/users.js"></script>
   <script src="../js/admin/eventHandling.js"></script>
 </head>
 <body>
@@ -62,6 +62,8 @@
  <div id="updateBBBLaunchModal" class="btn btn-primary pull-right" data-toggle="modal" data-target=".bbbConfigUpdateConfirm" disabled="true">Update</div>
 </div>
 </div>
+
+<!-- /.BBB list -->
 <div class="row">
 <div class="col-md-12">
 <ul class="list-group">
@@ -136,6 +138,33 @@
 
 <!--Users section starts-->
 <section id="usersSection" class="row paddingBottom">
+
+<!-- /.Users list -->
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<ul class="list-group">
+<li class="list-group-item">
+  <div class="row">
+    <strong>
+    <div class="col-md-2">
+    Sr No
+    </div>
+    <div class="col-md-3">
+     Email Id
+    </div> 
+    <div class="col-md-3">
+      Delete 
+    </div>
+    </strong>   
+  </div>
+</li>
+<div class="list-group" id="userInfo">
+</div>
+</ul>
+</div>
+</div>
+
 <div class="col-md-12">
 <form class="form-inline">
   <div class="form-group">
@@ -146,6 +175,8 @@
   <button id="deleteUser" class="btn btn-primary">Delete</button>
 </form>
 </div>
+
+
 </section>
 </div>
 <!--Users section ends-->

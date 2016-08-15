@@ -42,6 +42,7 @@ $(function()
     $("#usersSection").show();
   });
   // Fetch and display BBB configurations on page load
-  refreshInfo();
+  refreshBBBInfo();
+  refreshUserInfo();
   $("#usersSection").hide();
 });

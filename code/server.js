@@ -10,7 +10,6 @@ var reservationCreator = require('./server/reservations/reservationcreator');
 var upload = require('./server/reservations/upload');
 var addbbb = require('./server/administration/configurebbb');
 var updateBBBConfig = require('./server/administration/updatebbbconfig');
-var addUser = require('./server/administration/adduser');
 var googleAuth = require('./server/authentication/googleauth');
 var reachabilityChecker = require('./server/administration/reachabilitychecker');
 var myReservations = require('./server/reservations/myreservations');
@@ -113,6 +112,14 @@ app.post('/deleteuser', urlencodedParser, function(req, res)
       }
       res.end();
     });    
+});
+
+app.get('/userinfo', urlencodedParser, function(req, res)
+{
+  users.getAllEmails(function(result, userEmails)
+  {
+    res.end(JSON.stringify(userEmails));
+  });    
 });
 
 readSettings.read();

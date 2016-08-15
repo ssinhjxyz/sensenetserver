@@ -10,9 +10,8 @@ exports.read = function()
   {
     BBB.Info = JSON.parse(fs.readFileSync(BBB_SETTINGS_PATH));   
     DATABASE.Info = JSON.parse(fs.readFileSync(DATABASE_SETTINGS_PATH));   
-    console.log(DATABASE.Info);
     console.log("settings read successfully.");
-  }
+  } 
   catch(err)
   {
     console.log("error while reading settings : ");

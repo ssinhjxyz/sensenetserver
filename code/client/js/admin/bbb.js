@@ -13,7 +13,7 @@ function configureBBB()
     });
 }
 
-function refreshInfo()
+function refreshBBBInfo()
 {
   $.ajax({
     type: "GET",

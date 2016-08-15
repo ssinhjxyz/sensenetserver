@@ -32,3 +32,25 @@ function deleteUser()
 		console.log("user deleted")
 	});  
 }
+
+function refreshUserInfo()
+{
+	
+  $.ajax({
+    type: "GET",
+    url: "/userinfo",
+    traditional: true,
+    }).done(
+    function(userInfo) 
+    {
+      $("#userInfo").empty();
+      var userInfo = JSON.parse(userInfo);
+      for(var i in userInfo)
+      {
+        $("#userInfo").append('<li class="list-group-item"><div class="row"><div class="col-md-2">' + parseInt(i+1) + '</div>' +
+                    '<div class="col-md-3">' + (userInfo[i]) + '</div>' + 
+                    '<div class="col-md-3"><div class = "btn btn-danger">Delete</div></div>');
+      }
+    });  
+}
+
