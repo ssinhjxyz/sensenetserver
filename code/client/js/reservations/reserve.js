@@ -1,7 +1,8 @@
 function showCreateReservation()
 {
   $("#createReservation").show();
-  $("#myReservations").hide(); 
+  $("#myReservations").hide();
+  $("#myCredentials").hide();
 }
 
 

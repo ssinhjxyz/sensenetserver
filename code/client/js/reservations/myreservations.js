@@ -1,7 +1,9 @@
-function myReservations()
+function showMyReservations()
 {
-	$("#createReservation").hide();
+    $("#createReservation").hide();
     $("#myReservations").show();
+    $("#myCredentials").hide();
+
     var emailId = $("#emailId").text();
     $(".myReservationsData").remove();
     $.ajax({
@@ -60,7 +62,7 @@ function deleteReservation(eventId, calendarId, startTime)
             var response = JSON.parse(response);
             if(response.status == "ok")
             {
-                myReservations();
+                showMyReservations();
             }
         });
 }

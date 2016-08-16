@@ -18,6 +18,7 @@
     <script src="js/reservations/utils.js"></script>
     <script src="js/reservations/upload.js"></script>
     <script src="js/reservations/loginmethod.js"></script>
+    <script src="js/reservations/mycredentials.js"></script>
     <script src="js/reservations/myreservations.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
@@ -104,11 +105,14 @@
 <!-- /.Reservation page sublinks starts -->
 <div class="container" id="reservationLinks" style="display:none;">
 <div class="row paddingBottom">
-    <div class="col-md-2">
+    <div class="col-md-1">
     <a href="#" id="createReservationLink">Create Reservation</a>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
     <a href="#" id="myReservationsLink">My Reservations</a>
+    </div>
+    <div class="col-md-1">
+    <a href="#" id="myCredentialsLink">My Credentials</a>
     </div>
 </div>
 </div>
@@ -231,6 +235,46 @@
 </div>
 </div>
 <!-- My Reservation Ends -->
+
+
+<!-- My Credentials Starts -->
+<div id = "myCredentials" class ="container" style="display:none">
+<div class="row">
+<div class="col-md-12">
+<strong>Password:</strong>
+</div>
+</div>
+<div class="row paddingBottom">
+<div class="col-md-4">
+  Your password is <em id="myPassword"></em>
+</div>
+<div class="col-md-4">
+  <div class="btn btn-primary" id="updatePassword">Update</div>
+</div>
+</div>
+<div class="row paddingTop">
+<div class="col-md-12">
+<strong>RSA Keys:</strong>
+</div>
+<div class="col-md-12">
+<ul class="list-group" id="myCredentialsList">
+<li class="list-group-item">
+  <div class="row">
+    <strong>
+    <div class="col-md-8">
+    Name
+    </div>
+    <div class="col-md-4">
+    Delete
+    </div>
+    </strong>   
+  </div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- My Credentials Ends -->
 
 </body>
 </div>

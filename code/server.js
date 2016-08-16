@@ -122,6 +122,15 @@ app.get('/userinfo', urlencodedParser, function(req, res)
   });    
 });
 
+app.get('/userpassword', urlencodedParser, function(req, res)
+{
+  var emailId = req.query.emailId;
+  users.getPassword(emailId, function(password)
+  {
+    res.end(JSON.stringify(password));
+  });    
+});
+
 readSettings.read();
 reachabilityChecker.start();  
 connection.connect();

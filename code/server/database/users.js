@@ -58,8 +58,31 @@ add = function(emailId, callback)
 
 exports.updatePassword = function(emailId, callback, newPassword)
 {
-
+   connection.object.collection('users').updateOne(
+      { "emailId" : emailId },
+      {
+        $set: {"password": newPassword}
+      }, function(err, results) 
+      {
+         console.log(results);
+         callback();
+      });
 }
+
+
+exports.getPassword = function(emailId, callback)
+{
+   var users = connection.object.collection('users').find();
+
+   users.each(function(err, user) 
+   {
+      if (user != null) 
+      {
+         callback(user.password);
+      } 
+   });
+}
+
 
 exports.delete = function(emailId, callback)
 {	

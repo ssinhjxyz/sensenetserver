@@ -5,6 +5,7 @@ $(function()
 	$("#reserve").prop("disabled",false);
 	$("#reserve").click(function(event){reserve(event)});
 	$("#showReservationDetails").hide();
-	$("#myReservationsLink").click(function(event){myReservations()});
+	$("#myReservationsLink").click(function(event){showMyReservations()});
 	$("#createReservationLink").click(function(event){showCreateReservation()});
+	$("#myCredentialsLink").click(function(event){showMyCredentials()});
 });
