@@ -125,11 +125,28 @@ app.get('/userinfo', urlencodedParser, function(req, res)
 app.get('/userpassword', urlencodedParser, function(req, res)
 {
   var emailId = req.query.emailId;
+  console.log(emailId);
   users.getPassword(emailId, function(password)
   {
     res.end(JSON.stringify(password));
   });    
 });
+
+app.post('/updateuserpassword', urlencodedParser, function(req, res)
+{
+    var emailId = req.body.emailId;
+    var newPassword = req.body.newPassword;
+    users.updatePassword(emailId, newPassword, function(result)
+    {
+      if(result.status == "error")
+      {
+        console.log(result.status);
+        console.log(result.message);  
+      }
+      res.end();
+    });    
+});
+
 
 readSettings.read();
 reachabilityChecker.start();  

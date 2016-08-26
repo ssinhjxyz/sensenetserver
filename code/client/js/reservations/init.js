@@ -8,4 +8,6 @@ $(function()
 	$("#myReservationsLink").click(function(event){showMyReservations()});
 	$("#createReservationLink").click(function(event){showCreateReservation()});
 	$("#myCredentialsLink").click(function(event){showMyCredentials()});
+	$("#showEditPasswordWindow").click(function(event){$("#editPasswordWindow").modal("show");})
+	$("#updatePassword").click(function(event){updatePassword()});
 });

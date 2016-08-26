@@ -5,34 +5,34 @@ var BBB = require('../settings/bbbs');
 var utils = require('../utils/utils');
 var gcalInterface = require('../reservations/gcalinterface');
 var fs = require('fs');
+var users = require('../database/users');
 
-exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds)
+exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds, emailId, callback)
 {
   console.log(uploadKey);
   var password = "";
-  if(loginMethod === "password")
-  {
-    password = utils.makeRandomString(6);
-  }
-
   var numIds = ids.length;
-  for(var i = 0; i < numIds; i++)
-  { 
-    var bbbIP = BBB.Info[ids[i]].IP;
-    if(bbbIP)
-    {
-      if(loginMethod === "password")
+  users.getPassword(emailId, function(password)
+  {
+    for(var i = 0; i < numIds; i++)
+    { 
+      var bbbIP = BBB.Info[ids[i]].IP;
+      if(bbbIP)
       {
-        schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login, BBB.Info[ids[i]].CalendarId, eventIds[i]);
-      }
-      else if (loginMethod === "rsa")
-      {
-        scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey, uploadKey, BBB.Info[ids[i]].CalendarId, eventIds[i]);
+        if(loginMethod === "password")
+        {
+            schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login, BBB.Info[ids[i]].CalendarId, eventIds[i]);       
+        }
+        else if (loginMethod === "rsa")
+        {
+          scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey, uploadKey, BBB.Info[ids[i]].CalendarId, eventIds[i]);
+        }
       }
     }
-  }
-  return password;
+    callback(password);
+  });
 }
+
 
 
 function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey, uploadKey, calendarId, eventId)

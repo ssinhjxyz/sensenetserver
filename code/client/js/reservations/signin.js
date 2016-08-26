@@ -1,7 +1,7 @@
 function signIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  var emailId = profile.getEmail();
-  if(validateDomain(emailId))
+  emailId = profile.getEmail();
+  if(validateDomain())
   {
 	  $("#signout").show();
 	  $("#signin").hide();
@@ -18,8 +18,9 @@ function signIn(googleUser) {
   	signOut();
   }
 }
+var emailId;
 
-function validateDomain(emailId)
+function validateDomain()
 {
 	var valid = false;
 	var domain = emailId.replace(/.*@/, "");

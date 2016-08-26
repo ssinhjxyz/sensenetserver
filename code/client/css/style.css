@@ -19,6 +19,10 @@
 	padding:10px;
 }
 
+.marginLeft{
+	margin-left:10px;
+}
+
 .form-group{
 	margin-bottom: 25px;
 }

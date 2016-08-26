@@ -11,9 +11,12 @@ exports.create = function(ids, emailId, startDateTime, endDateTime, login, login
    function(updatedResults)
    {
       var eventIds = gcalInterface.createEvents(updatedResults[0], emailId, startDateTime, endDateTime);
-      var password = accessScheduler.schedule(updatedResults[0], startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds); 
-      gmailInterface.sendMails(emailId, login, loginMethod, password, updatedResults[0], updatedResults[1], updatedResults[2], endDateTime);
-      twilioInterface.sendSms();
-      callback(password, updatedResults[0], updatedResults[1], updatedResults[2], true);
+      var password = accessScheduler.schedule(updatedResults[0], startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds, emailId, function(password)
+         {
+            gmailInterface.sendMails(emailId, login, loginMethod, password, updatedResults[0], updatedResults[1], updatedResults[2], endDateTime);
+            twilioInterface.sendSms();
+            callback(password, updatedResults[0], updatedResults[1], updatedResults[2], true);
+         }); 
+      
    });
 }

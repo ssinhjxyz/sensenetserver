@@ -44,7 +44,8 @@ add = function(emailId, callback)
 	{
 		if(err)
    		{
-   			console.log("Error while getting count in Mongo DB: " + err);
+   			console.log("Error while getting count in Mongo DB: ")
+            console.log(err);
    			callback({status:"error", message:"Mongo DB error while getting count."});
    		}
    		else
@@ -56,7 +57,7 @@ add = function(emailId, callback)
   	});
 }
 
-exports.updatePassword = function(emailId, callback, newPassword)
+exports.updatePassword = function(emailId, newPassword, callback)
 {
    connection.object.collection('users').updateOne(
       { "emailId" : emailId },
@@ -64,8 +65,16 @@ exports.updatePassword = function(emailId, callback, newPassword)
         $set: {"password": newPassword}
       }, function(err, results) 
       {
-         console.log(results);
-         callback();
+         if(err)
+         {
+            console.log("error while updating password for user " + emailId);
+            console.log(err);
+            callback({status:"error"});
+         }
+         else
+         {
+            callback({status:"ok"});
+         }
       });
 }
 
@@ -82,7 +91,6 @@ exports.getPassword = function(emailId, callback)
       } 
    });
 }
-
 
 exports.delete = function(emailId, callback)
 {	

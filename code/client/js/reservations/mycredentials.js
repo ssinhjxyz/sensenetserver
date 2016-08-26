@@ -18,3 +18,20 @@ function getPassword()
             $("#myPassword").html(password);
         });
 }
+
+function updatePassword()
+{
+    var newPassword = $("#newPassword").val();
+    var data = {};
+    data.newPassword = newPassword;
+    data.emailId = emailId;
+    $.ajax({
+      type: "POST",
+      url: "/updateuserpassword",
+      traditional: true,
+      data:data
+    }).done(function()
+    {
+        getPassword();
+    });  
+}
