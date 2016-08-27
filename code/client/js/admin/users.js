@@ -45,7 +45,8 @@ function refreshUserInfo()
       var userInfo = JSON.parse(userInfo);
       for(var i in userInfo)
       {
-		$("#userInfo").append('<li class="list-group-item"><div class="row"><div class="col-md-2">' + parseInt(i+1) + '</div>' +
+      	var srNum = parseInt(i) + 1;
+		$("#userInfo").append('<li class="list-group-item"><div class="row"><div class="col-md-2">' + srNum + '</div>' +
         '<div class="col-md-3">' + (userInfo[i]) + '</div>' + 
         '<div class="col-md-3"><div class = "btn btn-danger" onclick=deleteUser("' + userInfo[i] + '");>Delete</div></div>');
       }
