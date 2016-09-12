@@ -48,14 +48,14 @@ var mouseClicked = function (mouse) {
 
 var mouseMove = function (mouse) {
     // Get corrent mouse coords
-    alert("moving");
+    //alert("moving");
     var rect = canvas.getBoundingClientRect();
     var mouseXPos = (mouse.x - rect.left);
     var mouseYPos = (mouse.y - rect.top);
     var nearestMarker = getNearestMarker(mouseXPos, mouseYPos); 
     if(nearestMarker != null)
     {
-        alert("mouse over");
+        //alert("mouse over");
     }
 }
 
