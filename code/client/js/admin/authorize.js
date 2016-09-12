@@ -1,4 +1,4 @@
-function authorize(emailId)
+function authorize(emailId, profile)
 {
 	var data = {};
 	data.emailId = emailId;
@@ -17,11 +17,11 @@ function authorize(emailId)
             $("#signin").hide();
             $("#emailId").text(emailId);
             $("#user").text("Welcome, " + profile.getName());
+            $("#signedout").hide();
           }
           else
           {
           	alert("You are not authorized to view the admin page.")
           }
     });
-
 }

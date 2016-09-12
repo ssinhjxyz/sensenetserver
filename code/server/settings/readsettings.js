@@ -14,8 +14,7 @@ exports.read = function()
   {
     BBB.Info = JSON.parse(fs.readFileSync(BBB_SETTINGS_PATH));   
     DATABASE.Info = JSON.parse(fs.readFileSync(DATABASE_SETTINGS_PATH));   
-    ADMINS.List = JSON.parse(fs.readFileSync(ADMIN_LIST_PATH));  
-    console.log(ADMINS.List); 
+    exports.readAdminList();
     console.log("settings read successfully.");
   } 
   catch(err)
@@ -24,6 +23,18 @@ exports.read = function()
     console.log(err);
   } 
 }
+exports.readAdminList = function()
+{
+  try
+  {
+    ADMINS.List = JSON.parse(fs.readFileSync(ADMIN_LIST_PATH));  
+  } 
+  catch(err)
+  {
+    console.log("error while reading settings : ");
+    console.log(err);
+  }
 
+}
 
   

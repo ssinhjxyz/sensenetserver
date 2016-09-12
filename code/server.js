@@ -17,7 +17,8 @@ var gcalInterface = require('./server/reservations/gcalinterface');
 var readSettings = require('./server/settings/readsettings');
 var connection = require('./server/database/connection');
 var users = require('./server/database/users');
-var authorizeAdmin = require('./server/authorization/authorizeadmin');
+var admins = require('./server/authorization/admins');
+var ADMINS = require('./server/settings/admins');
 
 var formidable = require('formidable');
 var path = require('path');
@@ -124,7 +125,7 @@ app.post('/authenticate', urlencodedParser, function(req, res)
 
 app.post('/authorizeadmin', urlencodedParser, function(req, res)
 {
-    var authorized = authorizeAdmin.authorize(req.body.emailId);
+    var authorized = admins.authorize(req.body.emailId);
     res.end(JSON.stringify({authorized:authorized}));     
 });
 
@@ -176,6 +177,19 @@ app.get('/usercredentials', urlencodedParser, function(req, res)
     res.end(JSON.stringify(password));
   });    
 });
+
+app.post('/refreshadminlist', urlencodedParser, function(req, res)
+{ 
+   admins.refresh();
+   console.log(ADMINS.List);
+});
+
+
+app.post('/getadminlist', urlencodedParser, function(req, res)
+{ 
+   res.end(JSON.stringify(ADMINS.List));
+});
+
 
 app.post('/updateuserpassword', urlencodedParser, function(req, res)
 {

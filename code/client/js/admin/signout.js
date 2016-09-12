@@ -6,5 +6,6 @@
       $("#user").text("");
       $("#signin").show();
       $("#signout").hide();
+       $("#signedout").show();
     });
   }

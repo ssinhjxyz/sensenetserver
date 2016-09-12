@@ -2,5 +2,5 @@ function signIn(googleUser)
 {
   var profile = googleUser.getBasicProfile();
   emailId = profile.getEmail();  
-  authorize(emailId);
+  authorize(emailId, profile);
 }

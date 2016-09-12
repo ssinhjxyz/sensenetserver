@@ -10,3 +10,8 @@ exports.authorize = function(emailId)
 	}
 	return authorized;
 }
+
+exports.refresh = function()
+{
+
+}

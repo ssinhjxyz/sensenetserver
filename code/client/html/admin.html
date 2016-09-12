@@ -15,6 +15,7 @@
   <script src="../js/common/rendersignin.js"></script>
   <script src="../js/admin/signin.js"></script>
   <script src="../js/admin/signout.js"></script>
+  <script src="../js/admin/adminList.js"></script>
   <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </head>
 <body>
@@ -49,6 +50,15 @@
 </div><!-- /.container-fluid -->
 </nav>
 
+<div class ="container">
+  <div class="row">
+    <div class="col-md-12">
+    <strong id="signedout">Please sign in</strong>
+  </div>
+  </div>
+  </div>
+
+
 <!--Admin page starts-->
 <div id="adminContent" class ="container" style="display:none">
 
@@ -60,6 +70,9 @@
     <div class="col-md-2">
     <a href="#" id="usersLink">Users</a>
     </div>
+    <!-- <div class="col-md-2">
+    <a href="#" id="adminsSubLink">Admins</a>
+    </div> -->
 </div>
 <!-- /.Admin page sublinks ends -->
 
@@ -189,8 +202,47 @@
 </form>
 </div>
 </section>
-</div>
+
 <!--Users section ends-->
+
+<!--Admins section starts-->
+<!-- /.Admins section starts -->
+<section id="adminsSection" class="row paddingBottom">
+
+<!-- /.Admins list -->
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+ <div id="refreshAdminList" class="btn btn-primary">Refresh Admin List at Server</div>
+</div>
+</div>
+<!-- <div class="row">
+<div class="col-md-12">
+<ul class="list-group">
+<li class="list-group-item">
+  <div class="row">
+    <strong>
+    <div class="col-md-2">
+    Sr No
+    </div>
+    <div class="col-md-3">
+     Email Id
+    </div> 
+    </strong>   
+  </div>
+</li>
+<div class="list-group" id="adminInfo">
+</div>
+</ul>
+</div>
+</div> -->
+
+
+</section>
+</div>
+<!--Admins  section ends-->
+
+
 
 </div>
 <!--Admin page ends-->
