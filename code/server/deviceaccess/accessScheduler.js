@@ -42,6 +42,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, calend
   // first create the user, then add the public key
   var createReservation = schedule.scheduleJob(startDateTime, function()
   {
+    console.log(addPublicKeyCommand);
     // check if the event still exists or has been deleted by the user.
     gcalInterface.checkIfEventExists(calendarId, eventId, function(exists)
       {

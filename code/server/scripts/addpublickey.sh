@@ -20,7 +20,7 @@ fi"
 #if the same public key is also present in "authorized_keys", do not add again.
 ssh access_server@$1 "if sudo grep -q $3 </home/$2/.ssh/authorized_keys;
 then echo 'public key already exists'
-else echo '$publickey' | sudo tee -a /home/$2/.ssh/authorized_keys  
+else echo $3 | sudo tee -a /home/$2/.ssh/authorized_keys  
 echo 'added public key'
 fi"
 
