@@ -2,8 +2,10 @@
   <head>
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/home/home.css">
     <script src="../js/common/jquery.js"></script>
     <script src="../js/common/bootstrap.min.js"></script>
+    <script src="../js/home/graphics.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-default">
@@ -30,76 +32,30 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+  <div id="bbbInfo">Test Window</div>
+  <canvas id="Canvas" width="2448" height="1584"></canvas>
   
+<!-- BBB Info Modal Window Starts-->
+<div class="modal fade" id="bbbInfoWindow" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="bbbName" class="modal-title">BBB 1</h4>
+      </div>
+      <div class="modal-body">
+          <div>Body</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" id="updatePassword" class="btn btn-success" data-dismiss="modal">Reserve</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- BBB Info Modal Window Ends-->
 
-  <div class ="container">
-  <div class="row">
-  <div class="col-md-12">
-  <div id="map"></div>
-    <script>
-      var map;
-      var infoWindows = [];
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 35.7718965, lng: -78.6743833},
-          zoom: 19
-        });
 
-
-        var bbbInfo = [
-                       {id:3, lat: 35.771920, lng:-78.674100, description:"EB2 ECE, 1st floor, Student org room"},
-                       {id:2, lat: 35.771659, lng:-78.673327, description:"EB2 CSC, 2nd floor, faculty cabins"},
-                       {id:1, lat: 35.771736, lng:-78.673527, description:"EB2 CSC, 2nd floor, 2303C"}
-                      ];
-
-        for(var i = 0; i < bbbInfo.length; i++)
-        {
-            var contentString = '<div id="content">'+
-            '<h1 class="firstHeading">BBB '+ bbbInfo[i].id + '</h1>'+
-            '<h5>'+ bbbInfo[i].description + '</div>'+
-            '</div>';
-
-            var infoWindow = new google.maps.InfoWindow({
-              content: contentString,
-              maxWidth: 100
-            });
-
-            infoWindows.push(infoWindow);
-        }        
-
-        for(var i = 0; i < bbbInfo.length; i++)
-        {
-            var infoWindow = infoWindows[i];
-
-            var marker = new google.maps.Marker({
-                position: {lat : bbbInfo[i].lat, lng : bbbInfo[i].lng},
-                title: 'BBB ' + bbbInfo[i].id,
-                map: map
-              });
-
-            bindEventHandler(marker,infoWindow);
-
-        }
-      }
-
-      function bindEventHandler(marker, infoWindow)
-      {
-        marker.addListener('click', function() 
-        {
-          if(infoWindow.anchor == null)
-          {
-            infoWindow.open(map, marker);
-          }
-          else{
-            infoWindow.close();
-          }
-        });
-      }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFxmvEavJ_rzggq8339WSDGYkfmGeXbPY&callback=initMap"
-    async defer></script>
-  </div>
-</div>
   </body>
 </html>
 

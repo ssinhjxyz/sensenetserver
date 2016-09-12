@@ -16,7 +16,6 @@ function refreshCredentialsInfo()
     }).done(
         function(credentials) 
         {
-            console.log(credentials);
             credentials = JSON.parse(credentials);
             $("#myPassword").html(credentials.password);
             $("select#keyList").empty();
@@ -47,7 +46,7 @@ function updatePassword()
       data:data
     }).done(function()
     {
-        getPassword();
+        refreshCredentialsInfo();
     });  
 }
 
