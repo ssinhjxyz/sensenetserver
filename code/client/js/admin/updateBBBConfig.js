@@ -37,6 +37,10 @@ function addToChangedConfigs(htmlElem)
 	var property = $(htmlElem).data("property");
 	$(htmlElem).addClass("changed");
 	var value = $(htmlElem).html();
+	if(value === "false")
+		value = false;
+	else if(value === "true")
+		value = true;
 	if(!changedConfigs[bbbId])
 	{
 		changedConfigs[bbbId] = {};

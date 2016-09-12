@@ -25,6 +25,7 @@ exports.validateBBBIDs = function(ids)
     var exists = false;
     var id = ids[i];
     var bbb = BBB.Info[id];
+    //console.log(bbb.Reservable);
     if(!bbb)
     {
       failedIDs.push({id:id, message:"device does not exist."});
