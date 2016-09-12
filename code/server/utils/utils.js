@@ -29,6 +29,10 @@ exports.validateBBBIDs = function(ids)
     {
       failedIDs.push({id:id, message:"device does not exist."});
     }
+    else if(!bbb.Reservable)
+    {
+      failedIDs.push({id:id, message:"device is not reservable."});  
+    }
     else if(!bbb.Configured)
     {
      failedIDs.push({id:id, message:"device is not configured."}); 
