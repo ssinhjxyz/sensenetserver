@@ -66,9 +66,8 @@ app.post('/reserve', urlencodedParser, function(req, res)
       login  : login 
    };
    var ids = req.body.bbbIds;
-
    reservationCreator.create( ids, req.body.emailId, req.body.start, req.body.end, login, 
-      req.body.loginMethod, req.body.uid, function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
+      req.body.loginMethod, req.body.uid, req.body.keyName, function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
      {
        response.password = password;
        response.reservedBBBIDs = reservedBBBIDs;

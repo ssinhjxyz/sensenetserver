@@ -12,7 +12,6 @@ exports.makeRandomString = function(len)
     return randStr;
 }
 
-
 exports.validateBBBIDs = function(ids)
 {
   var numIds = ids.length;  
@@ -79,4 +78,19 @@ exports.removeLastCharacter = function(string)
     string = string.slice(0, -1);
   }
   return string;
+}
+
+exports.getUserKey = function(keys, keyName)
+{
+    var numKeys = keys.length;
+    var matchedKey = null;
+    for(var i=0; i < numKeys; i++)
+    {
+       if(keys[i].name == keyName)
+       {
+         matchedKey = keys[i];
+         break;
+       }
+    }
+    return matchedKey;
 }

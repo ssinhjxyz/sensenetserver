@@ -1,4 +1,4 @@
-function upload(filename, emailId, bbbIds, start, end, loginMethod)
+function upload(filename, emailId, bbbIds, start, end, loginMethod, keyName)
 {
 	var data = {};       
     data.emailId = emailId;
@@ -7,6 +7,7 @@ function upload(filename, emailId, bbbIds, start, end, loginMethod)
     data.end= end;
     data.loginMethod = loginMethod;
     data.uid = filename;
+    data.keyName = keyName;
 
     $.ajax({
       type: "POST",
@@ -14,14 +15,13 @@ function upload(filename, emailId, bbbIds, start, end, loginMethod)
       traditional: true,
       data:data
     }).done(function(response){
-    	 response = JSON.parse(response);
+    	  response = JSON.parse(response);
           console.log('upload successful!');
           console.log(response);
           $("#reservationLogin").html(response.login);
           $("#reservationPassword").html(response.password);
           $("#keyUploaded").hide();
           showResults(response);
-
     });
 }
 

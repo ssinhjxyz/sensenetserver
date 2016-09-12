@@ -17,15 +17,16 @@ function reserve(event)
     var end = $('#endDateTime').data("DateTimePicker").date().utc().format();
     var start = $('#startDateTime').data("DateTimePicker").date().utc().format();
     var loginMethod = $('#pwdlogin').hasClass("active") ? "password":"rsa";
-     var uid = (new Date()).getTime() + getEmailUserName(emailId);
-    
+    var uid = (new Date()).getTime() + getEmailUserName(emailId);
+    var keyName = $("select#keyList").selectpicker('val');
+
     // validate user's inputs
     var isValid = validateInputs(ids, start, end);
     
     // If the inputs are valid, call the schedule API and pass the user's inputs
     if(isValid)
     {
-      upload(uid, emailId, ids, start, end, loginMethod);
+      upload(uid, emailId, ids, start, end, loginMethod, keyName);
       // upload the public key if the login method is rsa
       if(loginMethod === "rsa")
       {
@@ -38,6 +39,7 @@ function reserve(event)
 
     return false;
 }
+
 
 function callReserve()
 {

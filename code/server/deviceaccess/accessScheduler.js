@@ -7,13 +7,14 @@ var gcalInterface = require('../reservations/gcalinterface');
 var fs = require('fs');
 var users = require('../database/users');
 
-exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, eventIds, emailId, callback)
+exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, eventIds, emailId, keyName, callback)
 {
   var password = "";
   var numIds = ids.length;
   users.getCredentials(emailId, function(credentials)
   {
     var password = credentials.password;
+    var key = utils.getUserKey(credentials.keys, keyName);
     for(var i = 0; i < numIds; i++)
     { 
       var bbbIP = BBB.Info[ids[i]].IP;
@@ -21,11 +22,11 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
       {
         if(loginMethod === "password")
         {
-            schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login, BBB.Info[ids[i]].CalendarId, eventIds[i]);       
+          schedulePasswordAccess(startDateTime, endDateTime, bbbIP, password, login, BBB.Info[ids[i]].CalendarId, eventIds[i]);       
         }
         else if (loginMethod === "rsa")
         {
-          scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, BBB.Info[ids[i]].CalendarId, eventIds[i]);
+          scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, BBB.Info[ids[i]].CalendarId, eventIds[i], key.key);
         }
       }
     }
@@ -33,10 +34,10 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
   });
 }
 
-function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, calendarId, eventId)
+function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, calendarId, eventId, key)
 {
   var addUserCommand = "sh ./server/scripts/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
-  var addPublicKeyCommand = "sh ./server/scripts/addpublickey.sh " + bbbIP + " " + login + " " + uid;
+  var addPublicKeyCommand = "sh ./server/scripts/addpublickey.sh " + bbbIP + " " + login + " " + uid + " " + key;
   
   // first create the user, then add the public key
   var createReservation = schedule.scheduleJob(startDateTime, function()
