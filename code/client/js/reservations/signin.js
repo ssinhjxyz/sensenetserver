@@ -4,8 +4,9 @@ function signIn(googleUser)
   emailId = profile.getEmail();  
   authenticate(emailId, function()
   {
-  	  if(validateDomain())
+  	if(validateDomain())
 	  {
+      sessionStorage.setItem("sensenetServerEmailId",  emailId);
 		  $("#signout").show();
 		  $("#signin").hide();
 		  $("#emailId").text(emailId);

@@ -17,6 +17,7 @@ var gcalInterface = require('./server/reservations/gcalinterface');
 var readSettings = require('./server/settings/readsettings');
 var connection = require('./server/database/connection');
 var users = require('./server/database/users');
+var authorizeAdmin = require('./server/authorization/authorizeadmin');
 
 var formidable = require('formidable');
 var path = require('path');
@@ -120,6 +121,14 @@ app.post('/authenticate', urlencodedParser, function(req, res)
       res.end(JSON.stringify({valid:valid}));
     });     
 });
+
+app.post('/authorizeadmin', urlencodedParser, function(req, res)
+{
+    var authorized = authorizeAdmin.authorize(req.body.emailId);
+    res.end(JSON.stringify({authorized:authorized}));     
+});
+
+
 
 app.post('/adduser', urlencodedParser, function(req, res)
 {
