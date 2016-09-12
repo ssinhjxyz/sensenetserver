@@ -26,7 +26,7 @@ function refreshCredentialsInfo()
                 var srNum = parseInt(i)+1;
                 $("#myKeys").append('<li class="list-group-item"><div class="row"><div class="col-md-4">' + srNum + '</div>' +
                 '<div class="col-md-4">' + credentials.keys[i].name + '</div>' + 
-                '<div class="col-md-4">' + "delete me" + '</div>' +
+                '<div class="col-md-4">' + "To Do" + '</div>' +
                 '</div></li>');
             }
              $('#keyList').selectpicker('refresh');

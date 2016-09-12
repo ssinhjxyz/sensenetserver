@@ -8,25 +8,26 @@ var context = canvas.getContext("2d");
 var mapSprite = new Image();
 mapSprite.src = "images/eb2west1.jpg";
 
-var Marker = function () {
+var Marker = function (id) {
     this.Sprite = new Image();
     this.Sprite.src = "images/redSquare.png"
     this.Width = 32;
     this.Height = 32;
     this.XPos = 0;
     this.YPos = 0;
+    this.Id = id;
 }
 
 var Markers = new Array();
 
-var locations = [{XPos:1426, YPos:750}];
+var locations = [{Id: 10, XPos:1426, YPos:750}];
 
 var initializeMarkers = function()
 {
     var numLocations = locations.length;
     for(var i =0; i < numLocations; i++)
     {
-        var marker = new Marker();
+        var marker = new Marker(locations[i].Id);
         marker.XPos = locations[i].XPos;
         marker.YPos = locations[i].YPos;
         Markers.push(marker);
@@ -71,7 +72,7 @@ var getNearestMarker = function(mouseXPos, mouseYPos)
         {
             if(mouseXPos > marker.XPos && mouseYPos < marker.XPos + marker.Width)
             {
-                nearestMarker = marker[i];
+                nearestMarker = Markers[i];
                 break;
             }
         }
@@ -79,13 +80,15 @@ var getNearestMarker = function(mouseXPos, mouseYPos)
     return nearestMarker;
 }
 
-var displayWindow = function(mouseXPos, mouseYPos)
+var displayWindow = function(nearestMarker)
 {
+    //alert(nearestMarker.Id);
+    //alert(bbbInfo[nearestMarker.Id].Reservable);
     $('#bbbInfoWindow').modal('show')
 }
 
 // Add mouse click event listener to canvas
-canvas.addEventListener("mousedown", mouseClicked, false);
+canvas.addEventListener("mousedown", function(pos){mouseClicked(pos)}, false);
 canvas.addEventListener("mousemove", function(pos){mouseMove(pos);}, false);
 
 var firstLoad = function () {
@@ -133,4 +136,24 @@ var draw = function () {
 
 initializeMarkers();
 setInterval(main, (1000 / 60)); // Refresh 60 times a second
+
+
+
+function refreshBBBInfo()
+{
+  $.ajax({
+    type: "GET",
+    url: "/bbbinfo",
+    traditional: true,
+    }).done(
+    function(bbbInfo) 
+    {
+      
+      bbbInfo = JSON.parse(bbbInfo).info;
+      
+    });
+}
+refreshBBBInfo();
 });
+
+var bbbInfo;
