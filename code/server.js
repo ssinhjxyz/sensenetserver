@@ -106,6 +106,21 @@ app.post('/updatebbbconfig', urlencodedParser, function(req, res)
     updateBBBConfig.update(req, res);
 });
 
+app.post('/authenticate', urlencodedParser, function(req, res)
+{
+    var emailId = req.body.emailId;
+    users.getAllEmails(function(result, userEmails)
+    {
+      var valid = false;
+      var match = userEmails.indexOf(emailId);
+      if(match > -1)
+      {
+        valid = true;
+      }
+      res.end(JSON.stringify({valid:valid}));
+    });     
+});
+
 app.post('/adduser', urlencodedParser, function(req, res)
 {
     var emailId = req.body.emailId; 
