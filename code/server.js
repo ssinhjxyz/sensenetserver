@@ -18,6 +18,10 @@ var readSettings = require('./server/settings/readsettings');
 var connection = require('./server/database/connection');
 var users = require('./server/database/users');
 
+var formidable = require('formidable');
+var path = require('path');
+var fs = require('fs');
+
 app.set('port', (process.env.PORT || 80));
 app.use(express.static(__dirname + '/public'));
 app.listen(app.get('port'), '0.0.0.0', function() 
@@ -25,7 +29,7 @@ app.listen(app.get('port'), '0.0.0.0', function()
   console.log('Node app is running on port', app.get('port'));
   // We launch the server using sudo as listening to port 80 needs sudo privelges
   // Then we run the server as a user with limited rights to minimize security risks in case the server is compromised.
-   process.setuid(1003);
+  process.setuid(1003);
 });
 
 
@@ -55,7 +59,25 @@ app.post('/configurebbb', urlencodedParser, function(req, res)
 
 app.post('/reserve', urlencodedParser, function(req, res)
 {
-    upload.do(req, res);
+   var response = {};
+   var login = req.body.emailId.match(/^([^@]*)@/)[1];
+   var response = 
+   {
+      login  : login 
+   };
+   var ids = req.body.bbbIds;
+
+   reservationCreator.create( ids, req.body.emailId, req.body.start, req.body.end, login, 
+      req.body.loginMethod, req.body.uid, function(password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, isValidEvent)
+     {
+       response.password = password;
+       response.reservedBBBIDs = reservedBBBIDs;
+       response.reservedBBBIPs = reservedBBBIPs;
+       response.failedBBBIDs = failedBBBIDs;
+       response.isValidEvent = isValidEvent;
+       response.loginMethod = req.body.loginMethod;
+       res.end(JSON.stringify(response));
+    });
 });
 
 app.get('/bbbinfo', urlencodedParser, function(req, res)
@@ -122,11 +144,11 @@ app.get('/userinfo', urlencodedParser, function(req, res)
   });    
 });
 
-app.get('/userpassword', urlencodedParser, function(req, res)
+app.get('/usercredentials', urlencodedParser, function(req, res)
 {
   var emailId = req.query.emailId;
   console.log(emailId);
-  users.getPassword(emailId, function(password)
+  users.getCredentials(emailId, function(password)
   {
     res.end(JSON.stringify(password));
   });    
@@ -147,6 +169,69 @@ app.post('/updateuserpassword', urlencodedParser, function(req, res)
     });    
 });
 
+app.post('/updateuserpassword', urlencodedParser, function(req, res)
+{
+    var emailId = req.body.emailId;
+    var newPassword = req.body.newPassword;
+    users.updatePassword(emailId, newPassword, function(result)
+    {
+      if(result.status == "error")
+      {
+        console.log(result.status);
+        console.log(result.message);  
+      }
+      res.end();
+    });    
+});
+
+app.post('/addkey', urlencodedParser, function(req, res)
+{
+      // create an incoming form object
+      var form = new formidable.IncomingForm();
+      var uploadDir = "./server/uploads";
+      var inputs = {};
+
+      // store all uploads in the /uploads directory
+      form.uploadDir =  uploadDir;
+      
+      // create uploads folder if it does not exist
+      if (!fs.existsSync(uploadDir))
+      {
+          fs.mkdirSync(uploadDir);
+          console.log("creating uploads folder");
+      }
+
+      // When a field has been parsed.
+      form.on('field', function(key, value) {
+        inputs[key] = value;
+        console.log(key + ":" + value);
+      });
+
+      // When a file has been received
+      form.on('file', function(field, file) {
+          inputs.fileName = path.join(form.uploadDir, file.name);
+          fs.rename(file.path, inputs.fileName);
+      });
+    
+      // log any errors that occur
+      form.on('error', function(err) {
+        console.log('An error has occured: \n' + err);
+      });
+
+      // once all the files have been uploaded, send a response to the client
+      form.on('end', function() 
+      {
+        fs.readFile(inputs.fileName, "utf8", function(err, data)
+        {
+           users.addKey(inputs.emailId, inputs.name, data, function(status)
+            {
+              res.end(JSON.stringify(status));
+            });
+        });
+      });
+      // parse the incoming request containing the form data
+      form.parse(req);
+});
 
 readSettings.read();
 reachabilityChecker.start();  

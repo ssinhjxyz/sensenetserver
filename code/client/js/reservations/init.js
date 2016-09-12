@@ -10,4 +10,26 @@ $(function()
 	$("#myCredentialsLink").click(function(event){showMyCredentials()});
 	$("#showEditPasswordWindow").click(function(event){$("#editPasswordWindow").modal("show");})
 	$("#updatePassword").click(function(event){updatePassword()});
+	$('#upload-btn').on('click', function (){
+	    $('#upload-input').click();
+	});
+
+	$('#upload-input').on('change', function()
+	{
+	    //$("#keyUploaded").show();
+	});
+
+	$("#pwdlogin").click(
+	function(){
+		$('#keyList').selectpicker('hide');
+	});
+
+	$("#rsalogin").click(
+	function(){
+		$('#keyList').selectpicker('show');
+	});
+
+	$('#keyList').selectpicker('hide');
+	$("#addKey").click(function(event){addKey(event)});
+
 });

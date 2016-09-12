@@ -17,6 +17,7 @@ function reserve(event)
     var end = $('#endDateTime').data("DateTimePicker").date().utc().format();
     var start = $('#startDateTime').data("DateTimePicker").date().utc().format();
     var loginMethod = $('#pwdlogin').hasClass("active") ? "password":"rsa";
+     var uid = (new Date()).getTime() + getEmailUserName(emailId);
     
     // validate user's inputs
     var isValid = validateInputs(ids, start, end);
@@ -24,9 +25,6 @@ function reserve(event)
     // If the inputs are valid, call the schedule API and pass the user's inputs
     if(isValid)
     {
-      // Create a unique id to identify the reservation.
-      // This is used to uniquely name the public key, so that it is not overwritten at the server.
-      var uid = (new Date()).getTime() + getEmailUserName(emailId);
       upload(uid, emailId, ids, start, end, loginMethod);
       // upload the public key if the login method is rsa
       if(loginMethod === "rsa")
@@ -43,6 +41,7 @@ function reserve(event)
 
 function callReserve()
 {
+
     $.ajax({
     type: "POST",
     url: "/reserve",
@@ -54,10 +53,8 @@ function callReserve()
         loginMethod: loginMethod, 
         startDateTime: start,
         endDateTime: end,
-        uid: uid, 
-        deleteKey: document.getElementById('deleteKey').checked,
-        uploadKey: document.getElementById('uploadKey').checked
-    }
+        uid: uid 
+      }
     }).done(
         function(response) {
             var response = JSON.parse(response);

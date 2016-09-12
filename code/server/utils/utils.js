@@ -71,3 +71,12 @@ exports.getUUID=function()
   // So, remove this character.
   return UUID.v4().replace(new RegExp('-', 'g'), '');
 }
+
+exports.removeLastCharacter = function(string)
+{
+  if(string.length > 0)
+  {
+    string = string.slice(0, -1);
+  }
+  return string;
+}

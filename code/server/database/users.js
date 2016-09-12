@@ -1,4 +1,5 @@
 var connection = require('../database/connection');
+var utils = require('../utils/utils');
 
 exports.addUnique = function(emailId, callback)
 {
@@ -14,6 +15,58 @@ exports.addUnique = function(emailId, callback)
    	 }
    });
 }
+
+
+exports.addKey = function(emailId, name, key, callback)
+{
+   getCount(emailId, function(num)
+   {
+      if(num == 1)
+      {
+         key = utils.removeLastCharacter(key);
+         users = connection.object.collection('users').find();
+         var keyExists = false;
+         users.each(function(err, user) 
+         {
+            if(err)
+            {
+               callback({status:"error", message:"Mongo DB error while fetching user."});
+            }
+            if(user != null) 
+            {
+               console.log(user);
+               var keys = user.keys;
+               var numKeys = keys.length;
+               for(var i = 0; i < numKeys; i++)
+               {
+                  if(keys[i].name == name)
+                  {
+                     keyExists = true;
+                     break;
+                  }
+               }   
+            } 
+            else
+            {
+               if(!keyExists)
+               {
+                  var users = connection.object.collection('users').update({emailId:emailId}, {'$push':{keys:{ name:name, key:key}}}, 
+                  function(err) 
+                  {
+                       if (err) throw err;
+                       callback({status:"ok", message:"Added key successfully."});
+                  });
+               }      
+            }
+         });      
+      }
+      else
+      {
+         callback({status:"error", message:"User does not exist."});
+      }
+   });
+}
+
 
 getCount = function(emailId, callback)
 {
@@ -39,7 +92,7 @@ add = function(emailId, callback)
 	{
 		"emailId":emailId,
 		"password":"test",
-		"rsaKeys":[]
+		"keys":[]
 	},function(err, result) 
 	{
 		if(err)
@@ -79,15 +132,15 @@ exports.updatePassword = function(emailId, newPassword, callback)
 }
 
 
-exports.getPassword = function(emailId, callback)
+exports.getCredentials = function(emailId, callback)
 {
    var users = connection.object.collection('users').find();
-
    users.each(function(err, user) 
    {
       if (user != null) 
       {
-         callback(user.password);
+         var credentials = {password:user.password, keys : user.keys};
+         callback(credentials);
       } 
    });
 }

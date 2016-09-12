@@ -7,13 +7,13 @@ var gcalInterface = require('../reservations/gcalinterface');
 var fs = require('fs');
 var users = require('../database/users');
 
-exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, deleteKey, uploadKey, eventIds, emailId, callback)
+exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod, uid, eventIds, emailId, callback)
 {
-  console.log(uploadKey);
   var password = "";
   var numIds = ids.length;
-  users.getPassword(emailId, function(password)
+  users.getCredentials(emailId, function(credentials)
   {
+    var password = credentials.password;
     for(var i = 0; i < numIds; i++)
     { 
       var bbbIP = BBB.Info[ids[i]].IP;
@@ -25,7 +25,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
         }
         else if (loginMethod === "rsa")
         {
-          scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey, uploadKey, BBB.Info[ids[i]].CalendarId, eventIds[i]);
+          scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, BBB.Info[ids[i]].CalendarId, eventIds[i]);
         }
       }
     }
@@ -33,9 +33,7 @@ exports.schedule = function(ids, startDateTime, endDateTime, login, loginMethod,
   });
 }
 
-
-
-function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, deleteKey, uploadKey, calendarId, eventId)
+function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, calendarId, eventId)
 {
   var addUserCommand = "sh ./server/scripts/adduser.sh " + bbbIP +  " " + login + " papAq5PwY/QQM " + "password";
   var addPublicKeyCommand = "sh ./server/scripts/addpublickey.sh " + bbbIP + " " + login + " " + uid;
@@ -55,21 +53,19 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, delete
           console.log("user " + login + " created");
           console.log('stdout:' + stdout);
           console.log('exec error:' + error);
-          
-          if(uploadKey)
+  
+          exec(addPublicKeyCommand,     
+          function (error, stdout, stderr) 
           {
-            exec(addPublicKeyCommand,     
-            function (error, stdout, stderr) 
-            {
-                    //console.log("public key " + login + " added");
-                    console.log('stdout: ' + stdout);
-                    //console.log('stderr: ' + stderr);
-                    if (error !== null) 
-                    {
-                       console.log('exec error: ' + error);
-                    }
-              });
-          }
+                  //console.log("public key " + login + " added");
+                  console.log('stdout: ' + stdout);
+                  //console.log('stderr: ' + stderr);
+                  if (error !== null) 
+                  {
+                     console.log('exec error: ' + error);
+                  }
+            });
+        
             if (error !== null) 
             {
               console.log('exec error: ' + error);
@@ -95,8 +91,7 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, delete
         console.log('stdout:' + stdout);
         console.log('exec error:' + error);
 
-        if(deleteKey)
-        {
+
           exec(deletePublicKeyCommand,     
           function (error, stdout, stderr) 
           {
@@ -108,11 +103,6 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, delete
               }
               deleteLocallyStoredKey(uid);
           });
-        }
-        else
-        {
-          deleteLocallyStoredKey(uid);
-        }
       });
   });
 }

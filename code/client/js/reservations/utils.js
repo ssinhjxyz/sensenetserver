@@ -32,3 +32,19 @@ Number.prototype.padLeft = function(base,chr)
     var  len = (String(base || 10).length - String(this).length)+1;
     return len > 0? new Array(len).join(chr || '0')+this : this;
 }
+
+function validateExtension()
+{
+    var isValid = false;
+    var files = $('#upload-input').get(0).files;
+    if (files.length === 1)
+    {
+      var file = files[0];
+      var extension = getExtension(file.name);
+      if(extension === "pub")
+      {
+        isValid = true;
+      }
+     }
+     return isValid;
+}

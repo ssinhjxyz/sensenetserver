@@ -10,7 +10,7 @@ function signIn(googleUser) {
 	  $(".sensenetInterface").show();
 	  $("#signedout").hide();
 	  $("#reservationLinks").show();
-	  getPassword();
+	  refreshCredentialsInfo();
   }
   else
   {

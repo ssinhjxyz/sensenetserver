@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" media="screen">
     <script src="js/common/jquery.js"></script>
     <script src="js/common/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
     <script src="js/reservations/bootstrap-datetimepicker.js"></script>
     <script src="js/reservations/init.js"></script>
@@ -175,22 +179,8 @@
               <input type="radio" name="loginMethod" value="password">Password
           </label>
       </div>
-        <span class="form-group" style="display:none" id="uploadForm">
-          <button class="btn btn-default" id="upload-btn" type="button">Upload Public Key</button>
-          <input id="upload-input" class="hidden" type="file" name="uploads" multiple="false">
-          <span id="keyUploaded" style="display:none">Key saved</span>
-          <div class="checkbox">
-            <label>
-              <input id="deleteKey" checked="checked" type="checkbox"> Delete Key
-            </label>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input id="uploadKey" checked="checked" type="checkbox"> Upload Key
-            </label>
-          </div>
-        </span>
-        
+      <select id="keyList" class="selectpicker" multiple title="Choose a key">
+      </select>
       </div>    
     <script type="text/javascript">
       $('#endDateTime').datetimepicker();
@@ -279,20 +269,47 @@
 <div class="col-md-12">
 <strong>RSA Keys:</strong>
 </div>
+</div>
+<div class="row">
 <div class="col-md-12">
-<ul class="list-group" id="myCredentialsList">
+Add a new key 
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<form class="form-inline">
+  <div class="form-group">
+    <label>Key Name</label>
+    <input type="text" class="form-control" id="keyName" placeholder="key name">
+  </div>
+  <div class="form-group">
+    <button class="btn btn-default" id="upload-btn" type="button">Choose Key</button>
+    <input id="upload-input" class="hidden" type="file" name="uploads" multiple="false">      
+  </div>
+  <button id="addKey" class="btn btn-primary">Add</button>
+</form>
+</div>  
+</div>
+<div class="row paddingTop">
+<div class="col-md-12">
+<ul class="list-group">
 <li class="list-group-item">
   <div class="row">
     <strong>
-    <div class="col-md-8">
-    Name
+    <div class="col-md-4">
+    Sr No
     </div>
     <div class="col-md-4">
+    Name
+    </div>
+     <div class="col-md-4">
     Delete
     </div>
     </strong>   
   </div>
 </li>
+<div id="myKeys">
+</div>
 </ul>
 </div>
 </div>
