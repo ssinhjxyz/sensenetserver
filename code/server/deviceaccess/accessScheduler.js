@@ -78,8 +78,8 @@ function scheduleRSAAccess(startDateTime, endDateTime, login, bbbIP, uid, calend
     });
   	
    // disable login for the user and delete the public key.
-   var deleteUserCommand = "sh ./server/scripts/deleteuser.sh " + bbbIP + " " + login + " " + uid;
-   var deletePublicKeyCommand = "sh ./server/scripts/deletepublickey.sh " + bbbIP + " " + login + " " + uid;
+   var deleteUserCommand = "sh ./server/scripts/deleteuser.sh " + bbbIP + " " + login;
+   var deletePublicKeyCommand = "sh ./server/scripts/deletepublickey.sh " + bbbIP + " " + login + " \"" + key + "\"";
    var endReservation = schedule.scheduleJob(endDateTime, function()
    {
       exec(deleteUserCommand,
