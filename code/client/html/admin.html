@@ -1,5 +1,7 @@
 <html>
 <head>
+  <meta name="google-site-verification" content="2A_Cf2fEEalPeQiFz_0V1g_G9JIZgfRl5PDyX4Bb6gg" />
+  <meta name="google-signin-client_id" content="478711668783-9bldnvmo10tkph8sfhvh4rc29b6urrhs.apps.googleusercontent.com">
   <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="../css/style.css">
   <link rel="stylesheet" type="text/css" href="../css/admin/color.css">
@@ -10,6 +12,10 @@
   <script src="../js/admin/users.js"></script>
   <script src="../js/admin/authorize.js"></script>
   <script src="../js/admin/eventHandling.js"></script>
+  <script src="../js/common/rendersignin.js"></script>
+  <script src="../js/admin/signin.js"></script>
+  <script src="../js/admin/signout.js"></script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -33,6 +39,12 @@
      <li><a href="/reservations">Resevations</a></li>
      <li><a href="/admin" class="active">Admin</a></li>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a class="blackText" id="user"></a></li>
+        <li><div class="btn btn-lg" id="signin"></div></li>
+        <li><a href="#" id="signout" onclick="signOut();" style="display:none;position:relative !important;
+  bottom:4px;"><div class="btn btn-default offsetBottom">Sign out</div></a><li>
+      </ul>
   </div><!-- /.navbar-collapse -->
 </div><!-- /.container-fluid -->
 </nav>

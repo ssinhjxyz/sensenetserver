@@ -1,6 +1,5 @@
 $(function()
 {
-  authorize();
   $("#refreshInfo").click(
     function()
     {

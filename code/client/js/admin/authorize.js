@@ -1,7 +1,6 @@
-function authorize()
+function authorize(emailId)
 {
 	var data = {};
-	var emailId = sessionStorage.getItem("sensenetServerEmailId");
 	data.emailId = emailId;
     $.ajax({
       type: "POST",
@@ -14,6 +13,10 @@ function authorize()
           if(response.authorized)
           {
           	$("#adminContent").show();
+            $("#signout").show();
+            $("#signin").hide();
+            $("#emailId").text(emailId);
+            $("#user").text("Welcome, " + profile.getName());
           }
           else
           {
