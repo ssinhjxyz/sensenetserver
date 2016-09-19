@@ -14,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
     <script src="js/reservations/bootstrap-datetimepicker.js"></script>
-    <script src="js/reservations/init.js"></script>
+    <script src="js/reservations/eventwiring.js"></script>
     <script src="js/common/rendersignin.js"></script>
     <script src="js/reservations/signin.js"></script>
     <script src="js/reservations/signout.js"></script>
@@ -256,31 +256,36 @@
 <div id = "myCredentials" class ="container" style="display:none">
 <div class="row">
 <div class="col-md-12">
-<strong>Password:</strong>
+<div class="row paddingBottom paddingTop">
+<div class="col-md-12">
+<strong>Password</strong> (Passwords are stored in database)
+<form class="form-inline paddingTop">
+  <div class="form-group">
+    <div class="btn btn-primary marginLeft" id="showEditPasswordWindow">Edit</div>
+ </div>
+  <div class="form-group">
+    <div class="btn btn-primary" id="viewPassword">View</div>
+  </div>
+  <div class="form-group">
+    <div id="passwordText" data-visible=false style="display:none"> Your password is <strong id="myPassword"></strong> </div>
+  </div>
+</form>
+</div>  
 </div>
 </div>
-<div class="row paddingBottom">
-<div class="col-md-4">
-  Your password is <em id="myPassword"></em>
-  <div class="btn btn-primary marginLeft" id="showEditPasswordWindow">Edit</div>
 </div>
-</div>
+
 <div class="row paddingTop">
 <div class="col-md-12">
-<strong>RSA Keys:</strong>
+<strong>RSA Keys</strong>
 </div>
 </div>
 <div class="row">
 <div class="col-md-12">
-Add a new key 
-</div>
-</div>
-<div class="row">
-<div class="col-md-12">
-<form class="form-inline">
+<form class="form-inline paddingTop">
   <div class="form-group">
-    <label>Key Name</label>
-    <input type="text" class="form-control" id="keyName" placeholder="key name">
+    Add new :
+    <input type="text" class="form-control" id="keyName" placeholder="Enter Key Name">
   </div>
   <div class="form-group">
     <button class="btn btn-default" id="upload-btn" type="button">Choose Key</button>
@@ -302,9 +307,9 @@ Add a new key
     <div class="col-md-4">
     Name
     </div>
-     <div class="col-md-4">
+     <!-- <div class="col-md-4">
     Delete
-    </div>
+    </div> -->
     </strong>   
   </div>
 </li>

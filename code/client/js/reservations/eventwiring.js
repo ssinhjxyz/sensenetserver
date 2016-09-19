@@ -31,5 +31,6 @@ $(function()
 
 	$('#keyList').selectpicker('hide');
 	$("#addKey").click(function(event){addKey(event)});
+	$("#viewPassword").click(function(event){showHidePassword(event)});
 
 });
