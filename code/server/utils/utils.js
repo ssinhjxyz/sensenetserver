@@ -69,6 +69,25 @@ exports.ISODateString = function(d)
         + pad(d.getUTCSeconds())+'Z'
 }
 
+exports.RFC339ToString = function(rfc339Str)
+{
+  var d = new Date(rfc339Str);
+  var dformat = [(d.getMonth()+1).padLeft(),
+               d.getDate().padLeft(),
+               d.getFullYear()].join('/') +' ' +
+              [d.getHours().padLeft(),
+               d.getMinutes().padLeft(),
+               d.getSeconds().padLeft()].join(':');
+  return dformat;         
+}
+
+
+Number.prototype.padLeft = function(base,chr)
+{
+    var  len = (String(base || 10).length - String(this).length)+1;
+    return len > 0? new Array(len).join(chr || '0')+this : this;
+}
+
 exports.getUUID=function()
 {
   // Google Calendar does not allow '-' character in ids of events.

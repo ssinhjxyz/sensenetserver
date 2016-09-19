@@ -2,17 +2,18 @@ var authToken = require('../authentication/authtoken');
 var googleApi = require('googleapis');
 var schedule = require('node-schedule');
 var spawn = require('child_process').spawn;
+var utils = require('../utils/utils');
 
-exports.sendMails = function(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, endDateTime) 
+exports.sendMails = function(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, startDateTime, endDateTime) 
 {
-    sendReservationDetails(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs);
+    sendReservationDetails(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, startDateTime, endDateTime);
     scheduleReservationEndNotification(to, reservedBBBIDs, endDateTime);
 }
 
-sendReservationDetails = function(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs) 
+sendReservationDetails = function(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, startDateTime, endDateTime) 
 {
 
-  var email = createReservationDetailsMail(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs,
+  var email = createReservationDetailsMail(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, startDateTime, endDateTime,
     function(email)
     {
       var gmail = googleApi.gmail('v1');
@@ -73,7 +74,7 @@ function sendReservationEndNotification(to, reservedBBBIDs, endDate)
     });
 }
 
-function createReservationDetailsMail(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, callback)
+function createReservationDetailsMail(to, login, loginMethod, password, reservedBBBIDs, reservedBBBIPs, failedBBBIDs, startDateTime, endDateTime, callback)
 {
   var email_lines = [];  
   var numReserved = reservedBBBIPs.length;
@@ -92,6 +93,8 @@ function createReservationDetailsMail(to, login, loginMethod, password, reserved
         loginMethodText = "Login method : RSA Key <br>"; 
         passwordText = "";
      }
+     body += "Your reservation starts at : " + utils.RFC339ToString(startDateTime) + "<br>";
+     body += "Your reservation ends at : " + utils.RFC339ToString(endDateTime) + "<br>";
      body += loginMethodText;
      body += "Login : " + login + ". <br>" ;
      body += passwordText;
