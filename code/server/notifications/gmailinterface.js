@@ -86,17 +86,17 @@ function createReservationDetailsMail(to, login, loginMethod, password, reserved
      if(loginMethod == "password")
      {
         loginMethodText = "Login method : Password <br>"; 
-        passwordText = "Password : " + password + ". <br>";
+        passwordText = "Password : " + password + " <br>";
      }
      else 
      {
         loginMethodText = "Login method : RSA Key <br>"; 
         passwordText = "";
      }
-     body += "Your reservation starts at : " + utils.RFC339ToString(startDateTime) + "<br>";
-     body += "Your reservation ends at : " + utils.RFC339ToString(endDateTime) + "<br>";
+     body += "Reservation starts at " + utils.RFC339ToString(startDateTime) + "<br>";
+     body += "Reservation ends at " + utils.RFC339ToString(endDateTime) + "<br>";
      body += loginMethodText;
-     body += "Login : " + login + ". <br>" ;
+     body += "Login : " + login + " <br>" ;
      body += passwordText;
      body += " <br> Successful Reservations : <br>";   
      for(var i = 0; i < numReserved; i++)
@@ -105,7 +105,7 @@ function createReservationDetailsMail(to, login, loginMethod, password, reserved
         body += reservedBBBIDs[i] + ", Port : " + reservedBBBIPs[i];
         body += " <br>";
      }
-     body += ' Login using the command : "ssh &lt;login&gt;&#64;152.14.87.8 -p &lt;port&gt; "  <br>';   
+     body += ' <br> Login using the command : "ssh &lt;login&gt;&#64;152.14.87.8 -p &lt;port&gt; "  <br>';   
   }
 
   if(numFailed > 0)
