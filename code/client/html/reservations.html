@@ -168,6 +168,16 @@
             </span>
           </div>
       </div>
+      <div class="form-group form-inline">
+        <div class="input-group">
+            <div class="checkbox">
+              <label>
+                <input id="getSMSToggle" type="checkbox"> Get SMS Notifications
+              </label>             
+            </div>
+        </div>
+        <input style="display:none;width:'100%'" class="form-control" placeholder="10 Digit Cell Number" id="cellphoneNumber">
+      </div>
     <div class="form-group form-inline">
       <label for="loginMethod" class="control-label input-group">Login method</label>
       <div class="btn-group loginMethod" data-toggle="buttons">
@@ -257,7 +267,7 @@
 <div class="col-md-12">
 <div class="row paddingBottom paddingTop">
 <div class="col-md-12">
-<strong>Password</strong> (Passwords are stored in database)
+<strong>Password</strong> (The password is stored in a server side database)
 <form class="form-inline paddingTop">
   <div class="form-group">
     <div class="btn btn-primary marginLeft" id="showEditPasswordWindow">Edit</div>

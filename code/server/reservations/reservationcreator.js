@@ -4,17 +4,21 @@ var utils = require('../utils/utils');
 var gmailInterface = require('../notifications/gmailinterface');
 var twilioInterface = require('../notifications/twiliointerface');
 
-exports.create = function(ids, emailId, startDateTime, endDateTime, login, loginMethod, uid, keyName, callback)
+exports.create = function(data, callback)
 { 
-   var results = utils.validateBBBIDs(ids);
-   gcalInterface.validateTimings(results, startDateTime, endDateTime, 
+   var results = utils.validateBBBIDs(data.bbbIds);
+   gcalInterface.validateTimings(results, data.start, data.end, 
    function(updatedResults)
    {
-      var eventIds = gcalInterface.createEvents(updatedResults[0], emailId, startDateTime, endDateTime);
-      var password = accessScheduler.schedule(updatedResults[0], startDateTime, endDateTime, login, loginMethod, uid, eventIds, emailId, keyName, function(password)
+      var login = data.emailId.match(/^([^@]*)@/)[1];
+      var eventIds = gcalInterface.createEvents(updatedResults[0], data.emailId, data.start, data.end);
+      var password = accessScheduler.schedule(updatedResults[0], data.start, data.end, login, data.loginMethod, data.uid, eventIds, data.emailId, data.keyName, function(password)
          {
-            gmailInterface.sendMails(emailId, login, loginMethod, password, updatedResults[0], updatedResults[1], updatedResults[2], startDateTime, endDateTime);
-            twilioInterface.sendSms();
+            gmailInterface.sendMails(data.emailId, login, data.loginMethod, password, updatedResults[0], updatedResults[1], updatedResults[2], data.start, data.end);
+            if(data.cellphoneNumber)
+            {
+               twilioInterface.sendSms(data.cellphoneNumber, data.start, data.end);
+            }
             callback(password, updatedResults[0], updatedResults[1], updatedResults[2], true);
          }); 
    });

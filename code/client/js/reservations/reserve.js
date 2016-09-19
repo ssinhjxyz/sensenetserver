@@ -5,43 +5,62 @@ function showCreateReservation()
   $("#myCredentials").hide();
 }
 
+function callReserve(data)
+{
+    $.ajax({
+      type: "POST",
+      url: "/reserve",
+      traditional: true,
+      data:data
+    }).done(function(response){
+        response = JSON.parse(response);
+          console.log('upload successful!');
+          console.log(response);
+          $("#reservationLogin").html(response.login);
+          $("#reservationPassword").html(response.password);
+          $("#keyUploaded").hide();
+          showResults(response);
+    });
+}
+
 
 function reserve(event) 
 {
     event.preventDefault();
+
     $("#reservationDetails").hide();
     // Get the user's inputs
-    var emailId = $("#emailId").text();
+    var data = {};
+    data.emailId = $("#emailId").text();
     var bbbIds = $("#bbbId").val();
-    var ids = parseBBBIds(bbbIds);
-    var end = $('#endDateTime').data("DateTimePicker").date().utc().format();
-    var start = $('#startDateTime').data("DateTimePicker").date().utc().format();
-    var loginMethod = $('#pwdlogin').hasClass("active") ? "password":"rsa";
-    var uid = (new Date()).getTime() + getEmailUserName(emailId);
-    var keyName = $("select#keyList").selectpicker('val');
+    data.bbbIds = parseBBBIds(bbbIds);
+    data.end = $('#endDateTime').data("DateTimePicker").date().utc().format();
+    data.start = $('#startDateTime').data("DateTimePicker").date().utc().format();
+    data.loginMethod = $('#pwdlogin').hasClass("active") ? "password":"rsa";
+    data.uid = (new Date()).getTime() + getEmailUserName(emailId);
+    data.keyName = $("select#keyList").selectpicker('val');
+    data.getSMSNotifications = document.getElementById('getSMSToggle').checked;
+    var cellphoneNumber = null;
+    if(data.getSMSNotifications)
+    {
+      cellphoneNumber = $("#cellphoneNumber").val();
+    }
+    
+    data.cellphoneNumber = cellphoneNumber;
 
     // validate user's inputs
-    var isValid = validateInputs(ids, start, end);
+    var isValid = validateInputs(data.bbbIds, data.start, data.end);
     
     // If the inputs are valid, call the schedule API and pass the user's inputs
     if(isValid)
     {
-      upload(uid, emailId, ids, start, end, loginMethod, keyName);
-      // upload the public key if the login method is rsa
-      if(loginMethod === "rsa")
-      {
-        //upload(uid, callReserve);
-      }
-      else
-      {
-        //callReserve();
-      }
-
+      callReserve(data);
+    }
     return false;
 }
 
 
-function callReserve()
+/*function callReserve()
 {
 
     $.ajax({
@@ -65,7 +84,7 @@ function callReserve()
         });
     }
 }
-
+*/
 function showResults(response)
 {
     $("#reservationLogin").html(response.login);
@@ -190,3 +209,4 @@ function getRange(rangeStr) {
     }
     return range;
 }
+
