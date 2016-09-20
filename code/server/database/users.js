@@ -24,7 +24,7 @@ exports.addKey = function(emailId, name, key, callback)
       if(num == 1)
       {
          key = utils.removeLastCharacter(key);
-         users = connection.object.collection('users').find();
+         users = connection.object.collection('users').find({"emailId":emailId});
          var keyExists = false;
          users.each(function(err, user) 
          {
@@ -138,7 +138,7 @@ exports.updatePassword = function(emailId, newPassword, callback)
 
 exports.getCredentials = function(emailId, callback)
 {
-   var users = connection.object.collection('users').find();
+   var users = connection.object.collection('users').find({"emailId":emailId});
    users.each(function(err, user) 
    {
       if (user != null) 

@@ -170,6 +170,7 @@ app.get('/userinfo', urlencodedParser, function(req, res)
 
 app.get('/usercredentials', urlencodedParser, function(req, res)
 {
+  console.log(req.query.emailId);
   var emailId = req.query.emailId;
   console.log(emailId);
   users.getCredentials(emailId, function(password)
