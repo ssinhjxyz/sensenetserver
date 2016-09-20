@@ -103,6 +103,7 @@ function addKey(event)
 
  formData.append('emailId', emailId);
  formData.append('name', keyname);
+ $("#upload-input").replaceWith($("#upload-input").val('').clone(true));
  $.ajax(
  {
       url: '/addkey',
@@ -114,7 +115,7 @@ function addKey(event)
       {
          $("#keyName").val("");  
          $("#uploadedFile").html("");
-         $('#upload-input').get(0).files = [];
+         $("#upload-input").replaceWith($("#upload-input").val('').clone(true));
          refreshCredentialsInfo();
       }
  });
