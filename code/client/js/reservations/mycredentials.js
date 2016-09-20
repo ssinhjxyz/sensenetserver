@@ -117,8 +117,8 @@ function addKey(event)
          $("#uploadedFile").html("");
          $("#upload-input").replaceWith($("#upload-input").val('').clone(true));
          refreshCredentialsInfo();
+         console.log(response);
       }
  });
-
  return false;
 }

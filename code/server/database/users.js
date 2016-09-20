@@ -56,6 +56,10 @@ exports.addKey = function(emailId, name, key, callback)
                        if (err) throw err;
                        callback({status:"ok", message:"Added key successfully."});
                   });
+               }
+               else
+               {
+                 {status:"error", message:"A key with the same name already exists."} 
                }      
             }
          });      
