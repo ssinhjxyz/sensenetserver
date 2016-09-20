@@ -16,7 +16,11 @@ $(function()
 
 	$('#upload-input').on('change', function()
 	{
-	    //$("#keyUploaded").show();
+		var files = $('#upload-input').get(0).files;
+	    if(1 == files.length)
+	    {
+	    	$("#uploadedFile").html(files[0].name);
+	    }
 	});
 
 	$("#pwdlogin").click(

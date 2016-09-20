@@ -1,6 +1,6 @@
 function showMyCredentials()
 {
-	$("#createReservation").hide();
+	  $("#createReservation").hide();
     $("#myReservations").hide();
     $("#myCredentials").show();
 }
@@ -46,6 +46,7 @@ function updatePassword()
       data:data
     }).done(function()
     {
+        $("#newPassword").val("");
         refreshCredentialsInfo();
     });  
 }
@@ -73,7 +74,11 @@ function addKey(event)
   // This is used to uniquely name the public key, so that it is not overwritten at the server.
   var uid = (new Date()).getTime() + getEmailUserName(emailId);
   var keyname = $("#keyName").val();
-
+  if(keyname == "")
+  {
+    alert("Please enter a key name");
+    return;
+  }
   // sends the public key to the server
   var formData = new FormData();
   var files = $('#upload-input').get(0).files;
@@ -90,6 +95,11 @@ function addKey(event)
             return;
         }
   }
+  else
+  {
+    alert("Please upload a key");
+    return;
+  }
 
  formData.append('emailId', emailId);
  formData.append('name', keyname);
@@ -102,7 +112,9 @@ function addKey(event)
       contentType: false,
       success: function(response)
       {
-         console.log(response);   
+         $("#keyName").val("");  
+         $("#uploadedFile").html("");
+         $('#upload-input').get(0).files = [];
          refreshCredentialsInfo();
       }
  });

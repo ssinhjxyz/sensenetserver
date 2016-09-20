@@ -7,6 +7,7 @@ function showCreateReservation()
 
 function callReserve(data)
 {
+    data.cellphoneNumber = "+1" + data.cellphoneNumber;
     $.ajax({
       type: "POST",
       url: "/reserve",
@@ -43,13 +44,13 @@ function reserve(event)
     var cellphoneNumber = null;
     if(data.getSMSNotifications)
     {
-      cellphoneNumber = $("#cellphoneNumber").val();
+      cellphoneNumber =  $("#cellphoneNumber").val();
     }
     
     data.cellphoneNumber = cellphoneNumber;
 
     // validate user's inputs
-    var isValid = validateInputs(data.bbbIds, data.start, data.end);
+    var isValid = validateInputs(data);
     
     // If the inputs are valid, call the schedule API and pass the user's inputs
     if(isValid)
@@ -59,32 +60,6 @@ function reserve(event)
     return false;
 }
 
-
-/*function callReserve()
-{
-
-    $.ajax({
-    type: "POST",
-    url: "/reserve",
-    traditional: true,
-    data: 
-    {
-        emailId: emailId,
-        ids: ids,
-        loginMethod: loginMethod, 
-        startDateTime: start,
-        endDateTime: end,
-        uid: uid 
-      }
-    }).done(
-        function(response) {
-            var response = JSON.parse(response);
-            $("#keyUploaded").hide();
-            showResults(response);
-        });
-    }
-}
-*/
 function showResults(response)
 {
     $("#reservationLogin").html(response.login);
@@ -141,22 +116,27 @@ function showResults(response)
     {
        $('#reservationsFailed').hide();   
     }
- 
 }
 
-function validateInputs(ids, start, end){
+function validateInputs(data)
+{
 
     var isValid = true;
-    if( ids.length === 0)
+    if( data.bbbIds.length === 0)
     {
         isValid = false;
         alert("Please enter valid BBB Ids");
     }
-    else if(start === end)
+    else if(data.start === data.end)
     {
       isValid = false;
       alert("Please enter different start and end dates.");
     }
+    else if (!(/^\d{10}$/.test(data.cellphoneNumber)) && data.getSMSNotifications)
+    {
+      isValid = false;
+      alert("Cellphone number is invalid. It must be ten digits");
+    } 
     return isValid;
 }
 
