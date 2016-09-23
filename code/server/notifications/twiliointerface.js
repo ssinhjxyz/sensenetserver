@@ -13,12 +13,16 @@ exports.sendSms = function(cellphoneNumber, start, end)
                         sendReservationEndNotification(cellphoneNumber);
                       });
 
-    sendReservationStartNotification(cellphoneNumber);
+    schedule.scheduleJob(start, 
+                      function()
+                      {
+                        sendReservationStartNotification(cellphoneNumber);
+                      });   
 }
 
 sendReservationStartNotification = function(cellphoneNumber)
 {   
-    send(cellphoneNumber, "Your sensenet reservation starts in 5 min. Plz check email 4 details")
+    send(cellphoneNumber, "Your sensenet reservation starts now. Plz check ur email 4 details")
 }
 
 

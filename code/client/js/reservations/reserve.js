@@ -122,6 +122,14 @@ function validateInputs(data)
 {
 
     var isValid = true;
+    
+    if(new Date(data.start) <= new Date())
+    {
+      alert("Please choose a start time in the future");
+      isValid = false;
+    }
+    
+
     if( data.bbbIds.length === 0)
     {
         isValid = false;
