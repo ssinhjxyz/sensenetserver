@@ -128,7 +128,12 @@ function validateInputs(data)
       alert("Please choose a start time in the future");
       isValid = false;
     }
-    
+
+    if(new Date(data.start) >= new Date(data.end))
+    {
+      alert("Please enter a start time that is before the end time");
+      isValid = false;
+    }
 
     if( data.bbbIds.length === 0)
     {

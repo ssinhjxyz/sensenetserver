@@ -1,7 +1,7 @@
 $(function()
 {
-	$('#endDateTime').data("DateTimePicker").date(moment().add(2,'m'));
-	$('#startDateTime').data("DateTimePicker").date(moment().add(32,'m'));
+	$('#endDateTime').data("DateTimePicker").date(moment().add(32,'m'));
+	$('#startDateTime').data("DateTimePicker").date(moment().add(2,'m'));
 	$("#reserve").prop("disabled",false);
 	$("#reserve").click(function(event){reserve(event)});
 	$("#showReservationDetails").hide();
