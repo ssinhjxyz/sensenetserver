@@ -19,7 +19,6 @@ var connection = require('./server/database/connection');
 var users = require('./server/database/users');
 var admins = require('./server/authorization/admins');
 var ADMINS = require('./server/settings/admins');
-
 var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
@@ -57,6 +56,16 @@ app.post('/configurebbb', urlencodedParser, function(req, res)
 {
     addbbb.add(req, res);
 });
+
+
+app.post('/deletebbb', urlencodedParser, function(req, res)
+{
+    console.log(req.body.id);
+    delete BBB.Info[req.body.id];
+    console.log(BBB.Info);
+    res.end(JSON.stringify({status:"ok"}));
+});
+
 
 
 app.post('/reserve', urlencodedParser, function(req, res)
@@ -128,8 +137,6 @@ app.post('/authorizeadmin', urlencodedParser, function(req, res)
     var authorized = admins.authorize(req.body.emailId);
     res.end(JSON.stringify({authorized:authorized}));     
 });
-
-
 
 app.post('/adduser', urlencodedParser, function(req, res)
 {
