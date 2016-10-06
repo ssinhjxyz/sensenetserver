@@ -63,6 +63,7 @@ exports.add = function(req, res)
 			      	BBB.Info[bbbID].IP = bbbIP;
 					BBB.Info[bbbID].Port = bbbPort;
 					BBB.Info[bbbID].Configured = true;
+					BBB.Info[bbbID].Reservable = true;
 					BBB.Info[bbbID].Reachability = "up";
 					BBB.Info[bbbID].CalendarId = bbbCalendarId;
 			      	res.end(JSON.stringify({status:"ok"}));

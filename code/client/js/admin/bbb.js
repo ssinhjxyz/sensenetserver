@@ -25,11 +25,9 @@ function deleteBBB(id)
     }).done(
     function(result)
     {
-       alert(result);
        refreshBBBInfo();
     });
 }
-
 
 function refreshBBBInfo()
 {

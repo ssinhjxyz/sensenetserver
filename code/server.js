@@ -33,30 +33,25 @@ app.listen(app.get('port'), '0.0.0.0', function()
   process.setuid(1003);
 });
 
-
 app.get('/', function (req, res) 
 {
     res.sendFile(__dirname + "/client/html/" + "home.html" );
 })
-
 
 app.get('/reservations', function (req, res) 
 {
     res.sendFile( __dirname + "/client/html/" + "reservations.html" );
 })
 
-
 app.get('/admin', function (req, res) 
 {
     res.sendFile( __dirname + "/client/html/" + "admin.html" );
 })
 
-
 app.post('/configurebbb', urlencodedParser, function(req, res)
 {
     addbbb.add(req, res);
 });
-
 
 app.post('/deletebbb', urlencodedParser, function(req, res)
 {
@@ -65,8 +60,6 @@ app.post('/deletebbb', urlencodedParser, function(req, res)
     console.log(BBB.Info);
     res.end(JSON.stringify({status:"ok"}));
 });
-
-
 
 app.post('/reserve', urlencodedParser, function(req, res)
 {
