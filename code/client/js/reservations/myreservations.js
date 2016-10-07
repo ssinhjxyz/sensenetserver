@@ -3,6 +3,7 @@ function showMyReservations()
     $("#createReservation").hide();
     $("#myReservations").show();
     $("#myCredentials").hide();
+    $("#deviceLocations").hide();
 
     var emailId = $("#emailId").text();
     $(".myReservationsData").remove();

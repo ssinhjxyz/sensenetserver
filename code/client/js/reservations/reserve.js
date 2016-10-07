@@ -3,6 +3,7 @@ function showCreateReservation()
   $("#createReservation").show();
   $("#myReservations").hide();
   $("#myCredentials").hide();
+  $("#deviceLocations").hide();
 }
 
 function callReserve(data)

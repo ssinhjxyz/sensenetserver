@@ -3,6 +3,7 @@ function showMyCredentials()
 	  $("#createReservation").hide();
     $("#myReservations").hide();
     $("#myCredentials").show();
+    $("#deviceLocations").hide();
 }
 
 var credentials = {};

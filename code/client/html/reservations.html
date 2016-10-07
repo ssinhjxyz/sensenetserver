@@ -4,6 +4,7 @@
     <meta name="google-signin-client_id" content="478711668783-9bldnvmo10tkph8sfhvh4rc29b6urrhs.apps.googleusercontent.com">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/datepicker.min.css">
+    <link rel="stylesheet" href="css/common/leaflet.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" media="screen">
     <script src="js/common/jquery.js"></script>
@@ -16,13 +17,15 @@
     <script src="js/reservations/bootstrap-datetimepicker.js"></script>
     <script src="js/reservations/eventwiring.js"></script>
     <script src="js/common/rendersignin.js"></script>
+    <script src="js/common/leaflet.js"></script>
     <script src="js/reservations/signin.js"></script>
+    <script src="js/reservations/renderimage.js"></script>
     <script src="js/reservations/signout.js"></script>
     <script src="js/reservations/reserve.js"></script>
     <script src="js/reservations/utils.js"></script>
-    <script src="js/reservations/upload.js"></script>
     <script src="js/reservations/mycredentials.js"></script>
     <script src="js/reservations/myreservations.js"></script>
+    <script src="js/reservations/devicelocations.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   </head>
@@ -117,10 +120,14 @@
     <div class="col-md-2">
     <a href="#" id="myCredentialsLink">My Credentials</a>
     </div>
+    <div class="col-md-2">
+    <a href="#" id="deviceLocationsLink">Device Locations</a>
+    </div>
 </div>
 </div>
 <!-- /.Reservation page sublinks ends -->
 
+<hr>
 <!-- Reservation Form Starts-->
 <div class = "sensenetInterface" style="display:none;">
   <div id="createReservation" class ="container">
@@ -169,13 +176,13 @@
           </div>
       </div>
       <div class="form-group form-inline">
-        <div class="input-group">
+     <!--    <div class="input-group">
             <div class="checkbox">
               <label>
                 <input id="getSMSToggle" type="checkbox"> Get SMS Notifications
               </label>             
             </div>
-        </div>
+        </div> -->
         <input style="display:none;width:'100%'" class="form-control" placeholder="10 Digit Cell Number" id="cellphoneNumber">
       </div>
     <div class="form-group form-inline">
@@ -334,6 +341,27 @@
 </div>
 </div>
 <!-- My Credentials Ends -->
+
+<!-- Device Locations Starts -->
+<div id = "deviceLocations" class ="container" style="display:none">
+<div class="row">
+<div class="col-md-2">
+  <a href="#" id="eb2_1">EB2, 1st Floor</a>
+</div>
+<div class="col-md-2">
+  <a href="#" id="eb2_2">EB2, 2nd Floor</a>
+</div>
+<div class="col-md-2">
+  <a href="#" id="eb2_3">EB2, 3rd Floor</a>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+ <div id="image-map"></div>
+</div>
+</div>
+</div>
+<!-- Device Locations Ends -->
 
 </body>
 </div>

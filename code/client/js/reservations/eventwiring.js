@@ -8,6 +8,7 @@ $(function()
 	$("#myReservationsLink").click(function(event){showMyReservations()});
 	$("#createReservationLink").click(function(event){showCreateReservation()});
 	$("#myCredentialsLink").click(function(event){showMyCredentials()});
+	$("#deviceLocationsLink").click(function(event){showDeviceLocations()});
 	$("#showEditPasswordWindow").click(function(event){$("#editPasswordWindow").modal("show");})
 	$("#updatePassword").click(function(event){updatePassword()});
 	$('#upload-btn').on('click', function (){
@@ -37,4 +38,7 @@ $(function()
 	$("#addKey").click(function(event){addKey(event)});
 	$("#viewPassword").click(function(event){showHidePassword(event)});
 	$("#getSMSToggle").click(function(event){$("#cellphoneNumber").toggle()});
+	$("#eb2_1").click(function(event){renderImage("images/eb2_1.svg")});
+	$("#eb2_2").click(function(event){renderImage("images/eb2_2.png")});
+	$("#eb2_3").click(function(event){renderImage("images/eb2_3.png")});
 });
