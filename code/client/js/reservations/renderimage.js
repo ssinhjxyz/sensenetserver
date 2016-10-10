@@ -1,6 +1,6 @@
 $(function()
 {
-  renderImage('/images/eb2_1.svg');
+  renderImage('/images/eb2_csc_1.jpg');
 });
 
 var url, bounds, w, h, map;
@@ -20,8 +20,8 @@ var renderImage = function(image)
     }
 
     // dimensions of the image
-    w = 1474*3;
-    h = 625*3;
+    w = 1650;
+    h = 1450;
     url = image;
    
     // calculate the edges of the image, in coordinate space

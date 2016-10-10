@@ -38,7 +38,10 @@ $(function()
 	$("#addKey").click(function(event){addKey(event)});
 	$("#viewPassword").click(function(event){showHidePassword(event)});
 	$("#getSMSToggle").click(function(event){$("#cellphoneNumber").toggle()});
-	$("#eb2_1").click(function(event){renderImage("images/eb2_1.svg")});
-	$("#eb2_2").click(function(event){renderImage("images/eb2_2.png")});
-	$("#eb2_3").click(function(event){renderImage("images/eb2_3.png")});
+	$("#eb2_csc_1").click(function(event){renderImage("images/eb2_csc_1.jpg")});
+	$("#eb2_csc_2").click(function(event){renderImage("images/eb2_csc_2.jpg")});
+	$("#eb2_csc_3").click(function(event){renderImage("images/eb2_csc_3.jpg")});
+	$("#eb2_ece_1").click(function(event){renderImage("images/eb2_ece_1.jpg")});
+	$("#eb2_ece_2").click(function(event){renderImage("images/eb2_ece_2.jpg")});
+	$("#eb2_ece_3").click(function(event){renderImage("images/eb2_ece_3.jpg")});
 });
